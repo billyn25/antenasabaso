@@ -64,6 +64,32 @@ if(!home.includes(PHRASE)) errors.push('Portada: falta frase principal');
 if(!home.includes('Antenas para cobertura móvil')) errors.push('Portada: falta cobertura móvil');
 if(!home.includes('Porteros automáticos')) errors.push('Portada: falta porteros automáticos');
 
+// Los accesos de portada deben abrir páginas locales reales, sin enlaces anidados.
+const featuredBlocks=[...home.matchAll(/<article class="town-province" data-province="([^"]+)"[^>]*>([\s\S]*?)<\/article>/g)];
+if(featuredBlocks.length!==provinces.length) errors.push('Portada: faltan bloques de pueblos destacados');
+const featuredProvinces=new Set();
+let featuredCount=0;
+for(const [,slug,block] of featuredBlocks){
+  const province=provinces.find(p=>p.slug===slug);
+  if(!province||featuredProvinces.has(slug)){
+    errors.push(`Portada: provincia desconocida o duplicada ${slug}`);
+    continue;
+  }
+  featuredProvinces.add(slug);
+  const list=block.match(/<ul class="town-quick-links"[^>]*>([\s\S]*?)<\/ul>/)?.[1]||'';
+  const links=[...list.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m=>m[1]);
+  if(links.length!==6||new Set(links).size!==6) errors.push(`Portada ${slug}: deben existir seis pueblos distintos`);
+  for(const href of links){
+    const town=manifest.find(p=>p.path===href&&p.provinceSlug===slug);
+    if(!town||!fs.existsSync(path.join(ROOT,town.provinceSlug,town.slug,'index.html'))) errors.push(`Portada ${slug}: destino local inválido ${href}`);
+  }
+  if(!block.includes(`class="town-all" href="/${slug}/"`)) errors.push(`Portada ${slug}: falta acceso al listado completo`);
+  if(!block.includes(`Ver los ${province.towns.length} municipios`)) errors.push(`Portada ${slug}: contador del listado completo incorrecto`);
+  if(/<a\b[^>]*>(?:(?!<\/a>)[\s\S])*?<a\b/i.test(block)) errors.push(`Portada ${slug}: enlaces anidados`);
+  featuredCount+=links.length;
+}
+for(const province of provinces) if(!featuredProvinces.has(province.slug)) errors.push(`Portada: faltan pueblos destacados de ${province.name}`);
+
 const robots=fs.readFileSync(path.join(ROOT,'robots.txt'),'utf8');
 if(!/^Disallow:\s*\/$/mi.test(robots)) errors.push('Preview: robots no bloquea /');
 const headers=fs.readFileSync(path.join(ROOT,'_headers'),'utf8');
@@ -76,4 +102,4 @@ if(errors.length){
   for(const error of errors.slice(0,200)) console.error('- '+error);
   process.exit(1);
 }
-console.log(`AUDITORÍA ABASO OK: 252 pueblos (113 Bizkaia + 88 Gipuzkoa + 51 Álava), 7 servicios, teléfono y SEO local presentes; preview completamente noindex.`);
+console.log(`AUDITORÍA ABASO OK: 252 pueblos (113 Bizkaia + 88 Gipuzkoa + 51 Álava), 7 servicios, teléfono y SEO local presentes; ${featuredCount} accesos directos de portada válidos; preview completamente noindex.`);
