@@ -93,8 +93,12 @@ a{color:inherit;text-decoration:none}
   .header-inner{grid-template-columns:auto 1fr;gap:18px}.main-nav{grid-column:1/-1;justify-self:stretch;justify-content:center;border-top:1px solid var(--line);padding:7px 0}.header-phone{grid-column:2;grid-row:1}
   .hero{background:var(--navy)}
   .hero-shell{grid-template-columns:1fr}
-  .hero-main{padding:58px 0 44px}.hero-side{padding:34px 0 40px;background:#f1f4f7}
-  .hero-side-title,.hero-side-list a{padding-left:0;padding-right:0}
+  .hero-main{padding:58px 0 44px}
+  .hero-side{padding:30px 24px 28px;margin-bottom:28px;min-width:0;background:#f1f4f7}
+  .hero-side-title{padding:0 0 24px}
+  .hero-side-list a{grid-template-columns:24px minmax(0,1fr) 18px;gap:12px;padding-left:0;padding-right:0;min-height:56px}
+  .hero-side-list b{min-width:0;line-height:1.4}
+  .hero-side-list i{justify-self:end}
   .section-head,.coverage-grid{grid-template-columns:1fr;gap:28px}.service-grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:640px){
@@ -103,7 +107,10 @@ a{color:inherit;text-decoration:none}
   .header-inner{min-height:72px;gap:8px}.brand-mark{width:40px;height:40px}.brand-copy b,.brand-copy strong{font-size:16px}.header-phone strong{font-size:18px}.header-phone small{display:none}
   .main-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:0;padding:0}.main-nav a{text-align:center;font-size:11px;padding:10px 2px}
   .hero-main{padding:42px 0 36px}.hero h1{font-size:46px}.hero-lead{font-size:17px}.hero-actions{display:grid;grid-template-columns:1fr}.hero-meta{grid-template-columns:1fr 1fr 1fr;gap:8px}.hero-meta b{font-size:22px}.hero-meta span{font-size:11px}
-  .hero-side{padding:28px 0}.hero-side-title strong{font-size:24px}.hero-side-list a{padding-block:16px}
+  .hero-side{padding:26px 20px 22px;margin-bottom:24px}
+  .hero-side-title{padding-bottom:22px}
+  .hero-side-title strong{font-size:24px;line-height:1.2}
+  .hero-side-list a{gap:10px;padding-block:18px}
   .province-grid{grid-template-columns:1fr}.province-grid a{border-left:1px solid var(--line);border-bottom:1px solid var(--line)}
   .section{padding:56px 0}.service-grid{grid-template-columns:1fr}.service-card{min-height:180px}.service-card h3{margin-top:28px}
   .trust-row{grid-template-columns:1fr}.trust-row div{display:flex;align-items:baseline;justify-content:space-between;gap:20px}
