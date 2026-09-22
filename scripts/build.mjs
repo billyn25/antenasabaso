@@ -10,6 +10,11 @@ const TEL = '+34670042626';
 const WA = '34670042626';
 const PHRASE = 'Técnico en instalación, reparación y mantenimiento de antenas, porteros automáticos y videoporteros';
 
+// Una sola fuente del logo: las páginas provinciales y locales reutilizan el SVG de portada.
+const homeSource = fs.readFileSync(path.resolve('index.html'), 'utf8');
+const brandSvg = homeSource.match(/<svg\b[^>]*data-logo="parabolica"[^>]*>[\s\S]*?<\/svg>/)?.[0];
+if (!brandSvg) throw new Error('Falta el SVG de la parabólica de Antenas Abaso en la portada');
+
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const slugify = value => String(value).toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
 const hash = value => { let h=2166136261; for(const ch of String(value)){h^=ch.codePointAt(0);h=Math.imul(h,16777619)>>>0;} return h>>>0; };
@@ -48,7 +53,7 @@ function metaDescription(town, province){
   return `${PHRASE} en ${town}, ${province}. TDT, parabólicas, cobertura móvil 4G/5G y reparaciones eléctricas. ${PHONE}.`;
 }
 function brand(){
-  return `<a class="brand" href="/" aria-label="Antenas Abaso, inicio"><span class="brand-mark brand-mark-abaso" aria-hidden="true"><svg viewBox="0 0 80 66" fill="none"><path class="brand-roof" d="M5 57 39 36l36 21M18 57l21-13 23 13"/><path class="brand-antenna" d="M40 42V13M19 16h37M23 22h29M29 28h20"/><path class="brand-wave" d="M56 11c7 4 11 10 12 18M61 5c10 5 16 14 18 25"/></svg></span><span class="brand-copy"><b>ANTENAS</b><strong>ABASO</strong><small>Euskadi</small></span></a>`;
+  return `<a class="brand" href="/" aria-label="Antenas Abaso, inicio"><span class="brand-mark brand-mark-abaso" aria-hidden="true">${brandSvg}</span><span class="brand-copy"><b>ANTENAS</b><strong>ABASO</strong><small>Euskadi</small></span></a>`;
 }
 function header(){
   return `<div class="topbar"><div class="wrap topbar-inner"><span>Instalador autorizado nº 11024</span><div><strong>Urgencias 24h</strong><span class="dot">·</span><a href="${tel()}">${PHONE}</a></div></div></div><header class="site-header"><div class="wrap header-inner">${brand()}<nav class="main-nav" aria-label="Navegación principal"><a href="/#servicios">Servicios</a><a href="/#euskadi">Pueblos</a><a href="/#confianza">Confianza</a><a href="#contacto">Contacto</a></nav><a class="header-phone" href="${tel()}"><small>Llámanos ahora</small><strong>${PHONE}</strong></a></div></header>`;
@@ -100,7 +105,7 @@ fs.rmSync(ROOT,{recursive:true,force:true});
 fs.mkdirSync(ROOT,{recursive:true});
 for(const file of ['styles.css','script.js']) fs.copyFileSync(path.resolve(file),path.join(ROOT,file));
 
-let home=fs.readFileSync(path.resolve('index.html'),'utf8');
+let home=homeSource;
 home=home.replaceAll('href="#bizkaia"','href="/bizkaia/"').replaceAll('href="#gipuzkoa"','href="/gipuzkoa/"').replaceAll('href="#alava"','href="/alava/"');
 fs.writeFileSync(path.join(ROOT,'index.html'),home);
 
