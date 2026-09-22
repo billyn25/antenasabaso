@@ -1,0 +1,9 @@
+[
+  {"id":"tdt","name":"Antenas TDT","short":"Instalación, señal y reparación","text":"Instalación, orientación y reparación de antenas TDT individuales y colectivas, revisión de señal, cableado, tomas y distribución."},
+  {"id":"parabolicas","name":"Antenas parabólicas","short":"Satélite y ajuste","text":"Instalación y ajuste de parabólicas, revisión de LNB, cableado y recepción por satélite."},
+  {"id":"amplificacion","name":"Amplificación y distribución","short":"Señal hasta la última toma","text":"Revisión de amplificadores, fuentes, repartidores, cableado y tomas cuando la señal llega débil o inestable."},
+  {"id":"porteros","name":"Porteros automáticos","short":"Llamada, audio y apertura","text":"Reparación e instalación de porteros automáticos en viviendas y comunidades, incluyendo llamada, audio, apertura y placas."},
+  {"id":"videoporteros","name":"Videoporteros","short":"Imagen y control de acceso","text":"Instalación, renovación y reparación de monitores, cámaras, placas y sistemas de videoportero."},
+  {"id":"cobertura-movil","name":"Antenas para cobertura móvil 4G/5G","short":"Mejora de señal móvil","text":"Antenas exteriores y soluciones para mejorar cobertura móvil 4G/5G y datos en viviendas con señal deficiente."},
+  {"id":"electricidad","name":"Reparaciones eléctricas","short":"Averías y pequeñas reparaciones","text":"Averías y pequeñas reparaciones eléctricas en viviendas, comercios y comunidades."}
+]
