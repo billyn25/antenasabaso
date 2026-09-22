@@ -1,0 +1,29 @@
+name: Verificar Antenas Abaso
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: antenasabaso-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generar y auditar Euskadi completo
+        run: npm run build
+      - name: Comprobar conteos finales
+        run: |
+          test "$(find dist/bizkaia -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 113
+          test "$(find dist/gipuzkoa -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 88
+          test "$(find dist/alava -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 51
