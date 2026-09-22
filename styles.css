@@ -112,3 +112,55 @@ a{color:inherit;text-decoration:none}
   .mobile-bar{position:fixed;display:grid;grid-template-columns:1fr 1fr;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--line);padding:8px 10px calc(8px + env(safe-area-inset-bottom));gap:8px}
   .mobile-bar a{display:flex;align-items:center;justify-content:center;min-height:46px;font-weight:900;background:var(--navy);color:#fff}.mobile-bar a:last-child{background:#198754}
 }
+
+
+/* Identidad Abaso: antena sobre tejado + ondas */
+.brand-mark-abaso{width:56px;height:52px;display:grid;place-items:center}
+.brand-mark-abaso svg{width:56px;height:52px;overflow:visible}
+.brand-roof{stroke:var(--navy);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.brand-antenna{stroke:var(--blue);stroke-width:4;stroke-linecap:round}
+.brand-wave{stroke:var(--amber);stroke-width:4;stroke-linecap:round}
+
+/* Hero con fotografía real de la web actual de Abaso durante la preview */
+.hero{position:relative;background:
+  linear-gradient(90deg,rgba(15,36,53,.97) 0%,rgba(24,50,74,.94) 48%,rgba(24,50,74,.66) 68%,rgba(24,50,74,.26) 100%),
+  url("https://www.antenasabaso.com/img/tdt.jpg") center right/cover no-repeat!important}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,16,25,.08),rgba(5,16,25,.2));pointer-events:none}
+.hero-shell{position:relative;z-index:1}
+.hero-side{background:rgba(247,249,251,.96);backdrop-filter:blur(5px)}
+
+/* WhatsApp debe diferenciarse claramente del resto de CTAs */
+.btn-whatsapp{background:#1fa463;color:#fff;border-color:#1fa463}
+.btn-whatsapp:hover{background:#178653;border-color:#178653}
+.btn-whatsapp-light{background:#1fa463;color:#fff;border-color:#1fa463}
+.btn-whatsapp-light:hover{background:#178653;border-color:#178653}
+.mobile-bar a:last-child{background:#1fa463!important}
+
+/* Franja de confianza sin reseñas ni puntuaciones ficticias */
+.review-trust{background:#fff;border-bottom:1px solid var(--line);padding:30px 0}
+.review-trust-inner{display:grid;grid-template-columns:auto 1.25fr 1fr;align-items:center;gap:30px}
+.review-stars{font-size:28px;letter-spacing:3px;color:var(--amber);white-space:nowrap}
+.review-trust-copy span{display:block;color:var(--blue);font-size:11px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+.review-trust-copy strong{display:block;margin:4px 0 3px;color:var(--navy);font-size:18px}
+.review-trust-copy p{margin:0;color:var(--muted);font-size:12px}
+.review-trust-points{display:grid;gap:5px;padding-left:26px;border-left:1px solid var(--line);font-size:13px;font-weight:750;color:#53616d}
+.review-trust-points span::before{content:"✓";color:var(--blue);font-weight:900;margin-right:8px}
+
+@media(max-width:900px){
+  .hero{background:
+    linear-gradient(180deg,rgba(15,36,53,.96) 0%,rgba(24,50,74,.93) 58%,rgba(24,50,74,.84) 100%),
+    url("https://www.antenasabaso.com/img/tdt.jpg") center/cover no-repeat!important}
+  .review-trust-inner{grid-template-columns:1fr 1fr}
+  .review-stars{grid-row:1/-1}
+  .review-trust-points{padding-left:0;border-left:0}
+}
+@media(max-width:640px){
+  .brand-mark-abaso,.brand-mark-abaso svg{width:44px;height:42px}
+  .hero{background:
+    linear-gradient(180deg,rgba(15,36,53,.95),rgba(24,50,74,.91)),
+    url("https://www.antenasabaso.com/img/tdt.jpg") center/cover no-repeat!important}
+  .review-trust{padding:24px 0}
+  .review-trust-inner{grid-template-columns:1fr;gap:15px}
+  .review-stars{font-size:24px;grid-row:auto}
+  .review-trust-points{border-top:1px solid var(--line);padding-top:13px}
+}
