@@ -23,6 +23,38 @@
     "areaServed":["Bizkaia","Gipuzkoa","Álava"]
   }
   </script>
+  <style id="abaso-brands-style">
+    /* Marcas de portada: composición editorial, sin alterar el hero ni el CSS compartido. */
+    .abaso-brands{padding:58px 0;background:#f4f6f8;border-block:1px solid var(--line);scroll-margin-top:130px}
+    .abaso-brands-layout{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.5fr);gap:48px;align-items:start}
+    .abaso-brands-intro{min-width:0;border-top:4px solid var(--amber);padding-top:20px}
+    .abaso-brands-kicker{margin:0 0 12px;color:var(--blue);font-size:11px;font-weight:850;letter-spacing:.13em;text-transform:uppercase;line-height:1.65}
+    .abaso-brands h2{margin:0;color:var(--navy);font-size:clamp(30px,3.1vw,40px);line-height:1.1;letter-spacing:-.035em}
+    .abaso-brands-description{margin:18px 0 0;color:#526575;font-size:15px;line-height:1.7}
+    .abaso-brand-families{display:grid;gap:26px;min-width:0}
+    .abaso-brand-family{min-width:0}
+    .abaso-family-heading{display:flex;align-items:flex-start;gap:13px;margin-bottom:14px}
+    .abaso-family-heading>span{flex:none;color:var(--blue);font-size:12px;font-weight:900;line-height:1.6;padding-top:3px}
+    .abaso-brands h3{margin:0;color:var(--navy);font-size:19px;line-height:1.4;letter-spacing:-.015em}
+    .abaso-brand-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:0;padding:1px;list-style:none;background:var(--line)}
+    .abaso-brand-list li{min-width:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px 9px;min-height:56px;background:#fff;color:var(--navy);font-size:16px;font-weight:750;line-height:1.35;overflow-wrap:anywhere}
+    @media(max-width:900px){
+      .abaso-brands-layout{grid-template-columns:1fr;gap:28px}
+      .abaso-brands-intro{max-width:680px}
+      .abaso-brand-families{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+      .abaso-brand-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media(max-width:640px){
+      .abaso-brands{padding:36px 0}
+      .abaso-brands-layout{gap:26px}
+      .abaso-brands-intro{padding-top:16px}
+      .abaso-brands h2{font-size:31px}
+      .abaso-brands-description{font-size:14px;margin-top:13px}
+      .abaso-brand-families{grid-template-columns:1fr;gap:25px}
+      .abaso-brands h3{font-size:18px}
+      .abaso-brand-list li{min-height:52px;padding:14px 10px;font-size:15px}
+    }
+  </style>
 </head>
 <body>
   <a class="skip" href="#contenido">Saltar al contenido</a>
@@ -117,6 +149,10 @@
               <li><a href="/bizkaia/balmaseda/">Balmaseda <span aria-hidden="true">→</span></a></li>
               <li><a href="/bizkaia/durango/">Durango <span aria-hidden="true">→</span></a></li>
               <li><a href="/bizkaia/lekeitio/">Lekeitio <span aria-hidden="true">→</span></a></li>
+              <li><a href="/bizkaia/guenes/">Güeñes <span aria-hidden="true">→</span></a></li>
+              <li><a href="/bizkaia/sopuerta/">Sopuerta <span aria-hidden="true">→</span></a></li>
+              <li><a href="/bizkaia/bermeo/">Bermeo <span aria-hidden="true">→</span></a></li>
+              <li><a href="/bizkaia/igorre/">Igorre <span aria-hidden="true">→</span></a></li>
             </ul>
             <a class="town-all" href="/bizkaia/">Ver los 113 municipios <span aria-hidden="true">→</span></a>
           </article>
@@ -130,6 +166,10 @@
               <li><a href="/gipuzkoa/onati/">Oñati <span aria-hidden="true">→</span></a></li>
               <li><a href="/gipuzkoa/zumaia/">Zumaia <span aria-hidden="true">→</span></a></li>
               <li><a href="/gipuzkoa/zarautz/">Zarautz <span aria-hidden="true">→</span></a></li>
+              <li><a href="/gipuzkoa/azkoitia/">Azkoitia <span aria-hidden="true">→</span></a></li>
+              <li><a href="/gipuzkoa/bergara/">Bergara <span aria-hidden="true">→</span></a></li>
+              <li><a href="/gipuzkoa/ordizia/">Ordizia <span aria-hidden="true">→</span></a></li>
+              <li><a href="/gipuzkoa/mutriku/">Mutriku <span aria-hidden="true">→</span></a></li>
             </ul>
             <a class="town-all" href="/gipuzkoa/">Ver los 88 municipios <span aria-hidden="true">→</span></a>
           </article>
@@ -143,6 +183,10 @@
               <li><a href="/alava/laudio-llodio/">Laudio / Llodio <span aria-hidden="true">→</span></a></li>
               <li><a href="/alava/zuia/">Zuia <span aria-hidden="true">→</span></a></li>
               <li><a href="/alava/elciego/">Elciego <span aria-hidden="true">→</span></a></li>
+              <li><a href="/alava/artziniega/">Artziniega <span aria-hidden="true">→</span></a></li>
+              <li><a href="/alava/legutio/">Legutio <span aria-hidden="true">→</span></a></li>
+              <li><a href="/alava/alegria-dulantzi/">Alegría-Dulantzi <span aria-hidden="true">→</span></a></li>
+              <li><a href="/alava/labastida-bastida/">Labastida <span aria-hidden="true">→</span></a></li>
             </ul>
             <a class="town-all" href="/alava/">Ver los 51 municipios <span aria-hidden="true">→</span></a>
           </article>
@@ -155,46 +199,70 @@
         <div class="section-head">
           <div>
             <span class="eyebrow">Servicios técnicos</span>
-            <h2>Servicios de antenas, porteros automáticos y cobertura móvil</h2>
+            <h2>Instalación y reparación de antenas</h2>
           </div>
-          <p>Instalación, reparación y mantenimiento para viviendas y comunidades, con atención organizada por municipio.</p>
+          <p>Antenas individuales y colectivas, mantenimiento, porteros automáticos y videoporteros. También antenas para cobertura móvil y reparaciones eléctricas en viviendas.</p>
         </div>
 
         <div class="service-grid">
           <article class="service-card featured">
             <span class="num">01</span>
             <h3>Antenas TDT</h3>
-            <p>Instalación, orientación, reparación de señal y mantenimiento de antenas individuales y colectivas.</p>
+            <p>Reparación y mantenimiento de antenas individuales y colectivas. Revisión de la recepción, las conexiones y las tomas cuando faltan canales o se corta la imagen.</p>
           </article>
           <article class="service-card">
             <span class="num">02</span>
-            <h3>Parabólicas</h3>
-            <p>Instalación y ajuste de antenas para televisión por satélite, LNB, cableado y recepción.</p>
+            <h3>Antenas parabólicas</h3>
+            <p>Instalación y orientación de parabólicas para viviendas y comunidades. Comprobación del LNB, cableado y recepción de televisión por satélite.</p>
           </article>
           <article class="service-card">
             <span class="num">03</span>
-            <h3>Amplificación</h3>
-            <p>Revisión de amplificadores, distribución y tomas cuando la señal llega débil o inestable.</p>
+            <h3>Amplificación y tomas de TV</h3>
+            <p>Amplificación y distribución de señal en domicilios. Revisión de fuentes y cableado, nuevas tomas de antena y cambios en la derivación para conectar otra televisión.</p>
           </article>
           <article class="service-card">
             <span class="num">04</span>
-            <h3>Porteros</h3>
-            <p>Reparación de llamada, audio, apertura y placas en viviendas y comunidades.</p>
+            <h3>Porteros automáticos</h3>
+            <p>Instalación, reparación y mantenimiento de placas y telefonillos. Comprobación de llamada, audio y apertura en viviendas unifamiliares y comunidades.</p>
           </article>
           <article class="service-card">
             <span class="num">05</span>
             <h3>Videoporteros</h3>
-            <p>Instalación, renovación y reparación de monitores, cámaras y sistemas de acceso.</p>
+            <p>Instalación y reparación de monitores, placas y cámaras. Antes de renovar el videoportero comprobamos el sistema y el cableado existentes.</p>
           </article>
           <article class="service-card">
             <span class="num">06</span>
             <h3>Antenas para cobertura móvil</h3>
-            <p>Antenas exteriores y soluciones para mejorar cobertura móvil 4G/5G y datos en viviendas con señal deficiente.</p>
+            <p>Valoración de señal y antenas exteriores para router 4G/5G en viviendas. La solución se elige según el operador, el equipo y la señal disponible.</p>
           </article>
           <article class="service-card">
             <span class="num">07</span>
-            <h3>Electricidad</h3>
-            <p>Averías y pequeñas reparaciones eléctricas en viviendas, comercios y comunidades.</p>
+            <h3>Reparaciones eléctricas en viviendas</h3>
+            <p>Revisión de averías y pequeñas reparaciones eléctricas en hogares, comercios y comunidades, valorando la solución según la instalación.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="abaso-brands" id="marcas" aria-labelledby="abaso-brands-title">
+      <div class="wrap abaso-brands-layout">
+        <div class="abaso-brands-intro">
+          <p class="abaso-brands-kicker">Equipos antiguos y actuales</p>
+          <h2 id="abaso-brands-title">Marcas con las que trabajamos</h2>
+          <p class="abaso-brands-description">Revisamos la marca, el modelo y el estado de tu instalación antes de reparar o renovar equipos. Antenas, amplificación, porteros automáticos y videoporteros para viviendas y comunidades.</p>
+        </div>
+        <div class="abaso-brand-families">
+          <article class="abaso-brand-family" data-brand-family="antenas" aria-labelledby="abaso-antenas-brands">
+            <div class="abaso-family-heading"><span aria-hidden="true">01</span><h3 id="abaso-antenas-brands">Antenas y amplificación</h3></div>
+            <ul class="abaso-brand-list">
+              <li>Televés</li><li>Alcad</li><li>Ikusi</li><li>Fagor</li><li>Rover</li><li>EK</li><li>FTE Maximal</li><li>Fringe</li>
+            </ul>
+          </article>
+          <article class="abaso-brand-family" data-brand-family="porteros" aria-labelledby="abaso-porteros-brands">
+            <div class="abaso-family-heading"><span aria-hidden="true">02</span><h3 id="abaso-porteros-brands">Porteros automáticos y videoporteros</h3></div>
+            <ul class="abaso-brand-list">
+              <li>Fermax</li><li>Tegui</li><li>Golmar</li><li>Comelit</li><li>Bticino</li><li>Legrand</li><li>Fringe</li><li>Galak</li>
+            </ul>
           </article>
         </div>
       </div>
@@ -206,7 +274,7 @@
         <div class="review-trust-copy">
           <span>Compromiso de servicio</span>
           <strong>Atención profesional, diagnóstico y trabajo técnico.</strong>
-          <p>Sin puntuaciones inventadas: destacamos los criterios con los que trabaja Antenas Abaso en cada instalación.</p>
+          <p>Comprobamos la instalación y te explicamos qué necesita reparación o sustitución.</p>
         </div>
         <div class="review-trust-points">
           <span>Instalador autorizado nº 11024</span>
@@ -221,7 +289,7 @@
         <div class="coverage-copy">
           <span class="eyebrow">Cobertura local</span>
           <h2>Servicio local por provincia y municipio.</h2>
-          <p>La web de Antenas Abaso se organiza para localizar rápidamente el servicio disponible en cada municipio de Bizkaia, Gipuzkoa y Álava.</p>
+          <p>Consulta la atención para tu vivienda o comunidad en Bizkaia, Gipuzkoa y Álava. Indica la localidad y qué ocurre para preparar la revisión.</p>
           <div class="trust-row">
             <div><strong>11024</strong><span>Instalador autorizado</span></div>
             <div><strong>24h</strong><span>Urgencias</span></div>
@@ -241,7 +309,7 @@
       <div class="wrap contact-card">
         <div>
           <span class="eyebrow light">Contacto directo</span>
-          <h2>¿Qué problema tienes?</h2>
+          <h2>Pide presupuesto sin compromiso</h2>
           <p>Dinos el municipio, el tipo de instalación y qué ocurre. Te atendemos por teléfono o WhatsApp.</p>
         </div>
         <div class="contact-actions">

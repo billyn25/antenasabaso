@@ -78,7 +78,7 @@ for(const [,slug,block] of featuredBlocks){
   featuredProvinces.add(slug);
   const list=block.match(/<ul class="town-quick-links"[^>]*>([\s\S]*?)<\/ul>/)?.[1]||'';
   const links=[...list.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m=>m[1]);
-  if(links.length!==6||new Set(links).size!==6) errors.push(`Portada ${slug}: deben existir seis pueblos distintos`);
+  if(links.length!==10||new Set(links).size!==10) errors.push(`Portada ${slug}: deben existir diez pueblos distintos`);
   for(const href of links){
     const town=manifest.find(p=>p.path===href&&p.provinceSlug===slug);
     if(!town||!fs.existsSync(path.join(ROOT,town.provinceSlug,town.slug,'index.html'))) errors.push(`Portada ${slug}: destino local inválido ${href}`);
@@ -89,6 +89,39 @@ for(const [,slug,block] of featuredBlocks){
   featuredCount+=links.length;
 }
 for(const province of provinces) if(!featuredProvinces.has(province.slug)) errors.push(`Portada: faltan pueblos destacados de ${province.name}`);
+
+// Marcas indicadas por el propietario: texto visible, grupos completos y sin afiliaciones inventadas.
+const brandSections=[...home.matchAll(/<section class="abaso-brands" id="marcas"[^>]*>([\s\S]*?)<\/section>/g)];
+if(brandSections.length!==1) errors.push('Portada: debe existir una sola sección de marcas');
+const brandSection=brandSections[0]?.[1]||'';
+const expectedBrands={
+  antenas:['Televés','Alcad','Ikusi','Fagor','Rover','EK','FTE Maximal','Fringe'],
+  porteros:['Fermax','Tegui','Golmar','Comelit','Bticino','Legrand','Fringe','Galak']
+};
+const brandFamilies=[...brandSection.matchAll(/<article class="abaso-brand-family" data-brand-family="([^"]+)"[^>]*>([\s\S]*?)<\/article>/g)];
+if(brandFamilies.length!==2) errors.push('Marcas: deben aparecer las dos familias');
+const foundFamilies=new Set();
+for(const [,family,block] of brandFamilies){
+  if(!expectedBrands[family]||foundFamilies.has(family)){
+    errors.push(`Marcas: familia inválida o duplicada ${family}`);
+    continue;
+  }
+  foundFamilies.add(family);
+  const list=[...block.matchAll(/<li>([^<]+)<\/li>/g)].map(m=>m[1].trim());
+  if(list.length!==expectedBrands[family].length||new Set(list).size!==list.length) errors.push(`Marcas ${family}: cantidad incorrecta o duplicados`);
+  for(const brand of expectedBrands[family]) if(!list.includes(brand)) errors.push(`Marcas ${family}: falta ${brand}`);
+}
+if(!brandSection.includes('Porteros automáticos y videoporteros')) errors.push('Marcas: falta denominación completa de porteros automáticos');
+if(/<a\b|<button\b|<img\b/i.test(brandSection)) errors.push('Marcas: deben ser nombres visibles, sin falsos botones ni imágenes externas');
+if(/servicio (?:t[eé]cnico )?oficial|distribuidor oficial|partner oficial|aggregateRating|reviewCount/i.test(brandSection)) errors.push('Marcas: afiliación o valoración no autorizada');
+if(!home.includes('id="abaso-brands-style"')) errors.push('Marcas: faltan estilos propios de portada');
+if(home.indexOf('id="marcas"')<home.indexOf('id="servicios"')) errors.push('Portada: las marcas deben ir después de los servicios');
+if(/Sin puntuaciones inventadas/i.test(home)) errors.push('Portada: queda una nota interna de desarrollo');
+for(const title of ['Instalación y reparación de antenas','Porteros automáticos','Reparaciones eléctricas en viviendas','Pide presupuesto sin compromiso']){
+  if(!home.includes(title)) errors.push(`Portada: falta contenido de la web original: ${title}`);
+}
+const ids=[...home.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
+if(new Set(ids).size!==ids.length) errors.push('Portada: identificadores duplicados');
 
 const robots=fs.readFileSync(path.join(ROOT,'robots.txt'),'utf8');
 if(!/^Disallow:\s*\/$/mi.test(robots)) errors.push('Preview: robots no bloquea /');
@@ -102,4 +135,4 @@ if(errors.length){
   for(const error of errors.slice(0,200)) console.error('- '+error);
   process.exit(1);
 }
-console.log(`AUDITORÍA ABASO OK: 252 pueblos (113 Bizkaia + 88 Gipuzkoa + 51 Álava), 7 servicios, teléfono y SEO local presentes; ${featuredCount} accesos directos de portada válidos; preview completamente noindex.`);
+console.log(`AUDITORÍA ABASO OK: 252 páginas locales (113 Bizkaia + 88 Gipuzkoa + 51 Álava), 7 servicios, teléfono y SEO local presentes; ${featuredCount} accesos directos válidos; 2 familias de marcas completas; preview completamente noindex.`);
