@@ -123,9 +123,9 @@ a{color:inherit;text-decoration:none}
 
 /* Hero con fotografía real de la web actual de Abaso durante la preview */
 .hero{position:relative;background:
-  linear-gradient(90deg,rgba(15,36,53,.97) 0%,rgba(24,50,74,.94) 48%,rgba(24,50,74,.66) 68%,rgba(24,50,74,.26) 100%),
+  linear-gradient(90deg,rgba(15,36,53,.92) 0%,rgba(24,50,74,.84) 46%,rgba(24,50,74,.48) 67%,rgba(24,50,74,.10) 100%),
   url("https://www.antenasabaso.com/img/tdt.jpg") center right/cover no-repeat!important}
-.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,16,25,.08),rgba(5,16,25,.2));pointer-events:none}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,16,25,.03),rgba(5,16,25,.10));pointer-events:none}
 .hero-shell{position:relative;z-index:1}
 .hero-side{background:rgba(247,249,251,.96);backdrop-filter:blur(5px)}
 
@@ -148,7 +148,7 @@ a{color:inherit;text-decoration:none}
 
 @media(max-width:900px){
   .hero{background:
-    linear-gradient(180deg,rgba(15,36,53,.96) 0%,rgba(24,50,74,.93) 58%,rgba(24,50,74,.84) 100%),
+    linear-gradient(180deg,rgba(15,36,53,.90) 0%,rgba(24,50,74,.84) 58%,rgba(24,50,74,.70) 100%),
     url("https://www.antenasabaso.com/img/tdt.jpg") center/cover no-repeat!important}
   .review-trust-inner{grid-template-columns:1fr 1fr}
   .review-stars{grid-row:1/-1}
@@ -157,7 +157,7 @@ a{color:inherit;text-decoration:none}
 @media(max-width:640px){
   .brand-mark-abaso,.brand-mark-abaso svg{width:44px;height:42px}
   .hero{background:
-    linear-gradient(180deg,rgba(15,36,53,.95),rgba(24,50,74,.91)),
+    linear-gradient(180deg,rgba(15,36,53,.90),rgba(24,50,74,.78)),
     url("https://www.antenasabaso.com/img/tdt.jpg") center/cover no-repeat!important}
   .review-trust{padding:24px 0}
   .review-trust-inner{grid-template-columns:1fr;gap:15px}
