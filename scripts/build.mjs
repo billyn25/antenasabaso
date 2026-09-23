@@ -10,7 +10,15 @@ const TEL = '+34670042626';
 const WA = '34670042626';
 const PHRASE = 'Técnico en instalación, reparación y mantenimiento de antenas, porteros automáticos y videoporteros';
 
-// Una sola fuente del logo: las páginas provinciales y locales reutilizan el SVG de portada.
+// Esta entrega sigue siendo de revisión. No sustituir el dominio vivo con un paquete noindex.
+if (process.env.SITE_MODE === 'production') throw new Error('La publicación indexable requiere preparar y auditar la migración.');
+for (const value of [process.env.URL, process.env.DEPLOY_PRIME_URL].filter(Boolean)) {
+  if (new URL(value).hostname.replace(/^www\./, '') === 'antenasabaso.com') {
+    throw new Error('No publicar este paquete noindex en el dominio actual de Antenas Abaso.');
+  }
+}
+
+// Una sola fuente del logo: las páginas y el favicon reutilizan la parabólica aprobada.
 const homeSource = fs.readFileSync(path.resolve('index.html'), 'utf8');
 const brandSvg = homeSource.match(/<svg\b[^>]*data-logo="parabolica"[^>]*>[\s\S]*?<\/svg>/)?.[0];
 if (!brandSvg) throw new Error('Falta el SVG de la parabólica de Antenas Abaso en la portada');
@@ -21,6 +29,7 @@ const hash = value => { let h=2166136261; for(const ch of String(value)){h^=ch.c
 const canonical = route => new URL(route, DOMAIN).href;
 const tel = () => 'tel:' + TEL;
 const wa = text => 'https://wa.me/' + WA + '?text=' + encodeURIComponent(text);
+const provider = () => ({'@type':'Organization','@id':DOMAIN+'/#organization',name:'Antenas Abaso',url:DOMAIN+'/',telephone:TEL});
 
 const introVariants = [
   (t,p)=>`En ${t}, ${p}, atendemos instalaciones y averías de antena, porteros automáticos, videoporteros y cobertura móvil. Antes de sustituir equipos se revisa el origen del problema y el estado de la instalación.`,
@@ -47,10 +56,12 @@ function fitTitle(town, province){
     `Antenas en ${town}, ${province} | ${PHONE}`,
     `Antenista ${town} | ${PHONE}`
   ];
-  return candidates.find(x=>x.length<=70) || candidates[2].slice(0,70);
+  // 70 es un criterio editorial, no un límite de Google. Nunca cortar el nombre ni el teléfono.
+  return candidates.find(x=>x.length<=70) || candidates[2];
 }
 function metaDescription(town, province){
-  return `${PHRASE} en ${town}, ${province}. TDT, parabólicas, cobertura móvil 4G/5G y reparaciones eléctricas. ${PHONE}.`;
+  // La localidad y el contacto van al principio; la definición del servicio se mantiene íntegra.
+  return `${town}, ${province} · ${PHONE}. ${PHRASE}.`;
 }
 function brand(){
   return `<a class="brand" href="/" aria-label="Antenas Abaso, inicio"><span class="brand-mark brand-mark-abaso" aria-hidden="true">${brandSvg}</span><span class="brand-copy"><b>ANTENAS</b><strong>ABASO</strong></span></a>`;
@@ -58,30 +69,38 @@ function brand(){
 function header(){
   return `<div class="topbar"><div class="wrap topbar-inner"><span>Instalador autorizado nº 11024</span><div><strong>Urgencias 24h</strong><span class="dot">·</span><a href="${tel()}">${PHONE}</a></div></div></div><header class="site-header"><div class="wrap header-inner">${brand()}<nav class="main-nav" aria-label="Navegación principal"><a href="/#servicios">Servicios</a><a href="/#euskadi">Municipios</a><a href="/#confianza">Confianza</a><a href="#contacto">Contacto</a></nav><a class="header-phone" href="${tel()}"><small>Llámanos ahora</small><strong>${PHONE}</strong></a></div></header>`;
 }
-function footer(){
-  return `<footer class="footer"><div class="wrap footer-grid"><div><strong>Antenas Abaso</strong><p>${PHRASE}. Servicio en municipios de Bizkaia, Gipuzkoa y Álava. Tel. <a href="${tel()}">${PHONE}</a>.</p></div><div><strong>Contacto</strong><p><a href="${tel()}">${PHONE}</a><br><a href="mailto:info@antenasabaso.com">info@antenasabaso.com</a></p></div><div><strong>Cobertura</strong><p><a href="/bizkaia/">Bizkaia</a> · <a href="/gipuzkoa/">Gipuzkoa</a> · <a href="/alava/">Álava</a></p></div></div><div class="wrap footer-bottom"><span>© Antenas Abaso</span><span>Instalador autorizado nº 11024</span></div></footer><div class="mobile-bar"><a href="${tel()}">Llamar</a><a href="${wa('Hola, necesito consultar un servicio con Antenas Abaso.')}">WhatsApp</a></div>`;
+function footer(location=''){
+  const message = location ? `Hola, necesito consultar un servicio en ${location} con Antenas Abaso.` : 'Hola, necesito consultar un servicio con Antenas Abaso.';
+  return `<footer class="footer"><div class="wrap footer-grid"><div><strong>Antenas Abaso</strong><p>${PHRASE}. Servicio en municipios de Bizkaia, Gipuzkoa y Álava. Tel. <a href="${tel()}">${PHONE}</a>.</p></div><div><strong>Contacto</strong><p><a href="${tel()}">${PHONE}</a><br><a href="mailto:info@antenasabaso.com">info@antenasabaso.com</a></p></div><div><strong>Cobertura</strong><p><a href="/bizkaia/">Bizkaia</a> · <a href="/gipuzkoa/">Gipuzkoa</a> · <a href="/alava/">Álava</a></p></div></div><div class="wrap footer-bottom"><span>© Antenas Abaso</span><span>Instalador autorizado nº 11024</span></div></footer><div class="mobile-bar"><a href="${tel()}">Llamar</a><a href="${esc(wa(message))}">WhatsApp</a></div>`;
 }
 function head(title,description,route,structured){
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="${esc(canonical(route))}"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical(route))}"><meta property="og:site_name" content="Antenas Abaso"><meta name="theme-color" content="#18324a"><link rel="stylesheet" href="/styles.css"><script src="/script.js" defer></script><script type="application/ld+json">${JSON.stringify(structured).replace(/</g,'\\u003c')}</script></head>`;
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="${esc(canonical(route))}"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical(route))}"><meta property="og:type" content="website"><meta property="og:site_name" content="Antenas Abaso"><meta name="theme-color" content="#18324a"><link rel="stylesheet" href="/styles.css"><script src="/script.js" defer></script><script type="application/ld+json">${JSON.stringify(structured).replace(/</g,'\\u003c')}</script></head>`;
 }
 function serviceCards(town=''){
-  return services.map((s,i)=>`<article class="service-card${i===0?' featured':''}" id="servicio-${s.id}"><span class="num">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.name)}${town?' en '+esc(town):''}</h3><p>${esc(s.text)}</p></article>`).join('');
+  return services.map((s,i)=>`<article class="service-card${i===0?' featured':''}" id="servicio-${s.id}"><span class="num">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.name)}${town?' en '+esc(town):''}</h3><p>${esc(s.text)}</p>${town?`<a class="province-back" href="${esc(wa(`Hola, necesito ${s.name.toLowerCase()} en ${town}. Quería consultar la revisión y las condiciones.`))}">Consultar este servicio →</a>`:''}</article>`).join('');
 }
 
 function localGuide(town){
+  // Información práctica común, sin atribuir averías, trabajos o condiciones geográficas inventadas.
   const items=[
-    ['Televisión y antena',`Si en ${town} faltan canales, la imagen se pixela o una toma ha dejado de funcionar, conviene comprobar si el fallo afecta a un solo televisor o a varios antes de cambiar antena o amplificador.`],
-    ['Portero automático o videoportero',`En ${town}, indica si falla la llamada, el audio, la imagen o la apertura. La marca y el modelo visibles ayudan a comprobar compatibilidad antes de sustituir telefonillo, monitor o placa.`],
-    ['Cobertura móvil 4G/5G',`Para una vivienda de ${town} con poca señal móvil, indica operador, router y si el problema afecta a llamadas, datos o ambos. La antena exterior y su ubicación dependen de la señal disponible.`]
+    ['¿Falla una toma o toda la instalación?', 'Para preparar la revisión de TV, indica qué canales fallan y si sucede en una sola toma, en varias habitaciones o también a otros vecinos. No compres un amplificador ni cambies la orientación antes de identificar el origen. No accedas al tejado para hacer estas comprobaciones.'],
+    ['¿Reparar el portero o pasar a videoportero?', 'Distingue entre falta de llamada, audio, imagen y apertura. Facilita la marca y el modelo visibles sin desmontar el equipo. En una comunidad, la placa y el cableado compartidos condicionan qué telefonillo o monitor se puede instalar.'],
+    ['¿Buscas mejorar los datos móviles?', 'Indica el operador, el modelo de router y dónde recibes señal. Una antena exterior para router 4G/5G se valora según cobertura, compatibilidad y ubicación; no implica mejorar automáticamente las llamadas de todos los teléfonos de la vivienda.']
   ];
   return `<section class="local-guide"><div class="wrap"><span class="eyebrow">Antes de organizar la visita</span><h2>Qué podemos comprobar en ${esc(town)}</h2><div class="local-guide-grid">${items.map(([title,text])=>`<article><h3>${esc(title)}</h3><p>${esc(text)}</p></article>`).join('')}</div></div></section>`;
 }
-
+function breadcrumbData(province,town=''){
+  const trail=[{name:'Inicio',item:DOMAIN+'/'},{name:province.name,item:canonical('/'+province.slug+'/')}];
+  if(town) trail.push({name:town,item:canonical(`/${province.slug}/${slugify(town)}/`)});
+  return {'@type':'BreadcrumbList',itemListElement:trail.map((x,i)=>({'@type':'ListItem',position:i+1,...x}))};
+}
 function localStructured(title,description,route,town,province){
   return {'@context':'https://schema.org','@graph':[
+    provider(),
     {'@type':'WebSite','@id':DOMAIN+'/#website',name:'Antenas Abaso',url:DOMAIN+'/'},
     {'@type':'WebPage','@id':canonical(route)+'#page',name:title,url:canonical(route),description,isPartOf:{'@id':DOMAIN+'/#website'}},
-    {'@type':'Service','@id':canonical(route)+'#service',name:`Servicio técnico de antenas en ${town}`,description:PHRASE,areaServed:{'@type':'AdministrativeArea',name:`${town}, ${province}`},provider:{'@type':'ProfessionalService',name:'Antenas Abaso',telephone:TEL,url:DOMAIN+'/'}}
+    breadcrumbData(province,town),
+    {'@type':'Service','@id':canonical(route)+'#service',name:`Servicio técnico de antenas en ${town}`,description:PHRASE,serviceType:services.map(s=>s.name),areaServed:{'@type':'AdministrativeArea',name:`${town}, ${province.name}`},provider:{'@id':DOMAIN+'/#organization'}}
   ]};
 }
 function renderTown(province,town,index){
@@ -92,12 +111,12 @@ function renderTown(province,town,index){
   const h=hash(`${province.slug}|${town}`);
   const peers=province.towns.filter(x=>x!==town);
   const related=Array.from({length:6},(_,i)=>peers[(h+i*17)%peers.length]);
-  return `${head(title,description,route,localStructured(title,description,route,town,province.name))}<body>${header()}<main class="local-page"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span>${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section><section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>${esc(focusVariants[(h>>>3)%focusVariants.length](town))}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town)}</div></div></section>${localGuide(town)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(province.name)}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Te atendemos por teléfono o WhatsApp.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer()}</body></html>`;
+  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section><section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>${esc(focusVariants[(h>>>3)%focusVariants.length](town))}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town)}</div></div></section>${localGuide(town)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(province.name)}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
 }
 function renderProvince(province){
   const route=`/${province.slug}/`;
   const title=`Antenistas en ${province.name} | ${PHONE}`;
-  const description=`${PHRASE} en ${province.name}. TDT, parabólicas, cobertura móvil 4G/5G y electricidad. ${PHONE}.`;
+  const description=`${province.name} · ${PHONE}. ${PHRASE}. Consulta tu municipio.`;
   const sorted=[...province.towns].sort((a,b)=>a.localeCompare(b,'es'));
   const groups=new Map();
   for(const town of sorted){
@@ -108,7 +127,8 @@ function renderProvince(province){
   const letters=[...groups.keys()];
   const alphabet=`<nav class="alpha-nav" aria-label="Índice alfabético">${letters.map(letter=>`<a href="#letra-${letter}">${letter}</a>`).join('')}</nav>`;
   const grouped=`${[...groups].map(([letter,towns])=>`<section class="alpha-group" id="letra-${letter}"><h3>${letter}</h3><div class="town-directory-grid">${towns.map(t=>`<a href="/${province.slug}/${slugify(t)}/">${esc(t)} <span>→</span></a>`).join('')}</div></section>`).join('')}`;
-  return `${head(title,description,route,{'@context':'https://schema.org','@type':'CollectionPage',name:title,url:canonical(route),description})}<body>${header()}<main class="local-page"><nav class="wrap breadcrumb"><a href="/">Inicio</a><span>/</span><span>${esc(province.name)}</span></nav><section class="province-hero"><div class="wrap"><span class="eyebrow">Servicio por municipios</span><h1>Antenistas en ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p>Selecciona tu municipio para consultar antenas TDT, parabólicas, amplificación, porteros automáticos, videoporteros, cobertura móvil 4G/5G y reparaciones eléctricas.</p><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a></div></section><section class="town-directory"><div class="wrap"><div class="directory-head"><div><span class="eyebrow">Todos los municipios</span><h2>${province.towns.length} municipios de ${esc(province.name)}</h2></div><p>Una página local por municipio, con servicios y contacto directo.</p></div>${alphabet}${grouped}</div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>¿No encuentras tu pueblo?</h2><p>Llámanos e indica tu localidad de ${esc(province.name)}.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${province.name}.`)}">WhatsApp</a></div></div></section></main>${footer()}</body></html>`;
+  const structured={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage',name:title,url:canonical(route),description},breadcrumbData(province)]};
+  return `${head(title,description,route,structured)}<body>${header()}<main class="local-page"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><span aria-current="page">${esc(province.name)}</span></nav><section class="province-hero"><div class="wrap"><span class="eyebrow">Servicio por municipios</span><h1>Antenistas en ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p>Selecciona tu municipio para consultar antenas TDT, parabólicas, amplificación, porteros automáticos, videoporteros, cobertura móvil 4G/5G y reparaciones eléctricas.</p><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a></div></section><section class="town-directory"><div class="wrap"><div class="directory-head"><div><span class="eyebrow">Todos los municipios</span><h2>${province.towns.length} municipios de ${esc(province.name)}</h2></div><p>Selecciona una letra para encontrar tu localidad y consultar el servicio.</p></div>${alphabet}${grouped}</div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Consulta tu localidad</h2><p>Llámanos e indica tu localidad de ${esc(province.name)}.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${province.name}.`)}">WhatsApp</a></div></div></section></main>${footer(province.name)}</body></html>`;
 }
 
 fs.rmSync(ROOT,{recursive:true,force:true});
@@ -119,7 +139,15 @@ let home=homeSource;
 home=home.replaceAll('href="#bizkaia"','href="/bizkaia/"').replaceAll('href="#gipuzkoa"','href="/gipuzkoa/"').replaceAll('href="#alava"','href="/alava/"');
 fs.writeFileSync(path.join(ROOT,'index.html'),home);
 
+// SVG cuadrado y autocontenido, generado desde el logo; sin dependencias remotas.
+const favicon=brandSvg
+  .replace(/\s(?:aria-hidden|focusable|data-logo)="[^"]*"/g,'')
+  .replace('viewBox="0 0 128 120"','viewBox="0 0 128 128" width="128" height="128"')
+  .replace(/(<svg\b[^>]*>)/,'$1<title>Antenas Abaso</title><rect width="128" height="128" rx="18" fill="#fff"/>');
+fs.writeFileSync(path.join(ROOT,'favicon.svg'),favicon);
+
 const manifest=[];
+const routes=new Set(['/']);
 for(const province of provinces){
   const provinceDir=path.join(ROOT,province.slug);
   fs.mkdirSync(provinceDir,{recursive:true});
@@ -127,16 +155,19 @@ for(const province of provinces){
   for(let i=0;i<province.towns.length;i++){
     const town=province.towns[i];
     const slug=slugify(town);
+    const route=`/${province.slug}/${slug}/`;
+    if(routes.has(route)) throw new Error(`Ruta duplicada: ${route}`);
+    routes.add(route);
     const dir=path.join(provinceDir,slug);
     fs.mkdirSync(dir,{recursive:true});
     fs.writeFileSync(path.join(dir,'index.html'),renderTown(province,town,i));
-    manifest.push({name:town,province:province.name,provinceSlug:province.slug,slug,path:`/${province.slug}/${slug}/`});
+    manifest.push({name:town,province:province.name,provinceSlug:province.slug,slug,path:route});
   }
 }
 fs.writeFileSync(path.join(ROOT,'local-pages-manifest.json'),JSON.stringify(manifest,null,2));
 fs.writeFileSync(path.join(ROOT,'preview-manifest.json'),JSON.stringify({mode:'preview',towns:totalTowns,provinces:provinces.map(p=>({name:p.name,count:p.towns.length}))},null,2));
 fs.writeFileSync(path.join(ROOT,'robots.txt'),`User-agent: *\nDisallow: /\n`);
 fs.writeFileSync(path.join(ROOT,'_headers'),`/*\n  X-Robots-Tag: noindex, nofollow\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n`);
-fs.writeFileSync(path.join(ROOT,'404.html'),`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><link rel="stylesheet" href="/styles.css"><title>Página no disponible | Antenas Abaso</title></head><body><main class="wrap section"><h1>Página no disponible</h1><p>Vuelve al inicio o consulta tu localidad por teléfono.</p><a class="btn btn-primary" href="/">Volver al inicio</a></main></body></html>`);
+fs.writeFileSync(path.join(ROOT,'404.html'),`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="stylesheet" href="/styles.css"><title>Página no disponible | Antenas Abaso</title></head><body><main class="wrap section"><h1>Página no disponible</h1><p>Vuelve al inicio o consulta tu localidad por teléfono.</p><a class="btn btn-primary" href="/">Volver al inicio</a></main></body></html>`);
 
 console.log(`BUILD ABASO OK: ${totalTowns} páginas locales + ${provinces.length} provincias + portada, todo en preview noindex.`);
