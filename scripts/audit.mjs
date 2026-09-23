@@ -122,6 +122,7 @@ for(const page of manifest){
   }
   if(!html.includes(`class="local-trust-strip"`)||!html.includes(`Ámbito</small><strong>${page.name}</strong>`)) errors.push(`${page.path}: falta franja local de confianza`);
   if(!html.includes(`Así planteamos una intervención en ${page.name}`)) errors.push(`${page.path}: falta proceso local`);
+  if(!html.includes(`<h2>${page.name} · ${page.province}</h2>`)||!html.includes(`Territorio Histórico de ${page.province}`)) errors.push(`${page.path}: falta contexto territorial`);
   if(!html.includes(`Marcas que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta bloque local de marcas`);
   const intentBlock=html.match(/<section class="local-intents">([\s\S]*?)<\/section>/)?.[1]||'';
   const intentCards=[...intentBlock.matchAll(/<article>/g)].length;
