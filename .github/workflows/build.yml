@@ -3,14 +3,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-
 permissions:
   contents: read
-
 concurrency:
   group: antenasabaso-${{ github.ref }}
   cancel-in-progress: true
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,35 +19,27 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Generar y auditar Euskadi completo
+      - name: Pruebas de publicación, fotografías y cookies
+        run: npm test
+      - name: Generar y auditar preview protegida
         run: npm run build
+        env:
+          SITE_MODE: preview
+      - name: Conservar preview comprobada
+        run: cp -a dist .preview-check
+      - name: Generar y auditar producción con el dominio real
+        run: npm run build
+        env:
+          NETLIFY: 'true'
+          CONTEXT: production
+          SITE_MODE: production
+          URL: https://www.antenasabaso.com
+          DEPLOY_PRIME_URL: https://www.antenasabaso.com
       - name: Comprobar conteos finales
         run: |
           test "$(find dist/bizkaia -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 113
           test "$(find dist/gipuzkoa -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 88
           test "$(find dist/alava -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 51
-      - name: Documentar web de origen sin modificarla
-        run: |
-          python3 - <<'PY'
-          import pathlib, urllib.request, json, hashlib, datetime
-          root = pathlib.Path('qa/origen')
-          root.mkdir(parents=True, exist_ok=True)
-          report = []
-          for route in ['/', '/robots.txt', '/sitemap.xml', '/index.html', '/img/tdt.jpg', '/img/videoportero.jpg', '/img/electricidad.jpg', '/img/antenasat.jpg', '/img/5g.jpg']:
-              item = {'path': route}
-              try:
-                  req = urllib.request.Request('https://www.antenasabaso.com'+route, headers={'User-Agent':'Abaso-migration-audit'})
-                  with urllib.request.urlopen(req, timeout=20) as r:
-                      data = r.read()
-                      item.update(status=r.status, finalUrl=r.url, contentType=r.headers.get('Content-Type'), bytes=len(data), sha256=hashlib.sha256(data).hexdigest())
-                  dest = root / ('home.html' if route=='/' else route.lstrip('/'))
-                  dest.parent.mkdir(parents=True, exist_ok=True)
-                  dest.write_bytes(data)
-              except Exception as error:
-                  item['error'] = str(error)
-              report.append(item)
-          (root/'report.json').write_text(json.dumps({'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'resources':report}, ensure_ascii=False, indent=2))
-          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -67,7 +56,8 @@ jobs:
             netlify.toml
             robots.txt
             scripts/
+            tests/
             content/
             assets/
             dist/
-            qa/
+            .preview-check/
