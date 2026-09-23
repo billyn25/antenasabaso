@@ -120,6 +120,9 @@ for(const page of manifest){
       serviceContacts++;
     }catch{errors.push(`${page.path}: falta consulta específica de ${service.id}`);}
   }
+  if(!html.includes(`class="local-trust-strip"`)||!html.includes(`Ámbito</small><strong>${page.name}</strong>`)) errors.push(`${page.path}: falta franja local de confianza`);
+  if(!html.includes(`Así planteamos una intervención en ${page.name}`)) errors.push(`${page.path}: falta proceso local`);
+  if(!html.includes(`Marcas que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta bloque local de marcas`);
   const intentBlock=html.match(/<section class="local-intents">([\s\S]*?)<\/section>/)?.[1]||'';
   const intentCards=[...intentBlock.matchAll(/<article>/g)].length;
   const faqBlock=html.match(/<section class="local-faq">([\s\S]*?)<\/section>/)?.[1]||'';
