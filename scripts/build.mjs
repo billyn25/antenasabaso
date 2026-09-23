@@ -122,6 +122,37 @@ const localIntentVariants = [
   ['La avería afecta a una comunidad', t=>`Si la incidencia en ${t} afecta a una comunidad, dinos si ocurre en todas las viviendas o zonas comunes o solo en una parte. Esa diferencia cambia el punto por el que conviene empezar a revisar.`]
 ];
 
+const contactPrepItems = [
+  'Si el problema afecta a un solo televisor o a varios.',
+  'Si la incidencia ocurre siempre o solo en determinados momentos.',
+  'La marca y el modelo visibles del equipo, si se pueden consultar.',
+  'Si se trata de una vivienda individual, una comunidad o un pequeño negocio.',
+  'Desde cuándo ocurre la avería y si apareció después de algún cambio.',
+  'Si faltan todos los canales o únicamente algunos.',
+  'Si una segunda toma de televisión funciona correctamente.',
+  'Si el portero falla en llamada, audio, apertura o en varias funciones.',
+  'Si el videoportero conserva audio aunque haya perdido imagen.',
+  'Si la avería de portero afecta a una vivienda o a varios vecinos.',
+  'Si la parabólica ha perdido señal por completo o de forma intermitente.',
+  'Si conoces el operador cuando la consulta es por cobertura móvil.',
+  'El modelo del router y sus conectores cuando la consulta es 4G/5G.',
+  'Una foto clara de la placa, monitor, amplificador, router o equipo visible.',
+  'Cuántas tomas o puntos se quieren añadir en una instalación nueva.',
+  'Si ya existe cableado aprovechable hasta la zona donde se necesita servicio.',
+  'Si una avería eléctrica afecta a un punto concreto o a todo un circuito.',
+  'Si ha saltado alguna protección del cuadro eléctrico.',
+  'Si la instalación es individual o forma parte de una red comunitaria.',
+  'Un teléfono de contacto y la franja en la que resulta más fácil localizarte.'
+];
+
+function localPrep(town){
+  const selected=contactPrepItems
+    .map((text,index)=>({text,score:hash(`${town}|prep|${index}`)}))
+    .sort((a,b)=>a.score-b.score)
+    .slice(0,5);
+  return `<section class="local-prep"><div class="wrap local-prep-layout"><div><span class="eyebrow">Antes de contactar</span><h2>Qué datos ayudan a preparar el aviso en ${esc(town)}</h2><p>No hace falta comprobar nada peligroso ni desmontar equipos. Con algunos datos básicos podemos entender mejor el tipo de incidencia.</p></div><ul>${selected.map(item=>`<li>${esc(item.text)}</li>`).join('')}</ul></div></section>`;
+}
+
 const localFaqVariants = [
   [t=>`¿Reparáis antenas TDT en ${t}?`, t=>`Sí. Se puede revisar señal, orientación, amplificación, cableado, repartidores y tomas en instalaciones individuales o colectivas de ${t}.`],
   [t=>`¿Podéis revisar un portero automático en ${t} sin cambiarlo entero?`, t=>`Sí. Primero se comprueba qué función falla —llamada, audio o apertura— y el estado del sistema antes de valorar una sustitución completa.`],
@@ -231,7 +262,7 @@ function renderTown(province,town,index){
   const provincePeers=province.towns.filter(x=>x!==town&&!comarcaPeers.includes(x));
   const pool=[...comarcaPeers,...provincePeers];
   const related=Array.from({length:Math.min(6,pool.length)},(_,i)=>pool[(h+i*5)%pool.length]);
-  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>${esc(focusVariants[(h>>>3)%focusVariants.length](town))}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town))}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
+  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>${esc(focusVariants[(h>>>3)%focusVariants.length](town))}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localPrep(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town))}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
 }
 function renderProvince(province){
   const route=`/${province.slug}/`;

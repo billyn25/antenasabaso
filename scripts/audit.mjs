@@ -138,6 +138,9 @@ for(const page of manifest){
   }
   if(!html.includes(`class="local-trust-strip"`)||!html.includes(`Experiencia</small><strong>20 años</strong>`)||!html.includes(`Ámbito</small><strong>${page.name}</strong>`)) errors.push(`${page.path}: falta franja local de confianza`);
   if(!html.includes(`Así planteamos una intervención en ${page.name}`)) errors.push(`${page.path}: falta proceso local`);
+  const prepBlock=html.match(/<section class="local-prep">([\s\S]*?)<\/section>/)?.[1]||'';
+  if(!prepBlock.includes(`Qué datos ayudan a preparar el aviso en ${page.name}`)) errors.push(`${page.path}: falta preparación local del aviso`);
+  if([...prepBlock.matchAll(/<li>/g)].length!==5) errors.push(`${page.path}: preparación local debe tener 5 datos útiles`);
   const comarca=comarcaFor(page.provinceSlug,page.name);
   if(!html.includes(`<h2>${page.name} · ${comarca}</h2>`)||!html.includes(`pertenece a la comarca ${comarca}`)||!html.includes(`Territorio Histórico de ${page.province}`)) errors.push(`${page.path}: falta contexto territorial/comarca`);
   const relatedTitle=`Otros municipios de ${comarca}`;
