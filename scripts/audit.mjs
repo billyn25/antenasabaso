@@ -121,9 +121,9 @@ for(const page of manifest){
     }catch{errors.push(`${page.path}: falta consulta específica de ${service.id}`);}
   }
   if(!html.includes(`Qué podemos comprobar en ${page.name}`)) errors.push(`${page.path}: falta guía práctica`);
-  const intentBlock=html.match(/<section class="local-intents">([\\s\\S]*?)<\\/section>/)?.[1]||'';
+  const intentBlock=html.match(/<section class="local-intents">([\s\S]*?)<\/section>/)?.[1]||'';
   const intentCards=[...intentBlock.matchAll(/<article>/g)].length;
-  const faqBlock=html.match(/<section class="local-faq">([\\s\\S]*?)<\\/section>/)?.[1]||'';
+  const faqBlock=html.match(/<section class="local-faq">([\s\S]*?)<\/section>/)?.[1]||'';
   const faqCount=[...faqBlock.matchAll(/<details>/g)].length;
   if(intentCards!==4) errors.push(`${page.path}: deben existir 4 consultas locales útiles`);
   if(faqCount!==3) errors.push(`${page.path}: deben existir 3 preguntas frecuentes locales`);
