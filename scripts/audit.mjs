@@ -17,6 +17,7 @@ const manifestFile=path.join(ROOT,'local-pages-manifest.json');
 if(!fs.existsSync(manifestFile)) errors.push('Falta local-pages-manifest.json');
 const manifest=fs.existsSync(manifestFile)?JSON.parse(fs.readFileSync(manifestFile,'utf8')):[];
 const expectedCounts={bizkaia:113,gipuzkoa:88,alava:51};
+const legalRoutes=new Set(['/aviso-legal/','/privacidad/','/cookies/']);
 if(totalTowns!==252||manifest.length!==252) errors.push(`Inventario alterado: dataset=${totalTowns}, manifiesto=${manifest.length}`);
 if(new Set(manifest.map(p=>p.path)).size!==manifest.length) errors.push('Manifiesto: rutas duplicadas');
 for(const province of provinces){
@@ -65,12 +66,13 @@ for(const [rel,html] of htmlByFile){
     const canonical=decode(canonMatches[0]?.[1]||'');
     if(titleMatches.length!==1||descMatches.length!==1||canonMatches.length!==1) errors.push(`${rel}: title/description/canonical ausente o duplicado`);
     if(canonical!==current.href) errors.push(`${rel}: canonical no coincide con su URL: ${canonical}`);
-    if(!title.includes(PHONE)) errors.push(`${rel}: title sin teléfono íntegro`);
+    const isLegal=legalRoutes.has(route);
+    if(!isLegal&&!title.includes(PHONE)) errors.push(`${rel}: title sin teléfono íntegro`);
     if(title.length>70) errors.push(`${rel}: revisar longitud editorial del title (${title.length})`);
     // Rango editorial del proyecto, no supuesto límite ni garantía de snippet de Google.
-    if(description.length<115||description.length>175) errors.push(`${rel}: descripción fuera del rango editorial (${description.length})`);
-    if(!description.includes(PHRASE)||!description.includes(PHONE)) errors.push(`${rel}: descripción sin frase o teléfono`);
-    if(description.indexOf(PHONE)>60) errors.push(`${rel}: teléfono demasiado tarde en la descripción`);
+    if(description.length<105||description.length>180) errors.push(`${rel}: descripción fuera del rango editorial (${description.length})`);
+    if(!isLegal&&(!description.includes(PHRASE)||!description.includes(PHONE))) errors.push(`${rel}: descripción sin frase o teléfono`);
+    if(!isLegal&&description.indexOf(PHONE)>60) errors.push(`${rel}: teléfono demasiado tarde en la descripción`);
     for(const [set,value,label] of [[titles,title,'title'],[metas,description,'description'],[canonicals,canonical,'canonical']]){
       if(set.has(value)) errors.push(`${rel}: ${label} duplicado`);
       set.add(value);
@@ -79,7 +81,7 @@ for(const [rel,html] of htmlByFile){
       const matches=[...html.matchAll(new RegExp(`<meta property="${prop}" content="([^"]*)"`,'g'))];
       if(matches.length!==1||decode(matches[0]?.[1]||'')!==value) errors.push(`${rel}: ${prop} inconsistente`);
     }
-    if(!html.includes(PHRASE)) errors.push(`${rel}: falta frase principal`);
+    if(!legalRoutes.has(route)&&!html.includes(PHRASE)) errors.push(`${rel}: falta frase principal`);
     const jsonScripts=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
     if(jsonScripts.length!==1) errors.push(`${rel}: datos estructurados ausentes o duplicados`);
     try{
@@ -178,6 +180,13 @@ for(const province of provinces){
   }
 }
 
+for(const route of legalRoutes){
+  const rel=route.slice(1)+'index.html';
+  const html=htmlByFile.get(rel)||'';
+  if(!html) errors.push(`Legal: falta ${route}`);
+  if(!html.includes('class="legal-page"')) errors.push(`Legal: diseño legal ausente en ${route}`);
+  if(!html.includes('href="/aviso-legal/"')||!html.includes('href="/privacidad/"')||!html.includes('href="/cookies/"')) errors.push(`Legal: navegación incompleta en ${route}`);
+}
 const home=htmlByFile.get('index.html')||'';
 if(/<style\b/i.test(home)) errors.push('Portada: quedan estilos inline; deben vivir en styles.css');
 if(/<script\s+src="\/script\.js"/i.test(home)) errors.push('Portada: queda JS de scroll redundante');
@@ -223,6 +232,9 @@ if(/<a\b|<button\b|<img\b|servicio (?:t[eé]cnico )?oficial|distribuidor oficial
 if(home.indexOf('id="marcas"')<home.indexOf('id="servicios"')) errors.push('Marcas antes de servicios');
 for(const title of ['Instalación y reparación de antenas','Porteros automáticos','Reparaciones eléctricas en viviendas','Pide presupuesto sin compromiso']) if(!home.includes(title)) errors.push(`Portada: falta contenido ${title}`);
 if(!home.includes('class="review-stars"')||!home.includes('★★★★★')) errors.push('Portada: se han perdido las estrellas de confianza');
+for(const href of ['/aviso-legal/','/privacidad/','/cookies/']) if(!home.includes(`href="${href}"`)) errors.push(`Portada: falta enlace legal ${href}`);
+if(!home.includes('data-cookie-notice')||!home.includes('data-cookie-dismiss')) errors.push('Portada: falta aviso informativo de cookies');
+if(!home.includes('property="og:image"')||!home.includes('name="twitter:card"')) errors.push('Portada: faltan metadatos sociales de cierre');
 if(!home.includes('<b>20</b> Años de experiencia')||!home.includes('20 años de experiencia')) errors.push('Portada: falta experiencia acreditada en la web anterior');
 const gallery=home.match(/<section class="service-gallery"[\s\S]*?<\/section>/)?.[0]||'';
 const galleryFigures=[...gallery.matchAll(/<figure class="gallery-item/g)].length;
@@ -251,7 +263,13 @@ else{
 const robots=fs.readFileSync(path.join(ROOT,'robots.txt'),'utf8');
 const headers=fs.readFileSync(path.join(ROOT,'_headers'),'utf8');
 if(!/^Disallow:\s*\/$/mi.test(robots)||!/X-Robots-Tag:\s*noindex, nofollow/i.test(headers)) errors.push('Preview no protegida');
-if(htmlFiles.length!==257) errors.push(`HTML=${htmlFiles.length}; esperados 257`);
+if(htmlFiles.length!==260) errors.push(`HTML=${htmlFiles.length}; esperados 260`);
+const siteJsFile=path.join(ROOT,'site.js');
+if(!fs.existsSync(siteJsFile)) errors.push('Falta site.js');
+else{
+  const js=fs.readFileSync(siteJsFile,'utf8');
+  if(!js.includes('antenas-abaso-cookie-info-v1')||!js.includes('data-cookie-dismiss')) errors.push('site.js: gestión del aviso de cookies incompleta');
+}
 
 if(errors.length){
   console.error(`AUDITORÍA ABASO FALLIDA (${errors.length})`);
@@ -259,4 +277,4 @@ if(errors.length){
   process.exit(1);
 }
 const lengths=metadata.map(m=>m.descriptionLength);
-console.log(`AUDITORÍA ABASO OK: ${manifest.length} páginas locales, ${canonicals.size} canonicals y metas únicos, descripciones de ${Math.min(...lengths)}-${Math.max(...lengths)} caracteres, ${checkedCrumbs} breadcrumbs, ${checkedLinks} enlaces/anclas válidos, ${serviceContacts} consultas por servicio/localidad y ${featuredCount} accesos de portada. Similitud local máxima ${highestSimilarity.score.toFixed(3)} (${highestSimilarity.a} / ${highestSimilarity.b}). Galería, estrellas, marcas, favicon y noindex comprobados.`);
+console.log(`AUDITORÍA ABASO OK: ${manifest.length} páginas locales + 3 páginas legales, ${canonicals.size} canonicals y metas únicos, descripciones de ${Math.min(...lengths)}-${Math.max(...lengths)} caracteres, ${checkedCrumbs} breadcrumbs, ${checkedLinks} enlaces/anclas válidos, ${serviceContacts} consultas por servicio/localidad y ${featuredCount} accesos de portada. Similitud local máxima ${highestSimilarity.score.toFixed(3)} (${highestSimilarity.a} / ${highestSimilarity.b}). Cookies informativas, privacidad, aviso legal, galería, estrellas, marcas, favicon y noindex comprobados.`);

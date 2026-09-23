@@ -9,6 +9,8 @@ Renovación SEO y visual de antenasabaso.com, centrada en Euskadi y en búsqueda
 - 3 directorios provinciales con índice alfabético.
 - Contexto territorial y comarca por municipio.
 - Canonical, metadatos sociales, favicon SVG y datos estructurados auditados.
+- Aviso legal, privacidad y política de cookies integrados con el diseño.
+- Aviso informativo de cookies sin analítica ni publicidad en la versión actual.
 - La publicación indexable todavía no está activada.
 
 ## Desarrollo

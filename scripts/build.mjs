@@ -199,8 +199,8 @@ function metaDescription(town, province){
 function brand(){
   return `<a class="brand" href="/" aria-label="Antenas Abaso, inicio"><span class="brand-mark brand-mark-abaso" aria-hidden="true">${brandSvg}</span><span class="brand-copy"><b>ANTENAS</b><strong>ABASO</strong></span></a>`;
 }
-function header(){
-  return `<div class="topbar"><div class="wrap topbar-inner"><span>Instalador autorizado nº 11024</span><div><strong>Urgencias 24h</strong><span class="dot">·</span><a href="${tel()}">${PHONE}</a></div></div></div><header class="site-header"><div class="wrap header-inner">${brand()}<nav class="main-nav" aria-label="Navegación principal"><a href="/#servicios">Servicios</a><a href="/#euskadi">Municipios</a><a href="/#confianza">Confianza</a><a href="#contacto">Contacto</a></nav><a class="header-phone" href="${tel()}"><small>Llámanos ahora</small><strong>${PHONE}</strong></a></div></header>`;
+function header(contactHref='#contacto'){
+  return `<div class="topbar"><div class="wrap topbar-inner"><span>Instalador autorizado nº 11024</span><div><strong>Urgencias 24h</strong><span class="dot">·</span><a href="${tel()}">${PHONE}</a></div></div></div><header class="site-header"><div class="wrap header-inner">${brand()}<nav class="main-nav" aria-label="Navegación principal"><a href="/#servicios">Servicios</a><a href="/#euskadi">Municipios</a><a href="/#confianza">Confianza</a><a href="${contactHref}">Contacto</a></nav><a class="header-phone" href="${tel()}"><small>Llámanos ahora</small><strong>${PHONE}</strong></a></div></header>`;
 }
 
 function localTrustStrip(town){
@@ -223,12 +223,16 @@ function localBrands(town){
   return `<section class="local-brands"><div class="wrap local-brands-layout"><div><span class="eyebrow">Equipos antiguos y actuales</span><h2>Marcas que podemos revisar en ${esc(town)}</h2><p>La reparación o sustitución depende del modelo, del estado del cableado y de la compatibilidad disponible.</p></div><div class="local-brand-groups"><div><h3>Antenas y amplificación</h3><p>${antennaBrands.map(esc).join(' · ')}</p></div><div><h3>Porteros y videoporteros</h3><p>${doorBrands.map(esc).join(' · ')}</p></div></div></div></section>`;
 }
 
+function cookieNotice(){
+  return `<aside class="cookie-notice" data-cookie-notice hidden aria-label="Información sobre cookies"><div class="cookie-notice-copy"><strong>Privacidad clara, sin cookies publicitarias</strong><p>Esta versión no utiliza cookies de analítica ni publicidad. Solo guardamos en tu navegador que has cerrado este aviso.</p></div><div class="cookie-notice-actions"><a href="/cookies/">Política de cookies</a><button type="button" data-cookie-dismiss>Entendido</button></div></aside>`;
+}
 function footer(location=''){
   const message = location ? `Hola, necesito consultar un servicio en ${location} con Antenas Abaso.` : 'Hola, necesito consultar un servicio con Antenas Abaso.';
-  return `<footer class="footer"><div class="wrap footer-grid"><div><strong>Antenas Abaso</strong><p>${PHRASE}. Servicio en municipios de Bizkaia, Gipuzkoa y Álava. Tel. <a href="${tel()}">${PHONE}</a>.</p></div><div><strong>Contacto</strong><p><a href="${tel()}">${PHONE}</a><br><a href="mailto:info@antenasabaso.com">info@antenasabaso.com</a></p></div><div><strong>Cobertura</strong><p><a href="/bizkaia/">Bizkaia</a> · <a href="/gipuzkoa/">Gipuzkoa</a> · <a href="/alava/">Álava</a></p></div></div><div class="wrap footer-bottom"><span>© Antenas Abaso</span><span>Instalador autorizado nº 11024</span></div></footer><div class="mobile-bar"><a href="${tel()}">Llamar</a><a href="${esc(wa(message))}">WhatsApp</a></div>`;
+  return `<footer class="footer"><div class="wrap footer-grid"><div><strong>Antenas Abaso</strong><p>${PHRASE}. Servicio en municipios de Bizkaia, Gipuzkoa y Álava. Tel. <a href="${tel()}">${PHONE}</a>.</p></div><div><strong>Contacto</strong><p><a href="${tel()}">${PHONE}</a><br><a href="mailto:info@antenasabaso.com">info@antenasabaso.com</a></p></div><div><strong>Cobertura</strong><p><a href="/bizkaia/">Bizkaia</a> · <a href="/gipuzkoa/">Gipuzkoa</a> · <a href="/alava/">Álava</a></p></div><div class="footer-legal"><strong>Información legal</strong><p><a href="/aviso-legal/">Aviso legal</a><br><a href="/privacidad/">Privacidad</a><br><a href="/cookies/">Cookies</a></p></div></div><div class="wrap footer-bottom"><span>© Antenas Abaso</span><span>Instalador autorizado nº 11024</span></div></footer>${cookieNotice()}<div class="mobile-bar"><a href="${tel()}">Llamar</a><a href="${esc(wa(message))}">WhatsApp</a></div>`;
 }
 function head(title,description,route,structured){
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="${esc(canonical(route))}"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical(route))}"><meta property="og:type" content="website"><meta property="og:site_name" content="Antenas Abaso"><meta name="theme-color" content="#18324a"><link rel="stylesheet" href="/styles.css"><script type="application/ld+json">${JSON.stringify(structured).replace(/</g,'\\u003c')}</script></head>`;
+  const socialImage=DOMAIN+'/assets/gallery/parabolica-realista.webp';
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="${esc(canonical(route))}"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical(route))}"><meta property="og:type" content="website"><meta property="og:site_name" content="Antenas Abaso"><meta property="og:image" content="${socialImage}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${socialImage}"><meta name="theme-color" content="#18324a"><link rel="stylesheet" href="/styles.css"><script src="/site.js" defer></script><script type="application/ld+json">${JSON.stringify(structured).replace(/</g,'\\u003c')}</script></head>`;
 }
 function serviceCards(town='',h=0){
   return services.map((s,i)=>{
@@ -264,6 +268,57 @@ function renderTown(province,town,index){
   const related=Array.from({length:Math.min(6,pool.length)},(_,i)=>pool[(h+i*5)%pool.length]);
   return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>${esc(focusVariants[(h>>>3)%focusVariants.length](town))}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localPrep(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town))}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
 }
+
+function legalBreadcrumb(title,route){
+  return {'@type':'BreadcrumbList',itemListElement:[
+    {'@type':'ListItem',position:1,name:'Inicio',item:DOMAIN+'/'},
+    {'@type':'ListItem',position:2,name:title,item:canonical(route)}
+  ]};
+}
+function legalStructured(title,description,route){
+  return {'@context':'https://schema.org','@graph':[
+    {'@type':'WebPage','@id':canonical(route)+'#page',name:title,url:canonical(route),description,isPartOf:{'@id':DOMAIN+'/#website'}},
+    legalBreadcrumb(title,route)
+  ]};
+}
+function legalAside(current){
+  const items=[['/aviso-legal/','Aviso legal'],['/privacidad/','Privacidad'],['/cookies/','Cookies']];
+  return `<aside class="legal-aside"><strong>Información de Antenas Abaso</strong><p>Documentación del sitio web y tratamiento de la información.</p>${items.map(([href,label])=>`<a href="${href}"${href===current?' aria-current="page"':''}>${label}</a>`).join('')}</aside>`;
+}
+function renderLegalPage({route,title,description,kicker,h1,lead,content}){
+  return `${head(title,description,route,legalStructured(title,description,route))}<body>${header('/#contacto')}<main class="legal-page"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><span aria-current="page">${esc(h1)}</span></nav><section class="legal-hero"><div class="wrap"><span class="eyebrow">${esc(kicker)}</span><h1>${esc(h1)}</h1><p>${esc(lead)}</p></div></section><section class="legal-content"><div class="wrap legal-layout"><article class="legal-copy">${content}<p class="legal-update">Última actualización: 23 de septiembre de 2026.</p></article>${legalAside(route)}</div></section></main>${footer()}</body></html>`;
+}
+
+const legalPages=[
+  {
+    route:'/aviso-legal/',
+    title:'Aviso legal | Antenas Abaso',
+    description:'Aviso legal de Antenas Abaso, titular de antenasabaso.com: datos de contacto, condiciones de uso, propiedad intelectual y legislación aplicable.',
+    kicker:'Información del titular',
+    h1:'Aviso legal',
+    lead:'Información identificativa y condiciones generales de uso de antenasabaso.com.',
+    content:`<h2>Datos identificativos</h2><p>En cumplimiento de la normativa aplicable a los servicios de la sociedad de la información, se facilita la información disponible del titular de este sitio web.</p><dl class="legal-data"><div><dt>Titular</dt><dd>ANTENAS ABASO</dd></div><div><dt>Actividad</dt><dd>Instalación, reparación y mantenimiento de telecomunicaciones, antenas, porteros, videoporteros y pequeñas reparaciones eléctricas.</dd></div><div><dt>Domicilio</dt><dd>48010 Bilbao, Bizkaia</dd></div><div><dt>Teléfono</dt><dd><a href="${tel()}">${PHONE}</a></dd></div><div><dt>Correo electrónico</dt><dd><a href="mailto:info@antenasabaso.com">info@antenasabaso.com</a></dd></div><div><dt>Web</dt><dd>www.antenasabaso.com</dd></div></dl><h2>Objeto del sitio web</h2><p>El objetivo de esta web es informar sobre los servicios de Antenas Abaso y facilitar el contacto de personas interesadas en una instalación, reparación, mantenimiento o consulta técnica.</p><h2>Condiciones de uso</h2><p>El acceso a la web implica un uso responsable y conforme a la legislación vigente. El usuario se compromete a no utilizar el sitio, sus contenidos o sus enlaces con fines ilícitos o que puedan perjudicar a terceros.</p><h2>Propiedad intelectual e industrial</h2><p>Los textos, diseño, elementos gráficos, logotipo y demás contenidos propios de esta web están protegidos por la normativa aplicable. No se autoriza su reproducción o explotación fuera de los usos permitidos legalmente sin autorización del titular.</p><h2>Contenido y enlaces externos</h2><p>Antenas Abaso procura mantener la información actualizada y útil. Los enlaces a servicios de terceros, como WhatsApp, se facilitan para mejorar el contacto y quedan sujetos a las condiciones y políticas de esos terceros.</p><h2>Responsabilidad</h2><p>No se garantiza la ausencia absoluta de interrupciones o errores técnicos. La información del sitio es de carácter general y no sustituye la revisión técnica de una instalación concreta.</p><h2>Legislación aplicable</h2><p>Las relaciones derivadas del uso de esta web se rigen por la legislación española, sin perjuicio de los derechos que correspondan a consumidores y usuarios.</p>`
+  },
+  {
+    route:'/privacidad/',
+    title:'Política de privacidad | Antenas Abaso',
+    description:'Política de privacidad de Antenas Abaso: qué datos se tratan al contactar, para qué se utilizan, conservación, destinatarios y derechos de las personas.',
+    kicker:'Protección de datos',
+    h1:'Política de privacidad',
+    lead:'Explicamos de forma clara qué ocurre con la información que facilitas cuando contactas con Antenas Abaso.',
+    content:`<h2>Responsable del tratamiento</h2><dl class="legal-data"><div><dt>Responsable</dt><dd>ANTENAS ABASO</dd></div><div><dt>Domicilio</dt><dd>48010 Bilbao, Bizkaia</dd></div><div><dt>Correo electrónico</dt><dd><a href="mailto:info@antenasabaso.com">info@antenasabaso.com</a></dd></div><div><dt>Teléfono</dt><dd><a href="${tel()}">${PHONE}</a></dd></div></dl><h2>Qué datos podemos tratar</h2><p>Esta web no incluye actualmente un formulario de contacto. Si decides contactar por teléfono, correo electrónico o WhatsApp, podremos tratar los datos que facilites voluntariamente, como nombre, teléfono, dirección o localidad, datos de contacto y la información necesaria para entender el servicio solicitado.</p><h2>Para qué utilizamos los datos</h2><ul><li>Responder a consultas y solicitudes de presupuesto.</li><li>Organizar visitas, instalaciones, reparaciones y servicios solicitados.</li><li>Mantener las comunicaciones necesarias durante la prestación del servicio.</li><li>Cumplir obligaciones administrativas, contables o legales cuando corresponda.</li></ul><h2>Base jurídica</h2><p>El tratamiento puede basarse en la aplicación de medidas solicitadas por la persona interesada antes de contratar, en la ejecución de una relación contractual y, cuando proceda, en el consentimiento para finalidades opcionales.</p><h2>Destinatarios</h2><p>No se ceden datos a terceros salvo cuando resulte necesario para prestar un servicio, exista una obligación legal o la persona utilice voluntariamente una plataforma externa. Si eliges contactar mediante WhatsApp, la comunicación se realiza a través de ese servicio y queda sujeta también a sus propias condiciones y política de privacidad.</p><h2>Conservación</h2><p>Los datos se conservarán durante el tiempo necesario para atender la consulta o mantener la relación de servicio y, posteriormente, durante los plazos que resulten exigibles para atender obligaciones legales.</p><h2>Tus derechos</h2><p>Puedes solicitar el acceso, rectificación, supresión, oposición, limitación del tratamiento y, cuando corresponda, portabilidad de tus datos. También puedes retirar un consentimiento previamente otorgado sin que ello afecte a la licitud del tratamiento anterior.</p><p>Para ejercer estos derechos puedes contactar en <a href="mailto:info@antenasabaso.com">info@antenasabaso.com</a>. Si consideras que el tratamiento de tus datos no se ajusta a la normativa, puedes presentar una reclamación ante la <a href="https://www.aepd.es/" rel="noopener noreferrer">Agencia Española de Protección de Datos</a>.</p><h2>Decisiones automatizadas</h2><p>Esta web no realiza decisiones automatizadas ni elaboración de perfiles de usuarios.</p>`
+  },
+  {
+    route:'/cookies/',
+    title:'Política de cookies | Antenas Abaso',
+    description:'Política de cookies de Antenas Abaso: esta versión no utiliza cookies analíticas ni publicitarias y explica el almacenamiento técnico del aviso de privacidad.',
+    kicker:'Transparencia web',
+    h1:'Política de cookies',
+    lead:'La web está diseñada para funcionar sin seguimiento publicitario ni analítica de comportamiento en esta versión.',
+    content:`<h2>Qué utiliza actualmente esta web</h2><p>La versión actual de antenasabaso.com no instala cookies de analítica, publicidad, personalización comercial ni seguimiento de usuarios.</p><h2>Almacenamiento técnico del aviso</h2><p>Cuando pulsas “Entendido” en el aviso inferior, el navegador guarda localmente la clave <code>antenas-abaso-cookie-info-v1</code> únicamente para recordar que ya has cerrado ese mensaje. Este dato no identifica al usuario, no se envía a Antenas Abaso y no se utiliza con fines publicitarios o analíticos.</p><h2>Servicios de terceros</h2><p>La web contiene enlaces a servicios externos, por ejemplo WhatsApp. Las cookies o tecnologías que puedan utilizar esos servicios una vez que abandonas antenasabaso.com dependen de sus respectivos proveedores y de sus propias políticas.</p><h2>Cómo gestionar cookies en el navegador</h2><p>Los navegadores permiten consultar, bloquear o eliminar cookies y datos almacenados desde sus opciones de privacidad. La ubicación exacta de estos controles depende del navegador y del dispositivo utilizado.</p><h2>Cambios futuros</h2><p>Si en el futuro se incorporan herramientas de analítica, publicidad u otras tecnologías que requieran consentimiento, esta política y el mecanismo de gestión se actualizarán antes de activarlas.</p>`
+  }
+];
+
 function renderProvince(province){
   const route=`/${province.slug}/`;
   const title=`Antenistas en ${province.name} | ${PHONE}`;
@@ -285,6 +340,7 @@ function renderProvince(province){
 fs.rmSync(ROOT,{recursive:true,force:true});
 fs.mkdirSync(ROOT,{recursive:true});
 fs.copyFileSync(path.resolve('styles.css'),path.join(ROOT,'styles.css'));
+fs.copyFileSync(path.resolve('site.js'),path.join(ROOT,'site.js'));
 if(fs.existsSync(path.resolve('assets'))) fs.cpSync(path.resolve('assets'),path.join(ROOT,'assets'),{recursive:true});
 
 let home=homeSource;
@@ -315,6 +371,13 @@ for(const province of provinces){
     fs.writeFileSync(path.join(dir,'index.html'),renderTown(province,town,i));
     manifest.push({name:town,province:province.name,provinceSlug:province.slug,slug,path:route});
   }
+} 
+for(const page of legalPages){
+  if(routes.has(page.route)) throw new Error(`Ruta duplicada: ${page.route}`);
+  routes.add(page.route);
+  const dir=path.join(ROOT,page.route.replace(/^\/+|\/+$/g,''));
+  fs.mkdirSync(dir,{recursive:true});
+  fs.writeFileSync(path.join(dir,'index.html'),renderLegalPage(page));
 }
 fs.writeFileSync(path.join(ROOT,'local-pages-manifest.json'),JSON.stringify(manifest,null,2));
 fs.writeFileSync(path.join(ROOT,'preview-manifest.json'),JSON.stringify({mode:'preview',towns:totalTowns,provinces:provinces.map(p=>({name:p.name,count:p.towns.length}))},null,2));
