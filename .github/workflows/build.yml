@@ -17,6 +17,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -27,3 +29,45 @@ jobs:
           test "$(find dist/bizkaia -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 113
           test "$(find dist/gipuzkoa -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 88
           test "$(find dist/alava -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 51
+      - name: Documentar web de origen sin modificarla
+        run: |
+          python3 - <<'PY'
+          import pathlib, urllib.request, json, hashlib, datetime
+          root = pathlib.Path('qa/origen')
+          root.mkdir(parents=True, exist_ok=True)
+          report = []
+          for route in ['/', '/robots.txt', '/sitemap.xml', '/index.html', '/img/tdt.jpg', '/img/videoportero.jpg', '/img/electricidad.jpg', '/img/antenasat.jpg', '/img/5g.jpg']:
+              item = {'path': route}
+              try:
+                  req = urllib.request.Request('https://www.antenasabaso.com'+route, headers={'User-Agent':'Abaso-migration-audit'})
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      data = r.read()
+                      item.update(status=r.status, finalUrl=r.url, contentType=r.headers.get('Content-Type'), bytes=len(data), sha256=hashlib.sha256(data).hexdigest())
+                  dest = root / ('home.html' if route=='/' else route.lstrip('/'))
+                  dest.parent.mkdir(parents=True, exist_ok=True)
+                  dest.write_bytes(data)
+              except Exception as error:
+                  item['error'] = str(error)
+              report.append(item)
+          (root/'report.json').write_text(json.dumps({'checkedAt':datetime.datetime.now(datetime.timezone.utc).isoformat(),'resources':report}, ensure_ascii=False, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: abaso-auditoria
+          retention-days: 7
+          include-hidden-files: true
+          path: |
+            .github/workflows/build.yml
+            README.md
+            index.html
+            styles.css
+            site.js
+            package.json
+            netlify.toml
+            robots.txt
+            scripts/
+            content/
+            assets/
+            dist/
+            qa/
