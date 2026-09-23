@@ -285,6 +285,7 @@ function renderProvince(province){
 fs.rmSync(ROOT,{recursive:true,force:true});
 fs.mkdirSync(ROOT,{recursive:true});
 fs.copyFileSync(path.resolve('styles.css'),path.join(ROOT,'styles.css'));
+if(fs.existsSync(path.resolve('assets'))) fs.cpSync(path.resolve('assets'),path.join(ROOT,'assets'),{recursive:true});
 
 let home=homeSource;
 home=home.replaceAll('href="#bizkaia"','href="/bizkaia/"').replaceAll('href="#gipuzkoa"','href="/gipuzkoa/"').replaceAll('href="#alava"','href="/alava/"');

@@ -227,8 +227,14 @@ if(!home.includes('<b>20</b> Años de experiencia')||!home.includes('20 años de
 const gallery=home.match(/<section class="service-gallery"[\s\S]*?<\/section>/)?.[0]||'';
 const galleryFigures=[...gallery.matchAll(/<figure class="gallery-item/g)].length;
 const galleryImages=[...gallery.matchAll(/<img\b[^>]*>/g)].map(m=>m[0]);
-if(galleryFigures!==4||galleryImages.length!==4) errors.push('Galería: deben existir 4 imágenes de servicio');
+if(galleryFigures!==6||galleryImages.length!==6) errors.push('Galería: deben existir 6 imágenes de servicio');
 if(galleryImages.some(img=>! /loading="lazy"/.test(img)||! /alt="[^"]+"/.test(img))) errors.push('Galería: imágenes sin lazy loading o alt descriptivo');
+for(const asset of ['parabolica-realista.webp','cobertura-4g5g-realista.webp','amplificacion-distribucion.webp']){
+  if(!fs.existsSync(path.join(ROOT,'assets','gallery',asset))) errors.push(`Galería: falta recurso local ${asset}`);
+}
+for(const label of ['Antenas TDT','Parabólicas','Porteros y videoporteros','Cobertura móvil 4G/5G','Amplificación y distribución','Reparaciones eléctricas']){
+  if(!gallery.includes(`<strong>${label}</strong>`)) errors.push(`Galería: falta bloque ${label}`);
+}
 
 const sourceCss=fs.readFileSync(path.resolve('styles.css'),'utf8');
 for(const stale of ['hero-phone-focus','local-seo-','province-strip','province-grid','brand-roof','brand-antenna','brand-wave','btn-secondary','btn-outline-light']){
