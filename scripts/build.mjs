@@ -202,7 +202,7 @@ function head(title,description,route,structured){
 function serviceCards(town='',h=0){
   return services.map((s,i)=>{
     const variants=serviceTextVariants[s.id]||[];
-    const text=town&&variants.length?variants[(h+i*3)%variants.length](town):s.text;
+    const text=town&&variants.length?variants[hash(`${town}|${s.id}`)%variants.length](town):s.text;
     return `<article class="service-card${i===0?' featured':''}" id="servicio-${s.id}"><span class="num">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.name)}${town?' en '+esc(town):''}</h3><p>${esc(text)}</p>${town?`<a class="province-back" href="${esc(wa(`Hola, necesito ${s.name.toLowerCase()} en ${town}. Quería consultar la revisión y las condiciones.`))}">Consultar este servicio →</a>`:''}</article>`;
   }).join('');
 }
