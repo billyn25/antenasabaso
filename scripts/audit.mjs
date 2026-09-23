@@ -40,6 +40,11 @@ for(const page of manifest){
   if(!html.includes(PHRASE)) errors.push(`${page.path}: falta frase principal`);
   if(!html.includes(PHONE)) errors.push(`${page.path}: falta teléfono`);
   for(const service of services) if(!html.includes(service.name)) errors.push(`${page.path}: falta servicio ${service.name}`);
+  for(const serviceName of ['Antenas TDT','Porteros automáticos','Videoporteros','Antenas para cobertura móvil 4G/5G']){
+    if(!html.includes(`<h3>${serviceName} en ${page.name}</h3>`)) errors.push(`${page.path}: falta intención local ${serviceName} + localidad`);
+  }
+  if(!html.includes(`Qué podemos comprobar en ${page.name}`)) errors.push(`${page.path}: falta bloque práctico local`);
+  if(/Servicio en tu pueblo|Pueblos próximos/i.test(html)) errors.push(`${page.path}: queda texto genérico de pueblo`);
   if(!/<meta name="robots" content="noindex,nofollow">/i.test(html)) errors.push(`${page.path}: preview indexable`);
   const expected=`${DOMAIN}${page.path}`;
   if(canonical!==expected) errors.push(`${page.path}: canonical ${canonical}`);
@@ -59,10 +64,14 @@ for(const province of provinces){
 
 const home=fs.readFileSync(path.join(ROOT,'index.html'),'utf8');
 for(const province of provinces) if(!home.includes(`href="/${province.slug}/"`)) errors.push(`Portada: falta /${province.slug}/`);
-if(/SERVICIO \+ PUEBLO|\+ pueblo/i.test(home)) errors.push('Portada: queda texto SEO artificial');
+if(/SERVICIO \+ PUEBLO|\+ pueblo|Antenista en pueblos|Busca tu pueblo/i.test(home)) errors.push('Portada: queda texto SEO artificial o genérico');
 if(!home.includes(PHRASE)) errors.push('Portada: falta frase principal');
 if(!home.includes('Antenas para cobertura móvil')) errors.push('Portada: falta cobertura móvil');
 if(!home.includes('Porteros automáticos')) errors.push('Portada: falta porteros automáticos');
+if(/<span class="brand-copy">[\s\S]*?<small>Euskadi<\/small>[\s\S]*?<\/span>/i.test(home)) errors.push('Logo: no debe mostrar Euskadi');
+for(const target of ['#servicio-tdt','#servicio-parabolicas','#servicio-porteros','#servicio-cobertura-movil','#servicio-electricidad']){
+  if(!home.includes(`href="${target}"`)) errors.push(`Hero: falta acceso específico ${target}`);
+}
 
 // Los accesos de portada deben abrir páginas locales reales, sin enlaces anidados.
 const featuredBlocks=[...home.matchAll(/<article class="town-province" data-province="([^"]+)"[^>]*>([\s\S]*?)<\/article>/g)];
