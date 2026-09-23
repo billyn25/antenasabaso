@@ -120,14 +120,13 @@ for(const page of manifest){
       serviceContacts++;
     }catch{errors.push(`${page.path}: falta consulta específica de ${service.id}`);}
   }
-  if(!html.includes(`Qué podemos comprobar en ${page.name}`)) errors.push(`${page.path}: falta guía práctica`);
   const intentBlock=html.match(/<section class="local-intents">([\s\S]*?)<\/section>/)?.[1]||'';
   const intentCards=[...intentBlock.matchAll(/<article>/g)].length;
   const faqBlock=html.match(/<section class="local-faq">([\s\S]*?)<\/section>/)?.[1]||'';
   const faqCount=[...faqBlock.matchAll(/<details>/g)].length;
-  if(intentCards!==4) errors.push(`${page.path}: deben existir 4 consultas locales útiles`);
+  if(intentCards!==4) errors.push(`${page.path}: deben existir 4 casos locales útiles`);
   if(faqCount!==3) errors.push(`${page.path}: deben existir 3 preguntas frecuentes locales`);
-  if(!intentBlock.includes(page.name)||!faqBlock.includes(page.name)) errors.push(`${page.path}: consultas/FAQ sin localidad real`);
+  if(!intentBlock.includes(`Qué podemos revisar en ${page.name}`)||!faqBlock.includes(page.name)) errors.push(`${page.path}: bloque práctico/FAQ sin localidad real`);
   if(/<span class="brand-copy">[\s\S]*?<small>Euskadi<\/small>[\s\S]*?<\/span>/i.test(html)) errors.push(`${page.path}: logo con subtítulo retirado`);
   const bar=html.match(/<div class="mobile-bar">([\s\S]*?)<\/div>/)?.[1]||'';
   const barHref=decode(bar.match(/href="(https:\/\/wa\.me[^"]+)"/)?.[1]||'');
