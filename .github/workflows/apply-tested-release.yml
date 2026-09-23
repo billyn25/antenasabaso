@@ -1,5 +1,8 @@
 name: Integrar cierre de publicación comprobado
 on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/apply-tested-release.yml', '.release-transfer/**']
   workflow_dispatch:
 permissions:
   contents: write
