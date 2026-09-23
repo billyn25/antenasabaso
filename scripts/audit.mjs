@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import services from '../content/services.json' with { type: 'json' };
 import { provinces, totalTowns } from '../content/municipios.mjs';
+import { comarcaFor, townsInComarca, comarcaGroups } from '../content/comarcas.mjs';
 
 const ROOT=path.resolve('dist');
 const DOMAIN='https://www.antenasabaso.com';
@@ -21,6 +22,17 @@ if(new Set(manifest.map(p=>p.path)).size!==manifest.length) errors.push('Manifie
 for(const province of provinces){
   if(province.towns.length!==expectedCounts[province.slug]) errors.push(`${province.slug}: ${province.towns.length} municipios`);
   if(!htmlByFile.has(province.slug+'/index.html')) errors.push(`${province.slug}: falta página provincial`);
+}
+const comarcaTownSet=new Set();
+for(const province of provinces){
+  const groups=comarcaGroups[province.slug]||{};
+  for(const towns of Object.values(groups)) for(const town of towns){
+    const key=province.slug+'|'+town;
+    if(comarcaTownSet.has(key)) errors.push(`Comarcas: municipio duplicado ${key}`);
+    comarcaTownSet.add(key);
+  }
+  for(const town of province.towns) if(!comarcaFor(province.slug,town)) errors.push(`Comarcas: falta ${province.name} / ${town}`);
+  if([...comarcaTownSet].filter(x=>x.startsWith(province.slug+'|')).length!==province.towns.length) errors.push(`Comarcas: cobertura incompleta en ${province.name}`);
 }
 
 const titles=new Set(), metas=new Set(), canonicals=new Set();
@@ -122,7 +134,10 @@ for(const page of manifest){
   }
   if(!html.includes(`class="local-trust-strip"`)||!html.includes(`Ámbito</small><strong>${page.name}</strong>`)) errors.push(`${page.path}: falta franja local de confianza`);
   if(!html.includes(`Así planteamos una intervención en ${page.name}`)) errors.push(`${page.path}: falta proceso local`);
-  if(!html.includes(`<h2>${page.name} · ${page.province}</h2>`)||!html.includes(`Territorio Histórico de ${page.province}`)) errors.push(`${page.path}: falta contexto territorial`);
+  const comarca=comarcaFor(page.provinceSlug,page.name);
+  if(!html.includes(`<h2>${page.name} · ${comarca}</h2>`)||!html.includes(`pertenece a la comarca ${comarca}`)||!html.includes(`Territorio Histórico de ${page.province}`)) errors.push(`${page.path}: falta contexto territorial/comarca`);
+  const relatedTitle=`Otros municipios de ${comarca}`;
+  if(!html.includes(relatedTitle)) errors.push(`${page.path}: enlazado relacionado sin comarca`);
   if(!html.includes(`Marcas que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta bloque local de marcas`);
   const intentBlock=html.match(/<section class="local-intents">([\s\S]*?)<\/section>/)?.[1]||'';
   const intentCards=[...intentBlock.matchAll(/<article>/g)].length;
