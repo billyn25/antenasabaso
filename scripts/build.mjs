@@ -48,7 +48,63 @@ const focusVariants = [
   t=>`Reparación de antenas y señal TDT en ${t}`,
   t=>`Porteros automáticos y videoporteros en ${t}`,
   t=>`Antenas para cobertura móvil 4G/5G en ${t}`,
-  t=>`Instalación y mantenimiento técnico en ${t}`
+  t=>`Instalación y mantenimiento técnico en ${t}`,
+  t=>`Averías de antena, portero y señal en ${t}`,
+  t=>`Revisión de TDT, satélite y telecomunicaciones en ${t}`,
+  t=>`Servicio para viviendas y comunidades en ${t}`,
+  t=>`Diagnóstico de antenas y porteros en ${t}`
+];
+
+const serviceTextVariants = {
+  tdt:[
+    t=>`En ${t} revisamos antenas TDT individuales y colectivas, nivel de señal, orientación, cableado, repartidores y tomas cuando faltan canales o la imagen se corta.`,
+    t=>`Si la TDT falla en ${t}, comprobamos primero si el problema está en recepción, amplificación, distribución o una toma concreta antes de sustituir componentes.`,
+    t=>`Para instalaciones TDT de ${t} podemos revisar antena, mástil, conexiones, cableado y reparto de señal tanto en viviendas como en comunidades.`,
+    t=>`Una pérdida de señal TDT en ${t} puede venir de varios puntos. La revisión se plantea desde la recepción hasta las tomas para localizar el origen de la incidencia.`
+  ],
+  parabolicas:[
+    t=>`En ${t} revisamos orientación de parabólicas, LNB, conectores, cableado y recepción por satélite antes de decidir qué elemento necesita ajuste o cambio.`,
+    t=>`Para una parabólica con poca o ninguna señal en ${t}, se comprueban orientación, estado del LNB y continuidad del cableado.`,
+    t=>`Instalamos y ajustamos antenas parabólicas en ${t} para viviendas y comunidades, valorando ubicación, soporte, orientación y recorrido de cable.`,
+    t=>`Si la recepción satélite falla en ${t}, diferenciamos primero entre un problema de antena, LNB, conexión o distribución interior.`
+  ],
+  amplificacion:[
+    t=>`Cuando la señal llega débil a una o varias tomas de ${t}, revisamos amplificadores, fuentes, repartidores y cableado antes de aumentar ganancia sin diagnóstico.`,
+    t=>`En ${t} podemos revisar la distribución de TV cuando unas tomas funcionan y otras no, comprobando derivaciones, conexiones y elementos de amplificación.`,
+    t=>`Para añadir o corregir tomas de televisión en ${t}, comprobamos cómo está repartida la señal y qué recorrido de cableado resulta viable.`,
+    t=>`Una amplificación excesiva también puede dar problemas. En ${t} revisamos niveles y distribución para ajustar la instalación a lo que realmente necesita.`
+  ],
+  porteros:[
+    t=>`En porteros automáticos de ${t} revisamos llamada, audio, alimentación, placa y apertura, distinguiendo si la avería afecta a una vivienda o a toda la comunidad.`,
+    t=>`Si el portero de ${t} no llama, no se oye o no abre, comprobamos la función afectada y el sistema existente antes de plantear una sustitución completa.`,
+    t=>`Reparamos e instalamos porteros automáticos en ${t} para viviendas y comunidades, revisando placa, telefonillos, audio y abrepuertas.`,
+    t=>`En ${t}, una avería de portero puede estar en placa, telefonillo, alimentación, cableado o apertura. La revisión busca acotar el fallo antes de renovar equipos.`
+  ],
+  videoporteros:[
+    t=>`En ${t} revisamos monitores, cámaras, placas, alimentación y cableado de videoportero, teniendo en cuenta la compatibilidad del sistema instalado.`,
+    t=>`Si un videoportero de ${t} ha perdido imagen, llamada o apertura, comprobamos qué funciones siguen operativas y qué equipo está instalado.`,
+    t=>`Para renovar un videoportero en ${t}, revisamos primero el cableado y la tecnología existente para valorar qué parte de la instalación puede aprovecharse.`,
+    t=>`Instalamos y reparamos videoporteros en ${t}, desde placas exteriores y cámaras hasta monitores interiores y sistemas de apertura.`
+  ],
+  'cobertura-movil':[
+    t=>`Para una vivienda de ${t} con poca cobertura móvil, valoramos operador, señal disponible y equipo antes de plantear una antena exterior 4G/5G.`,
+    t=>`Si un router 4G/5G recibe poca señal en ${t}, revisamos modelo, conectores y condiciones de recepción para valorar la solución de antena adecuada.`,
+    t=>`En ${t} podemos estudiar soluciones de antena exterior para mejorar datos móviles en vivienda cuando existe señal aprovechable en el exterior.`,
+    t=>`La mejora de cobertura móvil en ${t} depende de operador, bandas, ubicación y router. Por eso se valora la señal antes de elegir antena y cableado.`
+  ],
+  electricidad:[
+    t=>`En ${t} atendemos pequeñas averías eléctricas en viviendas, comercios y comunidades, revisando el punto o circuito afectado antes de intervenir.`,
+    t=>`Para una reparación eléctrica en ${t}, conviene indicar si falla un enchufe, interruptor, punto de luz o circuito y si la avería es continua o intermitente.`,
+    t=>`Realizamos pequeñas reparaciones eléctricas en ${t} y comprobaciones básicas de la instalación relacionadas con la avería comunicada.`,
+    t=>`Si hay una avería eléctrica localizada en ${t}, revisamos el síntoma y la instalación afectada para concretar la reparación necesaria.`
+  ]
+};
+
+const processLeadVariants = [
+  t=>`Primero identificamos el síntoma en ${t}, después revisamos la instalación existente y solo entonces valoramos reparación, ajuste o sustitución.`,
+  t=>`Cada aviso en ${t} empieza por concretar qué falla y a quién afecta. Esa información permite revisar la instalación con un orden lógico.`,
+  t=>`Antes de cambiar equipos en ${t}, comprobamos señal, alimentación, conexiones y compatibilidades según el tipo de instalación.`,
+  t=>`La intervención en ${t} se decide después del diagnóstico: puede bastar un ajuste, requerir una reparación o hacer recomendable renovar una parte del sistema.`
 ];
 
 const localIntentVariants = [
@@ -117,7 +173,7 @@ function header(){
 }
 
 function localTrustStrip(town){
-  return `<section class="local-trust-strip" aria-label="Datos de servicio en ${esc(town)}"><div class="wrap local-trust-grid"><div><small>Contacto directo</small><strong>${PHONE}</strong></div><div><small>Instalador autorizado</small><strong>nº 11024</strong></div><div><small>Urgencias</small><strong>24h</strong></div><div><small>Ámbito</small><strong>${esc(town)}</strong></div></div></section>`;
+  return `<section class="local-trust-strip" aria-label="Datos de servicio en ${esc(town)}"><div class="wrap local-trust-grid"><div><small>Experiencia</small><strong>20 años</strong></div><div><small>Instalador autorizado</small><strong>nº 11024</strong></div><div><small>Urgencias</small><strong>24h</strong></div><div><small>Ámbito</small><strong>${esc(town)}</strong></div></div></section>`;
 }
 
 function localTerritory(province,town){
@@ -125,8 +181,9 @@ function localTerritory(province,town){
   return `<section class="local-territory"><div class="wrap local-territory-inner"><div><span class="eyebrow">Contexto territorial</span><h2>${esc(town)} · ${esc(comarca)}</h2><p>${esc(town)} pertenece a la comarca ${esc(comarca)}, dentro del Territorio Histórico de ${esc(province.name)}. Desde aquí puedes consultar el servicio de la localidad y acceder al directorio completo de ${province.towns.length} municipios de ${esc(province.name)}.</p></div><a class="province-back" href="/${province.slug}/">Ver municipios de ${esc(province.name)} →</a></div></section>`;
 }
 
-function localProcess(town){
-  return `<section class="local-process"><div class="wrap"><div class="local-process-head"><div><span class="eyebrow">Cómo trabajamos</span><h2>Así planteamos una intervención en ${esc(town)}</h2></div><p>Primero identificamos el síntoma, después revisamos la instalación existente y solo entonces valoramos reparación, ajuste o sustitución.</p></div><div class="local-process-grid"><article><span>01</span><h3>Nos cuentas qué ocurre</h3><p>Indica si es antena, portero, videoportero, cobertura móvil o electricidad y qué parte de la instalación está fallando.</p></article><article><span>02</span><h3>Revisamos antes de sustituir</h3><p>Comprobamos señal, cableado, conexiones, alimentación y compatibilidades según el sistema existente.</p></article><article><span>03</span><h3>Te explicamos la solución</h3><p>La intervención se plantea según lo que encontremos: ajuste, reparación, ampliación o renovación del equipo.</p></article></div></div></section>`;
+function localProcess(town,h){
+  const lead=processLeadVariants[(h>>>11)%processLeadVariants.length](town);
+  return `<section class="local-process"><div class="wrap"><div class="local-process-head"><div><span class="eyebrow">Cómo trabajamos</span><h2>Así planteamos una intervención en ${esc(town)}</h2></div><p>${esc(lead)}</p></div><div class="local-process-grid"><article><span>01</span><h3>Nos cuentas qué ocurre</h3><p>Indica si es antena, portero, videoportero, cobertura móvil o electricidad y qué parte de la instalación está fallando.</p></article><article><span>02</span><h3>Revisamos antes de sustituir</h3><p>Comprobamos señal, cableado, conexiones, alimentación y compatibilidades según el sistema existente.</p></article><article><span>03</span><h3>Te explicamos la solución</h3><p>La intervención se plantea según lo que encontremos: ajuste, reparación, ampliación o renovación del equipo.</p></article></div></div></section>`;
 }
 
 function localBrands(town){
@@ -142,8 +199,12 @@ function footer(location=''){
 function head(title,description,route,structured){
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="robots" content="noindex,nofollow"><link rel="canonical" href="${esc(canonical(route))}"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical(route))}"><meta property="og:type" content="website"><meta property="og:site_name" content="Antenas Abaso"><meta name="theme-color" content="#18324a"><link rel="stylesheet" href="/styles.css"><script type="application/ld+json">${JSON.stringify(structured).replace(/</g,'\\u003c')}</script></head>`;
 }
-function serviceCards(town=''){
-  return services.map((s,i)=>`<article class="service-card${i===0?' featured':''}" id="servicio-${s.id}"><span class="num">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.name)}${town?' en '+esc(town):''}</h3><p>${esc(s.text)}</p>${town?`<a class="province-back" href="${esc(wa(`Hola, necesito ${s.name.toLowerCase()} en ${town}. Quería consultar la revisión y las condiciones.`))}">Consultar este servicio →</a>`:''}</article>`).join('');
+function serviceCards(town='',h=0){
+  return services.map((s,i)=>{
+    const variants=serviceTextVariants[s.id]||[];
+    const text=town&&variants.length?variants[(h+i*3)%variants.length](town):s.text;
+    return `<article class="service-card${i===0?' featured':''}" id="servicio-${s.id}"><span class="num">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.name)}${town?' en '+esc(town):''}</h3><p>${esc(text)}</p>${town?`<a class="province-back" href="${esc(wa(`Hola, necesito ${s.name.toLowerCase()} en ${town}. Quería consultar la revisión y las condiciones.`))}">Consultar este servicio →</a>`:''}</article>`;
+  }).join('');
 }
 
 function breadcrumbData(province,town=''){
@@ -170,7 +231,7 @@ function renderTown(province,town,index){
   const provincePeers=province.towns.filter(x=>x!==town&&!comarcaPeers.includes(x));
   const pool=[...comarcaPeers,...provincePeers];
   const related=Array.from({length:Math.min(6,pool.length)},(_,i)=>pool[(h+i*5)%pool.length]);
-  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>${esc(focusVariants[(h>>>3)%focusVariants.length](town))}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town)}</div></div></section>${localTerritory(province,town)}${localProcess(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town))}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
+  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>${esc(focusVariants[(h>>>3)%focusVariants.length](town))}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town))}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
 }
 function renderProvince(province){
   const route=`/${province.slug}/`;

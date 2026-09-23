@@ -38,6 +38,10 @@ for(const province of provinces){
 const titles=new Set(), metas=new Set(), canonicals=new Set();
 const metadata=[];
 let checkedLinks=0, checkedCrumbs=0, serviceContacts=0;
+const similarityDocs=[];
+const stripText=html=>decode(String(html).replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ')).replace(/\s+/g,' ').trim().toLowerCase();
+const shingles=(text,size=5)=>{const words=text.split(/\s+/).filter(Boolean);const set=new Set();for(let i=0;i<=words.length-size;i++) set.add(words.slice(i,i+size).join(' '));return set;};
+const jaccard=(a,b)=>{let common=0;for(const x of a) if(b.has(x)) common++;const union=a.size+b.size-common;return union?common/union:0;};
 function fileFor(url){
   const pathname=decodeURIComponent(url.pathname);
   return pathname.endsWith('/')?pathname.slice(1)+'index.html':pathname.slice(1);
@@ -132,7 +136,7 @@ for(const page of manifest){
       serviceContacts++;
     }catch{errors.push(`${page.path}: falta consulta específica de ${service.id}`);}
   }
-  if(!html.includes(`class="local-trust-strip"`)||!html.includes(`Ámbito</small><strong>${page.name}</strong>`)) errors.push(`${page.path}: falta franja local de confianza`);
+  if(!html.includes(`class="local-trust-strip"`)||!html.includes(`Experiencia</small><strong>20 años</strong>`)||!html.includes(`Ámbito</small><strong>${page.name}</strong>`)) errors.push(`${page.path}: falta franja local de confianza`);
   if(!html.includes(`Así planteamos una intervención en ${page.name}`)) errors.push(`${page.path}: falta proceso local`);
   const comarca=comarcaFor(page.provinceSlug,page.name);
   if(!html.includes(`<h2>${page.name} · ${comarca}</h2>`)||!html.includes(`pertenece a la comarca ${comarca}`)||!html.includes(`Territorio Histórico de ${page.province}`)) errors.push(`${page.path}: falta contexto territorial/comarca`);
@@ -150,6 +154,17 @@ for(const page of manifest){
   const bar=html.match(/<div class="mobile-bar">([\s\S]*?)<\/div>/)?.[1]||'';
   const barHref=decode(bar.match(/href="(https:\/\/wa\.me[^"]+)"/)?.[1]||'');
   if(!barHref||!new URL(barHref).searchParams.get('text')?.includes(page.name)) errors.push(`${page.path}: WhatsApp móvil pierde localidad`);
+  const mainBlock=html.match(/<main class="local-page">([\s\S]*?)<\/main>/)?.[1]||'';
+  let normalized=stripText(mainBlock);
+  for(const value of [page.name,page.province,comarca,PHONE]) normalized=normalized.replaceAll(String(value).toLowerCase(),'{local}');
+  normalized=normalized.replace(/\b\d+[a-z]?\b/g,'#');
+  similarityDocs.push({path:page.path,set:shingles(normalized)});
+}
+let highestSimilarity={score:0,a:'',b:''};
+for(let i=0;i<similarityDocs.length;i++) for(let j=i+1;j<similarityDocs.length;j++){
+  const score=jaccard(similarityDocs[i].set,similarityDocs[j].set);
+  if(score>highestSimilarity.score) highestSimilarity={score,a:similarityDocs[i].path,b:similarityDocs[j].path};
+  if(score>=0.92) errors.push(`Páginas locales demasiado parecidas (${score.toFixed(3)}): ${similarityDocs[i].path} y ${similarityDocs[j].path}`);
 }
 for(const province of provinces){
   const html=htmlByFile.get(province.slug+'/index.html')||'';
@@ -204,6 +219,13 @@ if(!brandSection.includes('Porteros automáticos y videoporteros')) errors.push(
 if(/<a\b|<button\b|<img\b|servicio (?:t[eé]cnico )?oficial|distribuidor oficial|partner oficial|aggregateRating|reviewCount/i.test(brandSection)) errors.push('Marcas: enlaces o afiliación no autorizada');
 if(home.indexOf('id="marcas"')<home.indexOf('id="servicios"')) errors.push('Marcas antes de servicios');
 for(const title of ['Instalación y reparación de antenas','Porteros automáticos','Reparaciones eléctricas en viviendas','Pide presupuesto sin compromiso']) if(!home.includes(title)) errors.push(`Portada: falta contenido ${title}`);
+if(!home.includes('class="review-stars"')||!home.includes('★★★★★')) errors.push('Portada: se han perdido las estrellas de confianza');
+if(!home.includes('<b>20</b> Años de experiencia')||!home.includes('20 años de experiencia')) errors.push('Portada: falta experiencia acreditada en la web anterior');
+const gallery=home.match(/<section class="service-gallery"[\s\S]*?<\/section>/)?.[0]||'';
+const galleryFigures=[...gallery.matchAll(/<figure class="gallery-item/g)].length;
+const galleryImages=[...gallery.matchAll(/<img\b[^>]*>/g)].map(m=>m[0]);
+if(galleryFigures!==4||galleryImages.length!==4) errors.push('Galería: deben existir 4 imágenes de servicio');
+if(galleryImages.some(img=>! /loading="lazy"/.test(img)||! /alt="[^"]+"/.test(img))) errors.push('Galería: imágenes sin lazy loading o alt descriptivo');
 
 const sourceCss=fs.readFileSync(path.resolve('styles.css'),'utf8');
 for(const stale of ['hero-phone-focus','local-seo-','province-strip','province-grid','brand-roof','brand-antenna','brand-wave','btn-secondary','btn-outline-light']){
@@ -228,4 +250,4 @@ if(errors.length){
   process.exit(1);
 }
 const lengths=metadata.map(m=>m.descriptionLength);
-console.log(`AUDITORÍA ABASO OK: ${manifest.length} páginas locales, ${canonicals.size} canonicals y metas únicos, descripciones de ${Math.min(...lengths)}-${Math.max(...lengths)} caracteres, ${checkedCrumbs} breadcrumbs, ${checkedLinks} enlaces/anclas válidos, ${serviceContacts} consultas por servicio/localidad y ${featuredCount} accesos de portada. Marcas, favicon y noindex comprobados.`);
+console.log(`AUDITORÍA ABASO OK: ${manifest.length} páginas locales, ${canonicals.size} canonicals y metas únicos, descripciones de ${Math.min(...lengths)}-${Math.max(...lengths)} caracteres, ${checkedCrumbs} breadcrumbs, ${checkedLinks} enlaces/anclas válidos, ${serviceContacts} consultas por servicio/localidad y ${featuredCount} accesos de portada. Similitud local máxima ${highestSimilarity.score.toFixed(3)} (${highestSimilarity.a} / ${highestSimilarity.b}). Galería, estrellas, marcas, favicon y noindex comprobados.`);
