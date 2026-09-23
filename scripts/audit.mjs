@@ -161,6 +161,9 @@ for(const province of provinces){
 }
 
 const home=htmlByFile.get('index.html')||'';
+if(/<style\b/i.test(home)) errors.push('Portada: quedan estilos inline; deben vivir en styles.css');
+if(/<script\s+src="\/script\.js"/i.test(home)) errors.push('Portada: queda JS de scroll redundante');
+
 if(/SERVICIO \+ PUEBLO|\+ pueblo|Antenista en pueblos|Busca tu pueblo/i.test(home)) errors.push('Portada: texto SEO artificial');
 for(const province of provinces) if(!home.includes(`href="/${province.slug}/"`)) errors.push(`Portada: falta ${province.slug}`);
 for(const target of ['#servicio-tdt','#servicio-parabolicas','#servicio-porteros','#servicio-cobertura-movil','#servicio-electricidad']){
@@ -199,10 +202,13 @@ for(const [,family,block] of brandFamilies){
 }
 if(!brandSection.includes('Porteros automáticos y videoporteros')) errors.push('Marcas: denominación de porteros incompleta');
 if(/<a\b|<button\b|<img\b|servicio (?:t[eé]cnico )?oficial|distribuidor oficial|partner oficial|aggregateRating|reviewCount/i.test(brandSection)) errors.push('Marcas: enlaces o afiliación no autorizada');
-if(!home.includes('id="abaso-brands-style"')) errors.push('Marcas: faltan estilos propios');
 if(home.indexOf('id="marcas"')<home.indexOf('id="servicios"')) errors.push('Marcas antes de servicios');
 for(const title of ['Instalación y reparación de antenas','Porteros automáticos','Reparaciones eléctricas en viviendas','Pide presupuesto sin compromiso']) if(!home.includes(title)) errors.push(`Portada: falta contenido ${title}`);
 
+const sourceCss=fs.readFileSync(path.resolve('styles.css'),'utf8');
+for(const stale of ['hero-phone-focus','local-seo-','province-strip','province-grid','brand-roof','brand-antenna','brand-wave','btn-secondary','btn-outline-light']){
+  if(sourceCss.includes(stale)) errors.push(`CSS: queda selector huérfano ${stale}`);
+}
 const faviconFile=path.join(ROOT,'favicon.svg');
 if(!fs.existsSync(faviconFile)) errors.push('Falta favicon.svg');
 else{

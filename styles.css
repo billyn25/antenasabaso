@@ -42,7 +42,6 @@ a{color:inherit;text-decoration:none}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 20px;font-weight:850;border:1px solid transparent;transition:.2s ease}
 .btn:hover{transform:translateY(-1px)}
 .btn-primary{background:var(--amber);color:var(--navy-2)}
-.btn-secondary{border-color:rgba(255,255,255,.45);color:#fff;background:transparent}
 .hero-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:44px;padding-top:24px;border-top:1px solid rgba(255,255,255,.18)}
 .hero-meta span{font-size:13px;color:#cbd7e1}.hero-meta b{display:block;color:#fff;font-size:25px;line-height:1;margin-bottom:7px}
 
@@ -53,11 +52,6 @@ a{color:inherit;text-decoration:none}
 .hero-side-list a:hover{background:#e9eef2}
 .hero-side-list span{font-size:11px;color:var(--amber);font-weight:900}.hero-side-list b{font-size:15px;color:var(--ink)}.hero-side-list i{font-style:normal;color:var(--blue)}
 
-.province-strip{background:#fff;border-bottom:1px solid var(--line)}
-.province-grid{display:grid;grid-template-columns:repeat(3,1fr)}
-.province-grid a{padding:24px 26px;border-right:1px solid var(--line)}.province-grid a:first-child{border-left:1px solid var(--line)}
-.province-grid a:hover{background:#f8fafb}
-.province-grid small{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.13em}.province-grid strong{display:block;font-size:24px;color:var(--navy);margin:4px 0}.province-grid span{font-size:13px;font-weight:850;color:var(--blue)}
 
 .section{padding:84px 0}
 .section-head{display:grid;grid-template-columns:1fr minmax(300px,.72fr);gap:50px;align-items:end;margin-bottom:38px}
@@ -82,8 +76,7 @@ a{color:inherit;text-decoration:none}
 .contact-section{padding-top:0;background:var(--paper)}
 .contact-card{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding:44px;background:var(--blue);color:#fff}
 .contact-card h2{color:#fff}.contact-card p{max-width:680px;margin-bottom:0;color:#e3edf5}.light{color:#ffd76e}
-.contact-actions{display:grid;gap:10px;min-width:220px}.btn-light{background:#fff;color:var(--navy)}.btn-outline-light{border-color:rgba(255,255,255,.55);color:#fff}
-
+.contact-actions{display:grid;gap:10px;min-width:220px}.btn-light{background:#fff;color:var(--navy)}
 .footer{background:var(--navy-2);color:#d9e2e9;padding:50px 0 100px}
 .footer-grid{display:grid;grid-template-columns:1.4fr .8fr .8fr;gap:40px}.footer strong{color:#fff}.footer p{color:#9faeba}.footer a{color:#fff}
 .footer-bottom{display:flex;justify-content:space-between;gap:20px;border-top:1px solid rgba(255,255,255,.12);margin-top:30px;padding-top:20px;font-size:12px;color:#80909c}
@@ -111,7 +104,6 @@ a{color:inherit;text-decoration:none}
   .hero-side-title{padding-bottom:22px}
   .hero-side-title strong{font-size:24px;line-height:1.2}
   .hero-side-list a{gap:10px;padding-block:18px}
-  .province-grid{grid-template-columns:1fr}.province-grid a{border-left:1px solid var(--line);border-bottom:1px solid var(--line)}
   .section{padding:56px 0}.service-grid{grid-template-columns:1fr}.service-card{min-height:180px}.service-card h3{margin-top:28px}
   .trust-row{grid-template-columns:1fr}.trust-row div{display:flex;align-items:baseline;justify-content:space-between;gap:20px}
   .contact-card{grid-template-columns:1fr;padding:28px 22px}.contact-actions{min-width:0}
@@ -121,12 +113,9 @@ a{color:inherit;text-decoration:none}
 }
 
 
-/* Identidad Abaso: antena sobre tejado + ondas */
+/* Identidad Abaso: parabólica SVG */
 .brand-mark-abaso{width:58px;height:50px;display:grid;place-items:center}
 .brand-mark-abaso svg{width:58px;height:50px;overflow:visible}
-.brand-roof{stroke:var(--navy);stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
-.brand-antenna{stroke:var(--blue);stroke-width:4;stroke-linecap:round}
-.brand-wave{stroke:var(--amber);stroke-width:4;stroke-linecap:round}
 
 /* Hero con fotografía real de la web actual de Abaso durante la preview */
 .hero{position:relative;background:
@@ -207,23 +196,6 @@ a{color:inherit;text-decoration:none}
   .town-focus{padding:38px 0 42px}
   .town-province{padding:22px 20px}
   .town-total{justify-content:flex-start;flex-wrap:wrap}
-}
-
-.hero-phone-focus{display:flex;align-items:end;gap:16px;margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.16)}
-.hero-phone-focus span{font-size:12px;font-weight:850;letter-spacing:.12em;text-transform:uppercase;color:#c9d6e0}
-.hero-phone-focus a{font-size:34px;line-height:1;font-weight:950;letter-spacing:-.04em;color:#fff}
-@media(max-width:640px){
-  .hero-phone-focus{justify-content:space-between;align-items:center;gap:12px}
-  .hero-phone-focus a{font-size:27px}
-}
-
-@media(max-width:900px){
-  .local-seo-head{grid-template-columns:1fr;gap:12px}.local-seo-head h2,.local-seo-head p{grid-column:1;grid-row:auto}
-  .local-seo-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:640px){
-  .local-seo{padding:38px 0}.local-seo-grid{grid-template-columns:1fr}
-  .local-seo-call{justify-content:flex-start;flex-wrap:wrap}.local-seo-call a{font-size:19px}
 }
 
 
@@ -353,4 +325,37 @@ a{color:inherit;text-decoration:none}
   .local-territory{padding:36px 0}
   .local-territory-inner{grid-template-columns:1fr;gap:18px}
   .local-territory .province-back{white-space:normal}
+}
+
+
+/* Marcas de portada */
+/* Marcas de portada: composición editorial, sin alterar el hero ni el CSS compartido. */
+.abaso-brands{padding:58px 0;background:#f4f6f8;border-block:1px solid var(--line);scroll-margin-top:130px}
+.abaso-brands-layout{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.5fr);gap:48px;align-items:start}
+.abaso-brands-intro{min-width:0;border-top:4px solid var(--amber);padding-top:20px}
+.abaso-brands-kicker{margin:0 0 12px;color:var(--blue);font-size:11px;font-weight:850;letter-spacing:.13em;text-transform:uppercase;line-height:1.65}
+.abaso-brands h2{margin:0;color:var(--navy);font-size:clamp(30px,3.1vw,40px);line-height:1.1;letter-spacing:-.035em}
+.abaso-brands-description{margin:18px 0 0;color:#526575;font-size:15px;line-height:1.7}
+.abaso-brand-families{display:grid;gap:26px;min-width:0}
+.abaso-brand-family{min-width:0}
+.abaso-family-heading{display:flex;align-items:flex-start;gap:13px;margin-bottom:14px}
+.abaso-family-heading>span{flex:none;color:var(--blue);font-size:12px;font-weight:900;line-height:1.6;padding-top:3px}
+.abaso-brands h3{margin:0;color:var(--navy);font-size:19px;line-height:1.4;letter-spacing:-.015em}
+.abaso-brand-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin:0;padding:1px;list-style:none;background:var(--line)}
+.abaso-brand-list li{min-width:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px 9px;min-height:56px;background:#fff;color:var(--navy);font-size:16px;font-weight:750;line-height:1.35;overflow-wrap:anywhere}
+@media(max-width:900px){
+  .abaso-brands-layout{grid-template-columns:1fr;gap:28px}
+  .abaso-brands-intro{max-width:680px}
+  .abaso-brand-families{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+  .abaso-brand-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:640px){
+  .abaso-brands{padding:36px 0}
+  .abaso-brands-layout{gap:26px}
+  .abaso-brands-intro{padding-top:16px}
+  .abaso-brands h2{font-size:31px}
+  .abaso-brands-description{font-size:14px;margin-top:13px}
+  .abaso-brand-families{grid-template-columns:1fr;gap:25px}
+  .abaso-brands h3{font-size:18px}
+  .abaso-brand-list li{min-height:52px;padding:14px 10px;font-size:15px}
 }
