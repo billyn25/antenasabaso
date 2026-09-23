@@ -1,2 +1,3 @@
+# Preview: Google debe poder leer noindex. La producción genera su propio sitemap.
 User-agent: *
-Disallow: /
+Allow: /

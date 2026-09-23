@@ -1,0 +1,26 @@
+[
+  {
+    "legacy": "/img/tdt.jpg",
+    "file": "/assets/gallery/tdt-original.webp",
+    "width": 960,
+    "height": 440,
+    "sourceSha256": "d15dac6c2773c338031fdf517bee60deb397aa919241231a3c2886065c05d8ef",
+    "sha256": "78c5e9923415a748142c5896106e892b45d95778c5d8bc82a6c544d0c8254442"
+  },
+  {
+    "legacy": "/img/videoportero.jpg",
+    "file": "/assets/gallery/videoportero-original.webp",
+    "width": 960,
+    "height": 307,
+    "sourceSha256": "468f73ea4cde1ca5192720bc30cc0eb734bfed9e223791364d49935fa34cbbc6",
+    "sha256": "b1adf63a0716e14183aea50a6f9ef127bf1087447efa66632d18121e435b775d"
+  },
+  {
+    "legacy": "/img/electricidad.jpg",
+    "file": "/assets/gallery/electricidad-original.webp",
+    "width": 960,
+    "height": 641,
+    "sourceSha256": "46f612e245d3b193e9c3b4e8b062fae1999a7b956f8f23f49e3c0b7b26b2a875",
+    "sha256": "e62d9f7fe34f9c51df8c7eb5ae65b5219b19e3c498b0d9c967fd79a74319e4b1"
+  }
+]

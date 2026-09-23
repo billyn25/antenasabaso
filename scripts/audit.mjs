@@ -9,6 +9,11 @@ const DOMAIN='https://www.antenasabaso.com';
 const PHONE='670 042 626';
 const PHRASE='Técnico en instalación, reparación y mantenimiento de antenas, porteros automáticos y videoporteros';
 const errors=[];
+const buildInfo=JSON.parse(fs.readFileSync(path.join(ROOT,'build-manifest.json'),'utf8'));
+const production=buildInfo.mode==='production';
+const requested=process.argv.includes('--production')?'production':(process.env.SITE_MODE||'preview');
+const expectedMode=['deploy-preview','branch-deploy'].includes(process.env.CONTEXT)?'preview':requested;
+if(buildInfo.mode!==expectedMode) errors.push('Modo generado distinto del solicitado');
 const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);
 const decode=s=>String(s).replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
 const htmlFiles=walk(ROOT).filter(f=>f.endsWith('.html'));
@@ -52,7 +57,12 @@ for(const [rel,html] of htmlByFile){
   const current=new URL(route,DOMAIN);
   const h1=[...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
   if(h1.length!==1) errors.push(`${rel}: debe existir exactamente un H1`);
-  if(!/<meta name="robots" content="noindex,nofollow">/.test(html)) errors.push(`${rel}: preview sin noindex`);
+  const expectedRobots=production && rel!=='404.html' ? (legalRoutes.has(route)?'noindex,follow':'index,follow') : 'noindex,nofollow';
+  if(!html.includes(`<meta name="robots" content="${expectedRobots}">`)) errors.push(`${rel}: robots incorrecto para ${buildInfo.mode}`);
+  for(const resource of [...html.matchAll(/(?:src|href)="(\/[^"?#]+\.(?:webp|png|ico|svg|css|js))[^" ]*"/g)]){
+    if(!fs.existsSync(path.join(ROOT,resource[1].slice(1)))) errors.push(`${rel}: recurso ausente ${resource[1]}`);
+  }
+  if(/(?:src|url)=["']https?:|<iframe|googletagmanager|google-analytics|fbq\(/i.test(html)) errors.push(`${rel}: recurso o rastreo externo inesperado`);
   if(!html.includes('href="/favicon.svg"')) errors.push(`${rel}: falta favicon`);
   const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
   if(new Set(ids).size!==ids.length) errors.push(`${rel}: identificadores duplicados`);
@@ -147,6 +157,13 @@ for(const page of manifest){
   if(!html.includes(`<h2>${page.name} · ${comarca}</h2>`)||!html.includes(`pertenece a la comarca ${comarca}`)||!html.includes(`Territorio Histórico de ${page.province}`)) errors.push(`${page.path}: falta contexto territorial/comarca`);
   const relatedTitle=`Otros municipios de ${comarca}`;
   if(!html.includes(relatedTitle)) errors.push(`${page.path}: enlazado relacionado sin comarca`);
+  const relatedBlock=html.match(/<div class="related-grid">([\s\S]*?)<\/div>/)?.[1]||'';
+  const relatedLinks=[...relatedBlock.matchAll(/href="([^"]+)"/g)].map(m=>m[1]);
+  if(new Set(relatedLinks).size!==relatedLinks.length) errors.push(`${page.path}: enlaces de comarca repetidos`);
+  for(const link of relatedLinks){
+    const peer=manifest.find(x=>x.path===link);
+    if(!peer||peer.path===page.path||peer.provinceSlug!==page.provinceSlug||comarcaFor(peer.provinceSlug,peer.name)!==comarca) errors.push(`${page.path}: enlace fuera de su comarca: ${link}`);
+  }
   if(!html.includes(`Marcas que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta bloque local de marcas`);
   const intentBlock=html.match(/<section class="local-intents">([\s\S]*?)<\/section>/)?.[1]||'';
   const intentCards=[...intentBlock.matchAll(/<article>/g)].length;
@@ -159,12 +176,13 @@ for(const page of manifest){
   const bar=html.match(/<div class="mobile-bar">([\s\S]*?)<\/div>/)?.[1]||'';
   const barHref=decode(bar.match(/href="(https:\/\/wa\.me[^"]+)"/)?.[1]||'');
   if(!barHref||!new URL(barHref).searchParams.get('text')?.includes(page.name)) errors.push(`${page.path}: WhatsApp móvil pierde localidad`);
-  const mainBlock=html.match(/<main class="local-page">([\s\S]*?)<\/main>/)?.[1]||'';
+  const mainBlock=html.match(/<main class="local-page"[^>]*>([\s\S]*?)<\/main>/)?.[1]||'';
   let normalized=stripText(mainBlock);
   for(const value of [page.name,page.province,comarca,PHONE]) normalized=normalized.replaceAll(String(value).toLowerCase(),'{local}');
   normalized=normalized.replace(/\b\d+[a-z]?\b/g,'#');
   similarityDocs.push({path:page.path,set:shingles(normalized)});
 }
+// Indicador interno de coincidencia textual. No certifica originalidad ni evita penalizaciones de Google.
 let highestSimilarity={score:0,a:'',b:''};
 for(let i=0;i<similarityDocs.length;i++) for(let j=i+1;j<similarityDocs.length;j++){
   const score=jaccard(similarityDocs[i].set,similarityDocs[j].set);
@@ -262,7 +280,28 @@ else{
 }
 const robots=fs.readFileSync(path.join(ROOT,'robots.txt'),'utf8');
 const headers=fs.readFileSync(path.join(ROOT,'_headers'),'utf8');
-if(!/^Disallow:\s*\/$/mi.test(robots)||!/X-Robots-Tag:\s*noindex, nofollow/i.test(headers)) errors.push('Preview no protegida');
+if(!/^Allow:\s*\/$/mi.test(robots)||/^Disallow:\s*\/$/mi.test(robots)) errors.push('robots.txt impide rastrear las instrucciones');
+if(production){
+  if(/X-Robots-Tag:\s*noindex/i.test(headers)) errors.push('Producción conserva noindex global');
+  if(fs.existsSync(path.join(ROOT,'preview-manifest.json'))) errors.push('Manifiesto preview en producción');
+  const xml=fs.readFileSync(path.join(ROOT,'sitemap.xml'),'utf8');
+  const urls=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
+  const expected=metadata.filter(m=>!legalRoutes.has(m.path)).map(m=>m.canonical);
+  if(urls.length!==256||new Set(urls).size!==urls.length||urls.some(u=>!expected.includes(u))||expected.some(u=>!urls.includes(u))) errors.push('Sitemap no coincide con las 256 URLs indexables');
+  if(!robots.includes(`Sitemap: ${DOMAIN}/sitemap.xml`)) errors.push('robots.txt no declara sitemap');
+  const redirects=fs.readFileSync(path.join(ROOT,'_redirects'),'utf8');
+  if(!redirects.includes('/index.html / 301!')||/\/\*\s+\/index\.html\s+200/.test(redirects)) errors.push('Redirecciones incorrectas');
+}else{
+  if(!/X-Robots-Tag:\s*noindex, nofollow/i.test(headers)) errors.push('Preview sin noindex HTTP');
+  if(fs.existsSync(path.join(ROOT,'sitemap.xml'))||fs.existsSync(path.join(ROOT,'_redirects'))) errors.push('Preview con configuración de producción');
+}
+const assetSources=JSON.parse(fs.readFileSync('assets/gallery/sources.json','utf8'));
+for(const item of assetSources){
+  if(!fs.existsSync(path.join(ROOT,item.file.slice(1)))) errors.push(`Falta imagen original local: ${item.file}`);
+  if(!home.includes(item.file)) errors.push(`La portada no utiliza la imagen local: ${item.file}`);
+}
+if(/https?:\/\/www\.antenasabaso\.com\/img\//.test(home+sourceCss)) errors.push('Quedan imágenes dependientes de la web antigua');
+for(const alias of ['Home','Antenas','videoportero','electricidad','formulario']) if(!home.includes(`id="${alias}"`)) errors.push(`Falta ancla histórica ${alias}`);
 if(htmlFiles.length!==260) errors.push(`HTML=${htmlFiles.length}; esperados 260`);
 const siteJsFile=path.join(ROOT,'site.js');
 if(!fs.existsSync(siteJsFile)) errors.push('Falta site.js');
@@ -277,4 +316,4 @@ if(errors.length){
   process.exit(1);
 }
 const lengths=metadata.map(m=>m.descriptionLength);
-console.log(`AUDITORÍA ABASO OK: ${manifest.length} páginas locales + 3 páginas legales, ${canonicals.size} canonicals y metas únicos, descripciones de ${Math.min(...lengths)}-${Math.max(...lengths)} caracteres, ${checkedCrumbs} breadcrumbs, ${checkedLinks} enlaces/anclas válidos, ${serviceContacts} consultas por servicio/localidad y ${featuredCount} accesos de portada. Similitud local máxima ${highestSimilarity.score.toFixed(3)} (${highestSimilarity.a} / ${highestSimilarity.b}). Cookies informativas, privacidad, aviso legal, galería, estrellas, marcas, favicon y noindex comprobados.`);
+console.log(`AUDITORÍA ABASO OK: ${manifest.length} páginas locales + 3 páginas legales, ${canonicals.size} canonicals y metas únicos, descripciones de ${Math.min(...lengths)}-${Math.max(...lengths)} caracteres, ${checkedCrumbs} breadcrumbs, ${checkedLinks} enlaces/anclas válidos, ${serviceContacts} consultas por servicio/localidad y ${featuredCount} accesos de portada. Similitud local máxima ${highestSimilarity.score.toFixed(3)} (${highestSimilarity.a} / ${highestSimilarity.b}). Modo ${buildInfo.mode}; recursos locales, comarca, robots, sitemap según modo, cookies informativas, galería y favicon comprobados. Datos fiscales del titular incompletos; revisión editorial SEO pendiente.`);
