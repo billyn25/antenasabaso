@@ -28,7 +28,7 @@ jobs:
       - name: Conservar preview comprobada
         run: cp -a dist .preview-check
       - name: Generar y auditar producción con el dominio real
-        run: npm run build
+        run: npm run build:production
         env:
           NETLIFY: 'true'
           CONTEXT: production
