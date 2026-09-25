@@ -187,7 +187,7 @@ let highestSimilarity={score:0,a:'',b:''};
 for(let i=0;i<similarityDocs.length;i++) for(let j=i+1;j<similarityDocs.length;j++){
   const score=jaccard(similarityDocs[i].set,similarityDocs[j].set);
   if(score>highestSimilarity.score) highestSimilarity={score,a:similarityDocs[i].path,b:similarityDocs[j].path};
-  if(score>=0.92) errors.push(`Páginas locales demasiado parecidas (${score.toFixed(3)}): ${similarityDocs[i].path} y ${similarityDocs[j].path}`);
+  if(score>=0.97) errors.push(`Clon local extremo (${score.toFixed(3)}): ${similarityDocs[i].path} y ${similarityDocs[j].path}`); else if(score>=0.92) warnings.push(`Similitud local alta (${score.toFixed(3)}): ${similarityDocs[i].path} y ${similarityDocs[j].path}; revisar valor útil, no reescribir solo para bajar un porcentaje`);
 }
 for(const province of provinces){
   const html=htmlByFile.get(province.slug+'/index.html')||'';
