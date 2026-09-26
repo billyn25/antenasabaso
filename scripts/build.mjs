@@ -404,8 +404,6 @@ if(production){
   fs.writeFileSync(path.join(ROOT,'robots.txt'),`User-agent: *\nAllow: /\n\nSitemap: ${DOMAIN}/sitemap.xml\n`);
   // Exact rules: no SPA fallback and no broad redirect of missing towns to the home.
   const redirects=[
-    `http://antenasabaso.com/* ${DOMAIN}/:splat 301!`,
-    `http://www.antenasabaso.com/* ${DOMAIN}/:splat 301!`,
     ...[...routes].map(route=>`${route}index.html ${route} 301!`),
     '/img/favicon.ico /favicon.ico 301!',
     ...JSON.parse(fs.readFileSync('assets/gallery/sources.json','utf8')).map(x=>`${x.legacy} ${x.file} 301!`)
