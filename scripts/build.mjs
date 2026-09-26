@@ -5,7 +5,7 @@ import { provinces, totalTowns } from '../content/municipios.mjs';
 import { comarcaFor, townsInComarca } from '../content/comarcas.mjs';
 
 const ROOT = path.resolve('dist');
-const DOMAIN = 'https://www.antenasabaso.com';
+const DOMAIN = 'https://antenasabaso.com';
 const PHONE = '670 042 626';
 const TEL = '+34670042626';
 const WA = '34670042626';
@@ -406,7 +406,6 @@ if(production){
   const redirects=[
     `http://antenasabaso.com/* ${DOMAIN}/:splat 301!`,
     `http://www.antenasabaso.com/* ${DOMAIN}/:splat 301!`,
-    `https://antenasabaso.com/* ${DOMAIN}/:splat 301!`,
     ...[...routes].map(route=>`${route}index.html ${route} 301!`),
     '/img/favicon.ico /favicon.ico 301!',
     ...JSON.parse(fs.readFileSync('assets/gallery/sources.json','utf8')).map(x=>`${x.legacy} ${x.file} 301!`)
