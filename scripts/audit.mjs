@@ -5,7 +5,7 @@ import { provinces, totalTowns } from '../content/municipios.mjs';
 import { comarcaFor, townsInComarca, comarcaGroups } from '../content/comarcas.mjs';
 
 const ROOT=path.resolve('dist');
-const DOMAIN='https://www.antenasabaso.com';
+const DOMAIN='https://antenasabaso.com';
 const PHONE='670 042 626';
 const PHRASE='Técnico en instalación, reparación y mantenimiento de antenas, porteros automáticos y videoporteros';
 const errors=[];
