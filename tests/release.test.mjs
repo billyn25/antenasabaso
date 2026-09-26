@@ -25,9 +25,9 @@ function checkOutput(result,dir,env,mode){
   assert.equal(audited.status,0,audited.stdout+audited.stderr);
 }
 test('preview por defecto: 252 localidades, noindex rastreable, sin sitemap ni redirecciones',()=>fixture({},(r,d,e)=>checkOutput(r,d,e,'preview')));
-test('producción con URL real de Netlify: sitemap exacto de 256 URLs y legales fuera del índice',()=>fixture({NETLIFY:'true',CONTEXT:'production',SITE_MODE:'production',URL:'https://www.antenasabaso.com',DEPLOY_PRIME_URL:'https://www.antenasabaso.com'},(r,d,e)=>checkOutput(r,d,e,'production')));
-for(const context of ['deploy-preview','branch-deploy']) test(`${context}: nunca hereda indexación aunque SITE_MODE sea production`,()=>fixture({CONTEXT:context,SITE_MODE:'production',URL:'https://www.antenasabaso.com',DEPLOY_PRIME_URL:'https://branch.example.netlify.app'},(r,d,e)=>checkOutput(r,d,e,'preview')));
-test('bloquea una preview conectada al dominio real en producción',()=>fixture({CONTEXT:'production',URL:'https://www.antenasabaso.com'},r=>{assert.notEqual(r.status,0);assert.match(r.stderr,/activa SITE_MODE=production/);}));
+test('producción con URL real de Netlify: sitemap exacto de 256 URLs y legales fuera del índice',()=>fixture({NETLIFY:'true',CONTEXT:'production',SITE_MODE:'production',URL:'https://antenasabaso.com',DEPLOY_PRIME_URL:'https://antenasabaso.com'},(r,d,e)=>checkOutput(r,d,e,'production')));
+for(const context of ['deploy-preview','branch-deploy']) test(`${context}: nunca hereda indexación aunque SITE_MODE sea production`,()=>fixture({CONTEXT:context,SITE_MODE:'production',URL:'https://antenasabaso.com',DEPLOY_PRIME_URL:'https://branch.example.netlify.app'},(r,d,e)=>checkOutput(r,d,e,'preview')));
+test('bloquea una preview conectada al dominio real en producción',()=>fixture({CONTEXT:'production',URL:'https://antenasabaso.com'},r=>{assert.notEqual(r.status,0);assert.match(r.stderr,/activa SITE_MODE=production/);}));
 test('rechaza un modo desconocido antes de generar archivos',()=>fixture({SITE_MODE:'prodution'},r=>{assert.notEqual(r.status,0);assert.match(r.stderr,/debe ser preview o production/);}));
 test('fotografías originales locales verificadas y favicon raster válido',()=>{
   const sources=JSON.parse(fs.readFileSync('assets/gallery/sources.json'));
