@@ -31,7 +31,7 @@ test('bloquea una preview conectada al dominio real en producción',()=>fixture(
 test('rechaza un modo desconocido antes de generar archivos',()=>fixture({SITE_MODE:'prodution'},r=>{assert.notEqual(r.status,0);assert.match(r.stderr,/debe ser preview o production/);}));
 test('fotografías originales locales verificadas y favicon raster válido',()=>{
   const sources=JSON.parse(fs.readFileSync('assets/gallery/sources.json'));
-  assert.equal(sources.length,3);
+  assert.equal(sources.length,6);
   for(const item of sources){const data=fs.readFileSync('.'+item.file);assert.equal(createHash('sha256').update(data).digest('hex'),item.sha256);assert.equal(data.toString('ascii',0,4),'RIFF');assert.equal(data.toString('ascii',8,12),'WEBP');}
   const png=fs.readFileSync('assets/icons/favicon.png');assert.equal(png.readUInt32BE(16),192);assert.equal(png.readUInt32BE(20),192);
 });
