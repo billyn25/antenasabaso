@@ -33,8 +33,8 @@ jobs:
           NETLIFY: 'true'
           CONTEXT: production
           SITE_MODE: production
-          URL: https://www.antenasabaso.com
-          DEPLOY_PRIME_URL: https://www.antenasabaso.com
+          URL: https://antenasabaso.com
+          DEPLOY_PRIME_URL: https://antenasabaso.com
       - name: Comprobar conteos finales
         run: |
           test "$(find dist/bizkaia -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 113
