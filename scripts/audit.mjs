@@ -224,7 +224,7 @@ for(const [,slug,block] of featuredBlocks){
   featuredProvinces.add(slug);
   const list=block.match(/<ul class="town-quick-links"[^>]*>([\s\S]*?)<\/ul>/)?.[1]||'';
   const links=[...list.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m=>m[1]);
-  if(links.length!==10||new Set(links).size!==10) errors.push(`Portada ${slug}: deben existir diez localidades distintas`);
+  if(links.length<20||new Set(links).size!==links.length) errors.push(`Portada ${slug}: deben existir al menos veinte localidades distintas`);
   for(const href of links) if(!manifest.some(p=>p.path===href&&p.provinceSlug===slug)) errors.push(`Portada ${slug}: destino inválido ${href}`);
   if(!block.includes(`class="town-all" href="/${slug}/"`)||!block.includes(`Ver los ${province.towns.length} municipios`)) errors.push(`Portada ${slug}: listado completo incoherente`);
   if(/<a\b[^>]*>(?:(?!<\/a>)[\s\S])*?<a\b/i.test(block)) errors.push(`Portada ${slug}: enlaces anidados`);
