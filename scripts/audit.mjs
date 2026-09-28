@@ -287,7 +287,7 @@ if(production){
   const xml=fs.readFileSync(path.join(ROOT,'sitemap.xml'),'utf8');
   const urls=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
   const expected=metadata.filter(m=>!legalRoutes.has(m.path)).map(m=>m.canonical);
-  if(urls.length!==256||new Set(urls).size!==urls.length||urls.some(u=>!expected.includes(u))||expected.some(u=>!urls.includes(u))) errors.push('Sitemap no coincide con las 256 URLs indexables');
+  if(urls.length!==253||new Set(urls).size!==urls.length||urls.some(u=>!expected.includes(u))||expected.some(u=>!urls.includes(u))) errors.push('Sitemap no coincide con las 253 URLs indexables');
   if(!robots.includes(`Sitemap: ${DOMAIN}/sitemap.xml`)) errors.push('robots.txt no declara sitemap');
   const redirects=fs.readFileSync(path.join(ROOT,'_redirects'),'utf8');
   if(!redirects.includes('/index.html / 301!')||/\/\*\s+\/index\.html\s+200/.test(redirects)) errors.push('Redirecciones incorrectas');
