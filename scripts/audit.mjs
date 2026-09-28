@@ -23,7 +23,6 @@ if(!fs.existsSync(manifestFile)) errors.push('Falta local-pages-manifest.json');
 const manifest=fs.existsSync(manifestFile)?JSON.parse(fs.readFileSync(manifestFile,'utf8')):[];
 const expectedCounts={bizkaia:113,gipuzkoa:88,alava:51};
 const legalRoutes=new Set(['/aviso-legal/','/privacidad/','/cookies/']);
-const hubRoutes=new Set(['/bizkaia/','/gipuzkoa/','/alava/']);
 if(totalTowns!==252||manifest.length!==252) errors.push(`Inventario alterado: dataset=${totalTowns}, manifiesto=${manifest.length}`);
 if(new Set(manifest.map(p=>p.path)).size!==manifest.length) errors.push('Manifiesto: rutas duplicadas');
 for(const province of provinces){
@@ -58,7 +57,7 @@ for(const [rel,html] of htmlByFile){
   const current=new URL(route,DOMAIN);
   const h1=[...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)];
   if(h1.length!==1) errors.push(`${rel}: debe existir exactamente un H1`);
-  const expectedRobots=production && rel!=='404.html' ? ((legalRoutes.has(route)||hubRoutes.has(route))?'noindex,follow':'index,follow') : 'noindex,nofollow';
+  const expectedRobots=production && rel!=='404.html' ? (legalRoutes.has(route)?'noindex,follow':'index,follow') : 'noindex,nofollow';
   if(!html.includes(`<meta name="robots" content="${expectedRobots}">`)) errors.push(`${rel}: robots incorrecto para ${buildInfo.mode}`);
   for(const resource of [...html.matchAll(/(?:src|href)="(\/[^"?#]+\.(?:webp|png|ico|svg|css|js))[^" ]*"/g)]){
     if(!fs.existsSync(path.join(ROOT,resource[1].slice(1)))) errors.push(`${rel}: recurso ausente ${resource[1]}`);
@@ -287,8 +286,8 @@ if(production){
   if(fs.existsSync(path.join(ROOT,'preview-manifest.json'))) errors.push('Manifiesto preview en producción');
   const xml=fs.readFileSync(path.join(ROOT,'sitemap.xml'),'utf8');
   const urls=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
-  const expected=metadata.filter(m=>!legalRoutes.has(m.path)&&!hubRoutes.has(m.path)).map(m=>m.canonical);
-  if(urls.length!==253||new Set(urls).size!==urls.length||urls.some(u=>!expected.includes(u))||expected.some(u=>!urls.includes(u))) errors.push('Sitemap no coincide con las 253 URLs indexables');
+  const expected=metadata.filter(m=>!legalRoutes.has(m.path)).map(m=>m.canonical);
+  if(urls.length!==256||new Set(urls).size!==urls.length||urls.some(u=>!expected.includes(u))||expected.some(u=>!urls.includes(u))) errors.push('Sitemap no coincide con las 256 URLs indexables');
   if(!robots.includes(`Sitemap: ${DOMAIN}/sitemap.xml`)) errors.push('robots.txt no declara sitemap');
   const redirects=fs.readFileSync(path.join(ROOT,'_redirects'),'utf8');
   if(!redirects.includes('/index.html / 301!')||/\/\*\s+\/index\.html\s+200/.test(redirects)) errors.push('Redirecciones incorrectas');
