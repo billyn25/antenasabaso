@@ -47,3 +47,4 @@ test('aviso informativo: primera visita, cierre persistente y posteriores visita
  const x=cookieFixture();assert.equal(x.notice.hidden,false);x.callbacks.click();assert.equal(x.notice.hidden,true);assert.equal(x.store.get(x.key),'hidden');assert.equal(cookieFixture({dismissed:true}).notice.hidden,true);
 });
 test('el aviso se puede cerrar aunque el navegador bloquee almacenamiento',()=>{const x=cookieFixture({blocked:true});assert.equal(x.notice.hidden,false);assert.doesNotThrow(()=>x.callbacks.click());assert.equal(x.notice.hidden,true);});
+
