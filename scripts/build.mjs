@@ -240,7 +240,7 @@ function footer(location=''){
 }
 function head(title,description,route,structured){
   const socialImage=DOMAIN+'/assets/gallery/parabolica-realista.webp';
-  const robots=production && ['/aviso-legal/','/privacidad/','/cookies/','/bizkaia/','/gipuzkoa/','/alava/'].includes(route) ? 'noindex,follow' : ROBOTS;
+  const robots=production && ['/aviso-legal/','/privacidad/','/cookies/'].includes(route) ? 'noindex,follow' : ROBOTS;
   return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="robots" content="${robots}"><link rel="canonical" href="${esc(canonical(route))}"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical(route))}"><meta property="og:type" content="website"><meta property="og:site_name" content="Antenas Abaso"><meta property="og:image" content="${socialImage}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${socialImage}"><meta name="theme-color" content="#18324a"><link rel="stylesheet" href="/styles.css"><script src="/site.js" defer></script><script type="application/ld+json">${JSON.stringify(structured).replace(/</g,'\\u003c')}</script></head>`;
 }
 function serviceCards(town='',h=0){
@@ -391,7 +391,7 @@ for(const page of legalPages){
 }
 fs.writeFileSync(path.join(ROOT,'local-pages-manifest.json'),JSON.stringify(manifest,null,2));
 // Publishing output is explicitly mode-dependent, never a manual search/replace.
-const indexableRoutes=[...routes].filter(route=>!legalPages.some(page=>page.route===route)&&!['/bizkaia/','/gipuzkoa/','/alava/'].includes(route));
+const indexableRoutes=[...routes].filter(route=>!legalPages.some(page=>page.route===route));
 const buildInfo={mode:MODE,towns:totalTowns,htmlCount:260,indexable:production?indexableRoutes.length:0};
 fs.writeFileSync(path.join(ROOT,'build-manifest.json'),JSON.stringify(buildInfo,null,2));
 const headerLines=['/*', ...(!production?['  X-Robots-Tag: noindex, nofollow']:[]),
