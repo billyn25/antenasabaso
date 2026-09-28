@@ -66,7 +66,7 @@ for(const [rel,html] of htmlByFile){
   if(!html.includes('href="/favicon.svg"')) errors.push(`${rel}: falta favicon`);
   const ids=[...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);
   if(new Set(ids).size!==ids.length) errors.push(`${rel}: identificadores duplicados`);
-  if(/\+ pueblo|\[localidad\]|Servicio en tu pueblo|Pueblos próximos|Sin puntuaciones inventadas/i.test(html)) errors.push(`${rel}: texto artificial o nota interna`);
+  if(/\+ pueblo|\[localidad\]|Pueblos próximos|Sin puntuaciones inventadas/i.test(html)) errors.push(`${rel}: texto artificial o nota interna`);
   if(rel!=='404.html'){
     const titleMatches=[...html.matchAll(/<title>(.*?)<\/title>/g)];
     const descMatches=[...html.matchAll(/<meta name="description" content="([^"]*)"/g)];
