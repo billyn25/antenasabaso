@@ -172,7 +172,7 @@ for(const page of manifest){
   if(intentCards!==4) errors.push(`${page.path}: deben existir 4 casos locales útiles`);
   if(faqCount!==3) errors.push(`${page.path}: deben existir 3 preguntas frecuentes locales`);
   if(!intentBlock.includes(`Qué podemos revisar en ${page.name}`)||!faqBlock.includes(page.name)) errors.push(`${page.path}: bloque práctico/FAQ sin localidad real`);
-  if(/<span class=\"brand-copy\">[\\s\\S]*?<small>Bizkaia, Gipuzkoa y Álava<\\/small>[\\s\\S]*?<\\/span>/i.test(html)) errors.push(`${page.path}: logo con subtítulo retirado`);
+  if(html.includes('<small>Bizkaia, Gipuzkoa y Álava</small>')) errors.push(`${page.path}: logo con subtítulo retirado`);
   const bar=html.match(/<div class="mobile-bar">([\s\S]*?)<\/div>/)?.[1]||'';
   const barHref=decode(bar.match(/href="(https:\/\/wa\.me[^"]+)"/)?.[1]||'');
   if(!barHref||!new URL(barHref).searchParams.get('text')?.includes(page.name)) errors.push(`${page.path}: WhatsApp móvil pierde localidad`);
