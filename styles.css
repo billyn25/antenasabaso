@@ -485,3 +485,6 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
   .btn,.gallery-item img,.service-card{transition:none}
   .btn:hover,.gallery-item:hover img{transform:none}
 }
+
+.hero h1 .hero-area{display:inline-block;font-size:.76em;line-height:1.08;letter-spacing:-.035em;margin-top:.08em}
+@media(max-width:640px){.hero h1 .hero-area{font-size:.72em;line-height:1.12}}
