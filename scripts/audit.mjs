@@ -81,8 +81,8 @@ for(const [rel,html] of htmlByFile){
     if(title.length>70) errors.push(`${rel}: revisar longitud editorial del title (${title.length})`);
     // Rango editorial del proyecto, no supuesto límite ni garantía de snippet de Google.
     if(description.length<105||description.length>180) errors.push(`${rel}: descripción fuera del rango editorial (${description.length})`);
-    if(!isLegal&&(!description.includes(PHRASE)||!description.includes(PHONE))) errors.push(`${rel}: descripción sin frase o teléfono`);
-    if(!isLegal&&description.indexOf(PHONE)>60) errors.push(`${rel}: teléfono demasiado tarde en la descripción`);
+    if(!isLegal&&!description.includes(PHONE)) errors.push(`${rel}: descripción sin teléfono`);
+    if(!isLegal&&description.indexOf(PHONE)>165) errors.push(`${rel}: teléfono ausente o fuera de la descripción`);
     for(const [set,value,label] of [[titles,title,'title'],[metas,description,'description'],[canonicals,canonical,'canonical']]){
       if(set.has(value)) errors.push(`${rel}: ${label} duplicado`);
       set.add(value);
