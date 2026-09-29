@@ -193,16 +193,20 @@ function localIntentSections(town,h){
 
 function fitTitle(town, province){
   const candidates = [
-    `Antenista en ${town}, ${province} | ${PHONE}`,
-    `Antenas en ${town}, ${province} | ${PHONE}`,
-    `Antenista ${town} | ${PHONE}`
+    `Antenas y porteros en ${town} | Reparación · ${PHONE}`,
+    `Antenas en ${town} | Reparación · ${PHONE}`,
+    `Antenas en ${town} | ${PHONE}`
   ];
-  // 70 es un criterio editorial, no un límite de Google. Nunca cortar el nombre ni el teléfono.
+  // El title complementa al H1 "Antenista en {pueblo}, {provincia}" y amplía intención local.
   return candidates.find(x=>x.length<=70) || candidates[2];
 }
 function metaDescription(town, province){
-  // La localidad y el contacto van al principio; la definición del servicio se mantiene íntegra.
-  return `${town}, ${province} · ${PHONE}. ${PHRASE}.`;
+  const candidates = [
+    `Antenista en ${town}, ${province}. Instalación y reparación de antenas TDT y parabólicas, amplificadores, porteros y videoporteros. ${PHONE}.`,
+    `Antenista en ${town}, ${province}. Reparación e instalación de antenas TDT, parabólicas, porteros y videoporteros. ${PHONE}.`,
+    `Antenista en ${town}, ${province}. Reparación e instalación de antenas. ${PHONE}.`
+  ];
+  return candidates.find(x=>x.length<=165) || candidates.at(-1);
 }
 function brand(){
   return `<a class="brand" href="/" aria-label="Antenas Abaso, inicio"><span class="brand-mark brand-mark-abaso" aria-hidden="true">${brandSvg}</span><span class="brand-copy"><b>ANTENAS</b><strong>ABASO</strong></span></a>`;
