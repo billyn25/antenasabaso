@@ -135,7 +135,7 @@ for(const page of manifest){
   const html=htmlByFile.get(page.provinceSlug+'/'+page.slug+'/index.html');
   if(!html){errors.push(`Falta ${page.path}`);continue;}
   const meta=metadata.find(m=>m.path===page.path);
-  if(!meta?.title.includes(page.name)||!meta.description.startsWith(`${page.name}, ${page.province} · ${PHONE}.`)) errors.push(`${page.path}: metadatos sin localidad real`);
+  if(!meta?.title.includes(page.name)||!meta.description.startsWith(`Antenista en ${page.name}, ${page.province}.`)) errors.push(`${page.path}: metadatos sin localidad real`);
   if(!html.includes(`<h1>Antenista en ${page.name}, ${page.province}</h1>`)) errors.push(`${page.path}: H1 local incorrecto`);
   for(const service of services){
     if(!html.includes(`<h3>${service.name} en ${page.name}</h3>`)) errors.push(`${page.path}: falta servicio local ${service.name}`);
