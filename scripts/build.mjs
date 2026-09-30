@@ -353,6 +353,29 @@ function renderProvince(province){
   return `${head(title,description,route,structured)}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><span aria-current="page">${esc(province.name)}</span></nav><section class="province-hero"><div class="wrap"><span class="eyebrow">Servicio por municipios</span><h1>Antenistas en ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p>Selecciona tu municipio para consultar antenas TDT, parabólicas, amplificación, porteros automáticos, videoporteros, cobertura móvil 4G/5G y reparaciones eléctricas.</p><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a></div></section><section class="town-directory"><div class="wrap"><div class="directory-head"><div><span class="eyebrow">Todos los municipios</span><h2>${province.towns.length} municipios de ${esc(province.name)}</h2></div><p>Selecciona una letra para encontrar tu localidad y consultar el servicio.</p></div>${alphabet}${grouped}</div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Consulta tu localidad</h2><p>Llámanos e indica tu localidad de ${esc(province.name)}.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${province.name}.`)}">WhatsApp</a></div></div></section></main>${footer(province.name)}</body></html>`;
 }
 
+
+function spreadTowns(province,count=20){
+  const towns=[...province.towns].sort((a,b)=>a.localeCompare(b,'es'));
+  if(towns.length<=count) return towns;
+  const picked=[];
+  for(let i=0;i<count;i++) picked.push(towns[Math.round(i*(towns.length-1)/(count-1))]);
+  return [...new Set(picked)];
+}
+function homeTownFocus(){
+  const cards=provinces.map(p=>{
+    const links=spreadTowns(p,20).map(t=>`<li><a href="/${p.slug}/${slugify(t)}/">Antenista en ${esc(t)} <span aria-hidden="true">→</span></a></li>`).join('');
+    return `<article class="town-province" data-province="${p.slug}" aria-labelledby="home-${p.slug}-title"><span class="town-count">${p.towns.length} municipios</span><h3 id="home-${p.slug}-title"><a href="/${p.slug}/">${esc(p.name)}</a></h3><ul class="town-quick-links" aria-label="Accesos directos a municipios de ${esc(p.name)}">${links}</ul><a class="town-all" href="/${p.slug}/">Ver los ${p.towns.length} municipios <span aria-hidden="true">→</span></a></article>`;
+  }).join('');
+  return `<section class="town-focus" id="municipios"><div class="wrap"><div class="town-focus-head"><div><span class="eyebrow">Cobertura local</span><h2>Encuentra servicio en tu pueblo</h2></div><p>Accede a una selección de localidades o entra en cada provincia para consultar todos los municipios publicados.</p></div><div class="town-province-grid">${cards}</div><div class="town-total"><strong>${totalTowns.toLocaleString('es-ES')} municipios</strong><span>con página local organizados en ${provinces.length} provincias</span></div></div></section>`;
+}
+function homeCoverage(){
+  const list=provinces.map((p,i)=>{
+    const quick=spreadTowns(p,8).map(t=>`<a href="/${p.slug}/${slugify(t)}/">${esc(t)}</a>`).join(', ');
+    return `<article id="${p.slug}"><small>${String(i+1).padStart(2,'0')}</small><div><strong><a href="/${p.slug}/">${esc(p.name)}</a></strong><p>${quick}.</p><a class="province-back" href="/${p.slug}/">Ver los ${p.towns.length} municipios de ${esc(p.name)} <span aria-hidden="true">→</span></a></div></article>`;
+  }).join('');
+  return `<section class="section coverage" id="confianza"><div class="wrap coverage-grid"><div class="coverage-copy"><span class="eyebrow">Cobertura local</span><h2>Servicio local por provincia y municipio.</h2><p>Consulta la atención para tu vivienda o comunidad desde el directorio de provincias y municipios. Indica la localidad y qué ocurre para preparar la revisión.</p><div class="trust-row"><div><strong>${provinces.length}</strong><span>provincias con cobertura local</span></div><div><strong>24h</strong><span>Urgencias</span></div><div><strong>${totalTowns.toLocaleString('es-ES')}</strong><span>municipios publicados</span></div></div></div><div class="coverage-list">${list}</div></div></section>`;
+}
+
 fs.rmSync(ROOT,{recursive:true,force:true});
 fs.mkdirSync(ROOT,{recursive:true});
 fs.copyFileSync(path.resolve('styles.css'),path.join(ROOT,'styles.css'));
@@ -360,6 +383,8 @@ fs.copyFileSync(path.resolve('site.js'),path.join(ROOT,'site.js'));
 if(fs.existsSync(path.resolve('assets'))) fs.cpSync(path.resolve('assets'),path.join(ROOT,'assets'),{recursive:true});
 
 let home=homeSource.replace('<meta name="robots" content="noindex,nofollow">', `<meta name="robots" content="${ROBOTS}">`);
+home=home.replace(/<section class="town-focus" id="municipios">[\s\S]*?<\/section>/,homeTownFocus());
+home=home.replace(/<section class="section coverage" id="confianza">[\s\S]*?<\/section>/,homeCoverage());
 home=home.replaceAll('href="#bizkaia"','href="/bizkaia/"').replaceAll('href="#gipuzkoa"','href="/gipuzkoa/"').replaceAll('href="#alava"','href="/alava/"');
 fs.writeFileSync(path.join(ROOT,'index.html'),home);
 
