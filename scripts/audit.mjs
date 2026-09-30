@@ -319,7 +319,8 @@ for(const item of assetSources){
 }
 if(/https?:\/\/www\.antenasabaso\.com\/img\//.test(home+sourceCss)) errors.push('Quedan imágenes dependientes de la web antigua');
 for(const alias of ['Home','Antenas','videoportero','electricidad','formulario']) if(!home.includes(`id="${alias}"`)) errors.push(`Falta ancla histórica ${alias}`);
-if(htmlFiles.length!==1139) errors.push(`HTML=${htmlFiles.length}; esperados 1139`);
+const expectedHtmlFiles=expectedTownTotal+provinces.length+1+legalRoutes.size+1; // locales + provincias + portada + legales + 404
+if(htmlFiles.length!==expectedHtmlFiles) errors.push(`HTML=${htmlFiles.length}; esperados ${expectedHtmlFiles}`);
 const siteJsFile=path.join(ROOT,'site.js');
 if(!fs.existsSync(siteJsFile)) errors.push('Falta site.js');
 else{
