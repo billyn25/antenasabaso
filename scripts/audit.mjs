@@ -23,7 +23,8 @@ if(!fs.existsSync(manifestFile)) errors.push('Falta local-pages-manifest.json');
 const manifest=fs.existsSync(manifestFile)?JSON.parse(fs.readFileSync(manifestFile,'utf8')):[];
 const expectedCounts={bizkaia:113,gipuzkoa:88,alava:51,burgos:371,cantabria:102,palencia:191,leon:211,navarra:272,valladolid:225};
 const legalRoutes=new Set(['/aviso-legal/','/privacidad/','/cookies/']);
-if(totalTowns!==1127||manifest.length!==1127) errors.push(`Inventario alterado: dataset=${totalTowns}, manifiesto=${manifest.length}`);
+const expectedTownTotal=Object.values(expectedCounts).reduce((sum,n)=>sum+n,0);
+if(totalTowns!==expectedTownTotal||manifest.length!==expectedTownTotal) errors.push(`Inventario alterado: esperado=${expectedTownTotal}, dataset=${totalTowns}, manifiesto=${manifest.length}`);
 if(new Set(manifest.map(p=>p.path)).size!==manifest.length) errors.push('Manifiesto: rutas duplicadas');
 for(const province of provinces){
   if(province.towns.length!==expectedCounts[province.slug]) errors.push(`${province.slug}: ${province.towns.length} municipios`);
