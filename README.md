@@ -1,6 +1,6 @@
 # Antenas Abaso
 
-Renovación de antenasabaso.com. Misma marca, teléfono 670 042 626, estrellas decorativas y galería aprobada. 252 páginas de localidad (113 Bizkaia, 88 Gipuzkoa, 51 Álava), 3 provincias, portada, 3 páginas legales y 404.
+Renovación de antenasabaso.com. Misma marca, teléfono 670 042 626, estrellas decorativas y galería aprobada. 1.624 páginas de localidad en 9 provincias (Bizkaia, Gipuzkoa, Álava, Burgos, Cantabria, Palencia, León, Navarra y Valladolid), portada, 9 hubs provinciales, 3 páginas legales y 404.
 
 ## Construcción y pruebas
 
@@ -12,11 +12,11 @@ La preview devuelve `noindex,nofollow` en el HTML y en cabeceras, permite el ras
 
 1. Mantener el comando de Netlify `npm run build` y la carpeta publicada `dist`.
 2. En las variables de entorno de Netlify, ámbito Builds y contexto Production, crear **nombre `SITE_MODE` / valor `production`**. No poner comillas como parte del valor. Hacer un nuevo deploy y comprobar que termina correctamente antes de cambiar DNS.
-3. Configurar `www.antenasabaso.com` como dominio principal, junto con el dominio raíz `antenasabaso.com`. Seguir los registros DNS que indique Netlify para ese sitio. Conservar los registros de correo MX, SPF, DKIM y DMARC; no cancelar el alojamiento de correo al cambiar únicamente la web.
+3. Mantener `antenasabaso.com` como dominio canónico del proyecto y redirigir la variante `www` al dominio principal. Seguir los registros DNS que indique Netlify para ese sitio. Conservar los registros de correo MX, SPF, DKIM y DMARC; no cancelar el alojamiento de correo al cambiar únicamente la web.
 4. Comprobar HTTPS, portada, `/bizkaia/zalla/`, las tres páginas legales, `/favicon.svg`, `/favicon.png`, `/robots.txt` y `/sitemap.xml` en el dominio definitivo. Comprobar una dirección inventada: debe responder 404, no la portada con 200.
 5. Enviar el sitemap a Search Console y revisar algunas páginas representativas. Conservar cualquier verificación DNS/HTML previa de Search Console. No se ha verificado el acceso a esa propiedad desde este repositorio.
 
-Producción genera **256 URLs en el sitemap**: portada + 3 provincias + 252 localidades. Legal y 404 quedan fuera del índice de búsqueda, pero siguen accesibles. Se conserva una canonical propia por página. Se normalizan HTTP/sin www e index.html con redirecciones permanentes, sin reescrituras SPA. Se preservan las anclas principales de la portada antigua y las tres URLs antiguas de fotos utilizadas se redirigen a sus copias locales.
+Producción genera **1.634 URLs en el sitemap**: portada + 9 provincias + 1.624 localidades. Legal y 404 quedan fuera del índice de búsqueda, pero siguen accesibles. Se conserva una canonical propia por página. Se normalizan HTTP/sin www e index.html con redirecciones permanentes, sin reescrituras SPA. Se preservan las anclas principales de la portada antigua y las tres URLs antiguas de fotos utilizadas se redirigen a sus copias locales.
 
 ## Fotografías y privacidad
 
