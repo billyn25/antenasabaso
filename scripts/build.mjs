@@ -370,7 +370,7 @@ function homeTownFocus(){
 }
 function homeCoverage(){
   const list=provinces.map((p,i)=>{
-    const quick=spreadTowns(p,8).map(t=>`<a href="/${p.slug}/${slugify(t)}/">${esc(t)}</a>`).join(', ');
+    const quick=spreadTowns(p,5).map(t=>`<a href="/${p.slug}/${slugify(t)}/">${esc(t)}</a>`).join(', ');
     return `<article id="${p.slug}"><small>${String(i+1).padStart(2,'0')}</small><div><strong><a href="/${p.slug}/">${esc(p.name)}</a></strong><p>${quick}.</p><a class="province-back" href="/${p.slug}/">Ver los ${p.towns.length} municipios de ${esc(p.name)} <span aria-hidden="true">→</span></a></div></article>`;
   }).join('');
   return `<section class="section coverage" id="confianza"><div class="wrap coverage-grid"><div class="coverage-copy"><span class="eyebrow">Cobertura local</span><h2>Servicio local por provincia y municipio.</h2><p>Consulta la atención para tu vivienda o comunidad desde el directorio de provincias y municipios. Indica la localidad y qué ocurre para preparar la revisión.</p><div class="trust-row"><div><strong>${provinces.length}</strong><span>provincias con cobertura local</span></div><div><strong>24h</strong><span>Urgencias</span></div><div><strong>${totalTowns.toLocaleString('es-ES')}</strong><span>municipios publicados</span></div></div></div><div class="coverage-list">${list}</div></div></section>`;
