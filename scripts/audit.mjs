@@ -21,7 +21,7 @@ const htmlByFile=new Map(htmlFiles.map(f=>[path.relative(ROOT,f).split(path.sep)
 const manifestFile=path.join(ROOT,'local-pages-manifest.json');
 if(!fs.existsSync(manifestFile)) errors.push('Falta local-pages-manifest.json');
 const manifest=fs.existsSync(manifestFile)?JSON.parse(fs.readFileSync(manifestFile,'utf8')):[];
-const expectedCounts={bizkaia:113,gipuzkoa:88,alava:51,burgos:371,cantabria:102,palencia:191,leon:211};
+const expectedCounts={bizkaia:113,gipuzkoa:88,alava:51,burgos:371,cantabria:102,palencia:191,leon:211,navarra:272,valladolid:225};
 const legalRoutes=new Set(['/aviso-legal/','/privacidad/','/cookies/']);
 if(totalTowns!==1127||manifest.length!==1127) errors.push(`Inventario alterado: dataset=${totalTowns}, manifiesto=${manifest.length}`);
 if(new Set(manifest.map(p=>p.path)).size!==manifest.length) errors.push('Manifiesto: rutas duplicadas');
@@ -294,7 +294,8 @@ if(production){
   const xml=fs.readFileSync(path.join(ROOT,'sitemap.xml'),'utf8');
   const urls=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
   const expected=metadata.filter(m=>!legalRoutes.has(m.path)).map(m=>m.canonical);
-  if(urls.length!==1135||new Set(urls).size!==urls.length||urls.some(u=>!expected.includes(u))||expected.some(u=>!urls.includes(u))) errors.push('Sitemap no coincide con las 1135 URLs indexables');
+  const expectedIndexable=totalTowns+provinces.length+1;
+  if(urls.length!==expectedIndexable||new Set(urls).size!==urls.length||urls.some(u=>!expected.includes(u))||expected.some(u=>!urls.includes(u))) errors.push(`Sitemap no coincide con las ${expectedIndexable} URLs indexables`);
   if(!robots.includes(`Sitemap: ${DOMAIN}/sitemap.xml`)) errors.push('robots.txt no declara sitemap');
   const redirects=fs.readFileSync(path.join(ROOT,'_redirects'),'utf8');
   if(!redirects.includes('/index.html / 301!')||/\/\*\s+\/index\.html\s+200/.test(redirects)) errors.push('Redirecciones incorrectas');
