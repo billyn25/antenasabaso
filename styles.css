@@ -64,7 +64,7 @@ a{color:inherit;text-decoration:none}
 .service-card h3{margin:38px 0 10px;font-size:23px;color:var(--navy)}.service-card p{margin:0;color:var(--muted)}
 
 .coverage{background:var(--paper);border-block:1px solid var(--line)}
-.coverage-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px}
+.coverage-grid{display:grid;grid-template-columns:minmax(320px,.72fr) minmax(0,1.28fr);gap:52px;align-items:start}
 .coverage-copy>p{font-size:18px;color:var(--muted)}
 .trust-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:28px}
 .trust-row div{padding:17px;background:#fff;border:1px solid var(--line)}
