@@ -214,6 +214,14 @@ const home=htmlByFile.get('index.html')||'';
 for(const forbidden of [/Antenistas en Bizkaia,\s*Gipuzkoa y Álava/i,/Instalador autorizado/i,/\b11024\b/,/\b1104\b/]){
   if(forbidden.test(home)) errors.push(`Portada: conserva texto retirado ${forbidden}`);
 }
+for(const [rel,html] of htmlByFile){
+  for(const forbidden of [/Instalador autorizado/i,/\b11024\b/,/\b1104\b/]){
+    if(forbidden.test(html)) errors.push(`${rel}: conserva acreditación/código retirado ${forbidden}`);
+  }
+}
+for(const slug of ['burgos','cantabria']){
+  if(!home.includes(`data-province="${slug}"`) || !home.includes(`href="/${slug}/"`)) errors.push(`Portada: ${slug} no está visible en la cobertura local`);
+}
 if(/<style\b/i.test(home)) errors.push('Portada: quedan estilos inline; deben vivir en styles.css');
 if(/<script\s+src="\/script\.js"/i.test(home)) errors.push('Portada: queda JS de scroll redundante');
 
