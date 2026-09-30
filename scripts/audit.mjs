@@ -8,7 +8,7 @@ const ROOT=path.resolve('dist');
 const DOMAIN='https://antenasabaso.com';
 const PHONE='670 042 626';
 const PHRASE='Técnico en instalación, reparación y mantenimiento de antenas, porteros automáticos y videoporteros';
-const errors=[];
+const errors=[], warnings=[];
 const buildInfo=JSON.parse(fs.readFileSync(path.join(ROOT,'build-manifest.json'),'utf8'));
 const production=buildInfo.mode==='production';
 const requested=process.argv.includes('--production')?'production':(process.env.SITE_MODE||'preview');
@@ -317,6 +317,10 @@ else{
   if(!js.includes('antenas-abaso-cookie-info-v1')||!js.includes('data-cookie-dismiss')) errors.push('site.js: gestión del aviso de cookies incompleta');
 }
 
+if(warnings.length){
+  console.warn(`AUDITORÍA ABASO AVISOS (${warnings.length})`);
+  for(const warning of warnings.slice(0,100)) console.warn('- '+warning);
+}
 if(errors.length){
   console.error(`AUDITORÍA ABASO FALLIDA (${errors.length})`);
   for(const error of errors.slice(0,200)) console.error('- '+error);
