@@ -21,9 +21,9 @@ const htmlByFile=new Map(htmlFiles.map(f=>[path.relative(ROOT,f).split(path.sep)
 const manifestFile=path.join(ROOT,'local-pages-manifest.json');
 if(!fs.existsSync(manifestFile)) errors.push('Falta local-pages-manifest.json');
 const manifest=fs.existsSync(manifestFile)?JSON.parse(fs.readFileSync(manifestFile,'utf8')):[];
-const expectedCounts={bizkaia:113,gipuzkoa:88,alava:51};
+const expectedCounts={bizkaia:113,gipuzkoa:88,alava:51,burgos:371,cantabria:102,palencia:191,leon:211};
 const legalRoutes=new Set(['/aviso-legal/','/privacidad/','/cookies/']);
-if(totalTowns!==252||manifest.length!==252) errors.push(`Inventario alterado: dataset=${totalTowns}, manifiesto=${manifest.length}`);
+if(totalTowns!==1127||manifest.length!==1127) errors.push(`Inventario alterado: dataset=${totalTowns}, manifiesto=${manifest.length}`);
 if(new Set(manifest.map(p=>p.path)).size!==manifest.length) errors.push('Manifiesto: rutas duplicadas');
 for(const province of provinces){
   if(province.towns.length!==expectedCounts[province.slug]) errors.push(`${province.slug}: ${province.towns.length} municipios`);
@@ -37,8 +37,10 @@ for(const province of provinces){
     if(comarcaTownSet.has(key)) errors.push(`Comarcas: municipio duplicado ${key}`);
     comarcaTownSet.add(key);
   }
-  for(const town of province.towns) if(!comarcaFor(province.slug,town)) errors.push(`Comarcas: falta ${province.name} / ${town}`);
-  if([...comarcaTownSet].filter(x=>x.startsWith(province.slug+'|')).length!==province.towns.length) errors.push(`Comarcas: cobertura incompleta en ${province.name}`);
+  if(groups && Object.keys(groups).length){
+    for(const town of province.towns) if(!comarcaFor(province.slug,town)) errors.push(`Comarcas: falta ${province.name} / ${town}`);
+    if([...comarcaTownSet].filter(x=>x.startsWith(province.slug+'|')).length!==province.towns.length) errors.push(`Comarcas: cobertura incompleta en ${province.name}`);
+  }
 }
 
 const titles=new Set(), metas=new Set(), canonicals=new Set();
@@ -154,15 +156,17 @@ for(const page of manifest){
   if(!prepBlock.includes(`Qué datos ayudan a preparar el aviso en ${page.name}`)) errors.push(`${page.path}: falta preparación local del aviso`);
   if([...prepBlock.matchAll(/<li>/g)].length!==5) errors.push(`${page.path}: preparación local debe tener 5 datos útiles`);
   const comarca=comarcaFor(page.provinceSlug,page.name);
-  if(!html.includes(`<h2>${page.name} · ${comarca}</h2>`)||!html.includes(`pertenece a la comarca ${comarca}`)||!html.includes(`Territorio Histórico de ${page.province}`)) errors.push(`${page.path}: falta contexto territorial/comarca`);
-  const relatedTitle=`Otros municipios de ${comarca}`;
-  if(!html.includes(relatedTitle)) errors.push(`${page.path}: enlazado relacionado sin comarca`);
+  if(comarca){
+    if(!html.includes(`<h2>${page.name} · ${comarca}</h2>`)||!html.includes(`pertenece a la comarca ${comarca}`)) errors.push(`${page.path}: falta contexto territorial/comarca`);
+  }else if(!html.includes(`<h2>${page.name} · ${page.province}</h2>`)||!html.includes(`Esta página corresponde al servicio técnico en ${page.name}, ${page.province}`)) errors.push(`${page.path}: falta contexto territorial provincial`);
+  const relatedTitle=`Otros municipios de ${comarca||page.province}`;
+  if(!html.includes(relatedTitle)) errors.push(`${page.path}: enlazado relacionado sin contexto territorial`);
   const relatedBlock=html.match(/<div class="related-grid">([\s\S]*?)<\/div>/)?.[1]||'';
   const relatedLinks=[...relatedBlock.matchAll(/href="([^"]+)"/g)].map(m=>m[1]);
   if(new Set(relatedLinks).size!==relatedLinks.length) errors.push(`${page.path}: enlaces de comarca repetidos`);
   for(const link of relatedLinks){
     const peer=manifest.find(x=>x.path===link);
-    if(!peer||peer.path===page.path||peer.provinceSlug!==page.provinceSlug||comarcaFor(peer.provinceSlug,peer.name)!==comarca) errors.push(`${page.path}: enlace fuera de su comarca: ${link}`);
+    if(!peer||peer.path===page.path||peer.provinceSlug!==page.provinceSlug||(comarca&&comarcaFor(peer.provinceSlug,peer.name)!==comarca)) errors.push(`${page.path}: enlace territorial inválido: ${link}`);
   }
   if(!html.includes(`Marcas que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta bloque local de marcas`);
   const intentBlock=html.match(/<section class="local-intents">([\s\S]*?)<\/section>/)?.[1]||'';
@@ -178,7 +182,7 @@ for(const page of manifest){
   if(!barHref||!new URL(barHref).searchParams.get('text')?.includes(page.name)) errors.push(`${page.path}: WhatsApp móvil pierde localidad`);
   const mainBlock=html.match(/<main class="local-page"[^>]*>([\s\S]*?)<\/main>/)?.[1]||'';
   let normalized=stripText(mainBlock);
-  for(const value of [page.name,page.province,comarca,PHONE]) normalized=normalized.replaceAll(String(value).toLowerCase(),'{local}');
+  for(const value of [page.name,page.province,comarca,PHONE].filter(Boolean)) normalized=normalized.replaceAll(String(value).toLowerCase(),'{local}');
   normalized=normalized.replace(/\b\d+[a-z]?\b/g,'#');
   similarityDocs.push({path:page.path,set:shingles(normalized)});
 }
@@ -287,7 +291,7 @@ if(production){
   const xml=fs.readFileSync(path.join(ROOT,'sitemap.xml'),'utf8');
   const urls=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
   const expected=metadata.filter(m=>!legalRoutes.has(m.path)).map(m=>m.canonical);
-  if(urls.length!==256||new Set(urls).size!==urls.length||urls.some(u=>!expected.includes(u))||expected.some(u=>!urls.includes(u))) errors.push('Sitemap no coincide con las 256 URLs indexables');
+  if(urls.length!==1135||new Set(urls).size!==urls.length||urls.some(u=>!expected.includes(u))||expected.some(u=>!urls.includes(u))) errors.push('Sitemap no coincide con las 1135 URLs indexables');
   if(!robots.includes(`Sitemap: ${DOMAIN}/sitemap.xml`)) errors.push('robots.txt no declara sitemap');
   const redirects=fs.readFileSync(path.join(ROOT,'_redirects'),'utf8');
   if(!redirects.includes('/index.html / 301!')||/\/\*\s+\/index\.html\s+200/.test(redirects)) errors.push('Redirecciones incorrectas');
