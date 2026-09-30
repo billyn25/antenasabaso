@@ -210,6 +210,9 @@ for(const route of legalRoutes){
   if(!html.includes('href="/aviso-legal/"')||!html.includes('href="/privacidad/"')||!html.includes('href="/cookies/"')) errors.push(`Legal: navegación incompleta en ${route}`);
 }
 const home=htmlByFile.get('index.html')||'';
+for(const forbidden of [/Antenistas en Bizkaia,\s*Gipuzkoa y Álava/i,/Instalador autorizado/i,/\b11024\b/,/\b1104\b/]){
+  if(forbidden.test(home)) errors.push(`Portada: conserva texto retirado ${forbidden}`);
+}
 if(/<style\b/i.test(home)) errors.push('Portada: quedan estilos inline; deben vivir en styles.css');
 if(/<script\s+src="\/script\.js"/i.test(home)) errors.push('Portada: queda JS de scroll redundante');
 
@@ -306,7 +309,7 @@ for(const item of assetSources){
 }
 if(/https?:\/\/www\.antenasabaso\.com\/img\//.test(home+sourceCss)) errors.push('Quedan imágenes dependientes de la web antigua');
 for(const alias of ['Home','Antenas','videoportero','electricidad','formulario']) if(!home.includes(`id="${alias}"`)) errors.push(`Falta ancla histórica ${alias}`);
-if(htmlFiles.length!==260) errors.push(`HTML=${htmlFiles.length}; esperados 260`);
+if(htmlFiles.length!==1139) errors.push(`HTML=${htmlFiles.length}; esperados 1139`);
 const siteJsFile=path.join(ROOT,'site.js');
 if(!fs.existsSync(siteJsFile)) errors.push('Falta site.js');
 else{
