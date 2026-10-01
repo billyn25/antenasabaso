@@ -70,6 +70,11 @@ const serviceTextVariants = {
     t=>`Para instalaciones TDT de ${t} podemos revisar antena, mástil, conexiones, cableado y reparto de señal tanto en viviendas como en comunidades.`,
     t=>`Una pérdida de señal TDT en ${t} puede venir de varios puntos. La revisión se plantea desde la recepción hasta las tomas para localizar el origen de la incidencia.`
   ],
+  'tdt-satelite':[
+    t=>`Para viviendas de ${t} donde la recepción terrestre no resulta adecuada, valoramos una instalación de TDT por satélite con antena parabólica y receptor compatible. Se comprueba orientación, señal y cableado antes de configurar el equipo.`,
+    t=>`Instalamos antena parabólica y receptor para recepción de TDT por satélite en ${t}. La recepción en alta definición depende de la emisión disponible y de que el receptor sea compatible con HD.`,
+    t=>`Si necesitas recibir la TDT por satélite en ${t}, revisamos ubicación de la parabólica, LNB, cableado y receptor para dejar la instalación preparada y comprobar la sintonización.`
+  ],
   parabolicas:[
     t=>`En ${t} revisamos orientación de parabólicas, LNB, conectores, cableado y recepción por satélite antes de decidir qué elemento necesita ajuste o cambio.`,
     t=>`Para una parabólica con poca o ninguna señal en ${t}, se comprueban orientación, estado del LNB y continuidad del cableado.`,
