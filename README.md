@@ -16,7 +16,7 @@ La preview devuelve `noindex,nofollow` en el HTML y en cabeceras, permite el ras
 4. Comprobar HTTPS, portada, `/bizkaia/zalla/`, las tres páginas legales, `/favicon.svg`, `/favicon.png`, `/robots.txt` y `/sitemap.xml` en el dominio definitivo. Comprobar una dirección inventada: debe responder 404, no la portada con 200.
 5. Enviar el sitemap a Search Console y revisar algunas páginas representativas. Conservar cualquier verificación DNS/HTML previa de Search Console. No se ha verificado el acceso a esa propiedad desde este repositorio.
 
-Producción genera **1.634 URLs en el sitemap**: portada + 9 provincias + 1.624 localidades. Legal y 404 quedan fuera del índice de búsqueda, pero siguen accesibles. Se conserva una canonical propia por página. Se normalizan HTTP/sin www e index.html con redirecciones permanentes, sin reescrituras SPA. Se preservan las anclas principales de la portada antigua y las tres URLs antiguas de fotos utilizadas se redirigen a sus copias locales.
+Producción publica **1.634 URLs indexables repartidas en un índice de sitemaps**: `sitemap.xml` enlaza `sitemaps/principal.xml` y un sitemap por cada una de las 9 provincias; en conjunto incluyen portada + 9 provincias + 1.624 localidades. Legal y 404 quedan fuera del índice de búsqueda, pero siguen accesibles. Se conserva una canonical propia por página. Se normalizan HTTP/sin www e index.html con redirecciones permanentes, sin reescrituras SPA. Se preservan las anclas principales de la portada antigua y las tres URLs antiguas de fotos utilizadas se redirigen a sus copias locales.
 
 ## Fotografías y privacidad
 
