@@ -437,8 +437,21 @@ const headerLines=['/*', ...(!production?['  X-Robots-Tag: noindex, nofollow']:[
   '  X-Frame-Options: SAMEORIGIN','  Cache-Control: public, max-age=0, must-revalidate'];
 fs.writeFileSync(path.join(ROOT,'_headers'),headerLines.join('\n')+'\n');
 if(production){
-  const sitemap=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${indexableRoutes.map(route=>`  <url><loc>${esc(canonical(route))}</loc></url>`).join('\n')}\n</urlset>\n`;
-  fs.writeFileSync(path.join(ROOT,'sitemap.xml'),sitemap);
+  const sitemapDir=path.join(ROOT,'sitemaps');
+  fs.mkdirSync(sitemapDir,{recursive:true});
+  const sitemapGroups=[
+    {file:'principal.xml',routes:['/']},
+    ...provinces.map(province=>({
+      file:`${province.slug}.xml`,
+      routes:indexableRoutes.filter(route=>route===`/${province.slug}/`||route.startsWith(`/${province.slug}/`))
+    }))
+  ];
+  for(const group of sitemapGroups){
+    const xml=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${group.routes.map(route=>`  <url><loc>${esc(canonical(route))}</loc></url>`).join('\n')}\n</urlset>\n`;
+    fs.writeFileSync(path.join(sitemapDir,group.file),xml);
+  }
+  const sitemapIndex=`<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapGroups.map(group=>`  <sitemap><loc>${DOMAIN}/sitemaps/${group.file}</loc></sitemap>`).join('\n')}\n</sitemapindex>\n`;
+  fs.writeFileSync(path.join(ROOT,'sitemap.xml'),sitemapIndex);
   fs.writeFileSync(path.join(ROOT,'robots.txt'),`User-agent: *\nAllow: /\n\nSitemap: ${DOMAIN}/sitemap.xml\n`);
   // Exact rules: no SPA fallback and no broad redirect of missing towns to the home.
   const redirects=[
