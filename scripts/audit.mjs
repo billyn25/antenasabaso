@@ -300,11 +300,49 @@ if(!/^Allow:\s*\/$/mi.test(robots)||/^Disallow:\s*\/$/mi.test(robots)) errors.pu
 if(production){
   if(/X-Robots-Tag:\s*noindex/i.test(headers)) errors.push('Producción conserva noindex global');
   if(fs.existsSync(path.join(ROOT,'preview-manifest.json'))) errors.push('Manifiesto preview en producción');
-  const xml=fs.readFileSync(path.join(ROOT,'sitemap.xml'),'utf8');
-  const urls=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
+  const sitemapIndex=fs.readFileSync(path.join(ROOT,'sitemap.xml'),'utf8');
+  const sitemapLocs=[...sitemapIndex.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
+  const expectedSitemaps=[
+    `${DOMAIN}/sitemaps/principal.xml`,
+    ...provinces.map(province=>`${DOMAIN}/sitemaps/${province.slug}.xml`)
+  ];
+  if(!sitemapIndex.includes('<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">')||
+     sitemapLocs.length!==expectedSitemaps.length||
+     new Set(sitemapLocs).size!==sitemapLocs.length||
+     expectedSitemaps.some(url=>!sitemapLocs.includes(url))||
+     sitemapLocs.some(url=>!expectedSitemaps.includes(url))) errors.push('Índice de sitemaps provincial incompleto o incoherente');
+  const sitemapDir=path.join(ROOT,'sitemaps');
+  if(!fs.existsSync(sitemapDir)) errors.push('Falta directorio de sitemaps');
+  const allSitemapUrls=[];
+  const principalFile=path.join(sitemapDir,'principal.xml');
+  if(!fs.existsSync(principalFile)) errors.push('Falta sitemap principal');
+  else{
+    const principal=fs.readFileSync(principalFile,'utf8');
+    const urls=[...principal.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
+    if(urls.length!==1||urls[0]!==DOMAIN+'/') errors.push('Sitemap principal debe contener solo la portada');
+    allSitemapUrls.push(...urls);
+  }
+  for(const province of provinces){
+    const file=path.join(sitemapDir,`${province.slug}.xml`);
+    if(!fs.existsSync(file)){errors.push(`Falta sitemap de ${province.slug}`);continue;}
+    const xml=fs.readFileSync(file,'utf8');
+    const urls=[...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
+    const expectedProvince=[
+      `${DOMAIN}/${province.slug}/`,
+      ...manifest.filter(page=>page.provinceSlug===province.slug).map(page=>`${DOMAIN}${page.path}`)
+    ];
+    if(urls.length!==province.towns.length+1||
+       new Set(urls).size!==urls.length||
+       urls.some(url=>!expectedProvince.includes(url))||
+       expectedProvince.some(url=>!urls.includes(url))) errors.push(`Sitemap ${province.slug} no coincide con sus ${province.towns.length+1} URLs`);
+    allSitemapUrls.push(...urls);
+  }
   const expected=metadata.filter(m=>!legalRoutes.has(m.path)).map(m=>m.canonical);
   const expectedIndexable=totalTowns+provinces.length+1;
-  if(urls.length!==expectedIndexable||new Set(urls).size!==urls.length||urls.some(u=>!expected.includes(u))||expected.some(u=>!urls.includes(u))) errors.push(`Sitemap no coincide con las ${expectedIndexable} URLs indexables`);
+  if(allSitemapUrls.length!==expectedIndexable||
+     new Set(allSitemapUrls).size!==allSitemapUrls.length||
+     allSitemapUrls.some(u=>!expected.includes(u))||
+     expected.some(u=>!allSitemapUrls.includes(u))) errors.push(`Sitemaps no coinciden con las ${expectedIndexable} URLs indexables`);
   if(!robots.includes(`Sitemap: ${DOMAIN}/sitemap.xml`)) errors.push('robots.txt no declara sitemap');
   const redirects=fs.readFileSync(path.join(ROOT,'_redirects'),'utf8');
   if(!redirects.includes('/index.html / 301!')||/\/\*\s+\/index\.html\s+200/.test(redirects)) errors.push('Redirecciones incorrectas');
