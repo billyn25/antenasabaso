@@ -489,3 +489,12 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 
 .hero h1 .hero-area{display:inline-block;font-size:.76em;line-height:1.08;letter-spacing:-.035em;margin-top:.08em}
 @media(max-width:640px){.hero h1 .hero-area{font-size:.72em;line-height:1.12}}
+
+/* Accesos rápidos a municipios, sin alterar el directorio existente. */
+.province-quick-links{padding:34px 0;background:#f5f8fb;border-bottom:1px solid #e1e7ee}
+.province-quick-links h2{font-size:clamp(22px,2.5vw,30px);margin:0 0 8px}
+.province-quick-links p{margin:0 0 19px;max-width:750px}
+.province-quick-links nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px 18px;margin-bottom:18px}
+.province-quick-links nav a{display:block;padding:9px 0;border-bottom:1px solid #dce4ed;font-weight:600;overflow-wrap:anywhere}
+@media(max-width:800px){.province-quick-links nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.province-quick-links{padding:25px 0}.province-quick-links nav{grid-template-columns:1fr}.province-quick-links nav a{padding:8px 0}}
