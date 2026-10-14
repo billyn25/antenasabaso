@@ -1,0 +1,25 @@
+name: Auditoría HTTP pública Abaso
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/audit-live.yml'
+jobs:
+  audit-live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verificar dominio publicado, robots, sitemaps, canónicas y redirecciones
+        run: npm run audit:live
+      - name: Conservar informe aunque falle alguna comprobación
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: abaso-audit-live
+          path: abaso-live-seo-report.json
+          if-no-files-found: warn
