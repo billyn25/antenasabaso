@@ -11,7 +11,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,6 +40,14 @@ jobs:
           test "$(find dist/bizkaia -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 113
           test "$(find dist/gipuzkoa -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 88
           test "$(find dist/alava -mindepth 2 -maxdepth 2 -name index.html | wc -l)" -eq 51
+      - name: Verificar guías y muestra de pueblos en producción
+        run: node scripts/verify-service-guides-live.mjs
+      - name: Preparar navegador
+        run: |
+          python -m pip install playwright==1.51.0
+          python -m playwright install --with-deps chromium
+      - name: Comprobar diseño, enlaces y contactos publicados
+        run: python tests/service-guides-browser.py
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -61,3 +69,4 @@ jobs:
             assets/
             dist/
             .preview-check/
+            reports/

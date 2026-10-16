@@ -3,6 +3,7 @@ import path from 'node:path';
 import services from '../content/services.json' with { type: 'json' };
 import { provinces, totalTowns } from '../content/municipios.mjs';
 import { comarcaFor, townsInComarca } from '../content/comarcas.mjs';
+import {guides,guideRoute,extraRoutes,serviceGuideLinks,guideNavigation,enhanceHome,renderGuide,renderGuideIndex,GUIDE_CSS,GUIDE_CSS_PATH} from './service-guides.mjs';
 
 const ROOT = path.resolve('dist');
 const DOMAIN = 'https://antenasabaso.com';
@@ -52,16 +53,7 @@ const adviceVariants = [
   t=>`Para una instalación nueva en ${t}, indica cuántos puntos necesitas y si ya existe antena, cableado, portero o instalación comunitaria.`,
   t=>`En trabajos de cobertura móvil en ${t}, indica operador y si el problema afecta a llamadas, datos o ambos. La solución depende de la señal disponible en la vivienda.`
 ];
-const focusVariants = [
-  t=>`Reparación de antenas y señal TDT en ${t}`,
-  t=>`Porteros automáticos y videoporteros en ${t}`,
-  t=>`Antenas para cobertura móvil 4G/5G en ${t}`,
-  t=>`Instalación y mantenimiento técnico en ${t}`,
-  t=>`Averías de antena, portero y señal en ${t}`,
-  t=>`Revisión de TDT, satélite y telecomunicaciones en ${t}`,
-  t=>`Servicio para viviendas y comunidades en ${t}`,
-  t=>`Diagnóstico de antenas y porteros en ${t}`
-];
+
 
 const serviceTextVariants = {
   tdt:[
@@ -254,13 +246,13 @@ function footer(location=''){
 function head(title,description,route,structured){
   const socialImage=DOMAIN+'/assets/gallery/parabolica-realista.webp';
   const robots=production && ['/aviso-legal/','/privacidad/','/cookies/'].includes(route) ? 'noindex,follow' : ROBOTS;
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="robots" content="${robots}"><link rel="canonical" href="${esc(canonical(route))}"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical(route))}"><meta property="og:type" content="website"><meta property="og:site_name" content="Antenas Abaso"><meta property="og:image" content="${socialImage}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${socialImage}"><meta name="theme-color" content="#18324a"><link rel="stylesheet" href="/styles.css"><script src="/site.js" defer></script><script type="application/ld+json">${JSON.stringify(structured).replace(/</g,'\\u003c')}</script></head>`;
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="robots" content="${robots}"><link rel="canonical" href="${esc(canonical(route))}"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical(route))}"><meta property="og:type" content="website"><meta property="og:site_name" content="Antenas Abaso"><meta property="og:image" content="${socialImage}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${socialImage}"><meta name="theme-color" content="#18324a"><link rel="stylesheet" href="/styles.css">${['/aviso-legal/','/privacidad/','/cookies/'].includes(route)?'':`<link rel="stylesheet" href="${GUIDE_CSS_PATH}">`}<script src="/site.js" defer></script><script type="application/ld+json">${JSON.stringify(structured).replace(/</g,'\\u003c')}</script></head>`;
 }
 function serviceCards(town='',h=0){
   return services.map((s,i)=>{
     const variants=serviceTextVariants[s.id]||[];
     const text=town&&variants.length?variants[hash(`${town}|${s.id}`)%variants.length](town):s.text;
-    return `<article class="service-card${i===0?' featured':''}" id="servicio-${s.id}"><span class="num">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.name)}${town?' en '+esc(town):''}</h3><p>${esc(text)}</p>${town?`<a class="province-back" href="${esc(wa(`Hola, necesito ${s.name.toLowerCase()} en ${town}. Quería consultar la revisión y las condiciones.`))}">Consultar este servicio →</a>`:''}</article>`;
+    return `<article class="service-card${i===0?' featured':''}" id="servicio-${s.id}"><span class="num">${String(i+1).padStart(2,'0')}</span><h3>${esc(s.name)}${town?' en '+esc(town):''}</h3><p>${esc(text)}</p>${town?`<a class="province-back" href="${esc(wa(`Hola, necesito ${s.name.toLowerCase()} en ${town}. Quería consultar la revisión y las condiciones.`))}">Consultar este servicio →</a>`:''}${serviceGuideLinks(s.id)}</article>`;
   }).join('');
 }
 
@@ -287,7 +279,7 @@ function renderTown(province,town,index){
   const comarcaPeers=townsInComarca(province.slug,town).filter(x=>x!==town);
   const pool=(comarcaPeers.length?comarcaPeers:province.towns.filter(x=>x!==town)).slice().sort((a,b)=>a.localeCompare(b,'es'));
   const related=Array.from({length:Math.min(6,pool.length)},(_,i)=>pool[(h+i)%pool.length]);
-  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>${esc(focusVariants[(h>>>3)%focusVariants.length](town))}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localPrep(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town)||province.name)}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">Antenista en ${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
+  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>Antenas, porteros y otros servicios en ${esc(town)}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localPrep(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town)||province.name)}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">Antenista en ${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
 }
 
 function legalBreadcrumb(title,route){
@@ -358,7 +350,7 @@ function renderProvince(province){
   const quickTowns=spreadTowns(province,12);
   const quickAccess=`<section class="province-quick-links" aria-label="Accesos rápidos a municipios de ${esc(province.name)}"><div class="wrap"><h2>Acceso rápido a localidades de ${esc(province.name)}</h2><p>Una selección distribuida por el listado provincial. Todos los municipios siguen disponibles en el índice alfabético.</p><nav aria-label="Municipios destacados de ${esc(province.name)}">${quickTowns.map(t=>`<a href="/${province.slug}/${slugify(t)}/">Antenista en ${esc(t)} →</a>`).join('')}</nav><a class="province-back" href="#municipios-provincia">Ver todos los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section>`;
   const structured={'@context':'https://schema.org','@graph':[{'@type':'CollectionPage',name:title,url:canonical(route),description},breadcrumbData(province)]};
-  return `${head(title,description,route,structured)}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><span aria-current="page">${esc(province.name)}</span></nav><section class="province-hero"><div class="wrap"><span class="eyebrow">Servicio por municipios</span><h1>Antenistas en ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p>Selecciona tu municipio para consultar antenas TDT, parabólicas, amplificación, porteros automáticos, videoporteros, cobertura móvil 4G/5G y reparaciones eléctricas.</p><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a></div></section>${quickAccess}<section class="town-directory" id="municipios-provincia"><div class="wrap"><div class="directory-head"><div><span class="eyebrow">Todos los municipios</span><h2>${province.towns.length} municipios de ${esc(province.name)}</h2></div><p>Selecciona una letra para encontrar tu localidad y consultar el servicio.</p></div>${alphabet}${grouped}</div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Consulta tu localidad</h2><p>Llámanos e indica tu localidad de ${esc(province.name)}.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${province.name}.`)}">WhatsApp</a></div></div></section></main>${footer(province.name)}</body></html>`;
+  return `${head(title,description,route,structured)}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><span aria-current="page">${esc(province.name)}</span></nav><section class="province-hero"><div class="wrap"><span class="eyebrow">Servicio por municipios</span><h1>Antenistas en ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p>Selecciona tu municipio para consultar antenas TDT, parabólicas, amplificación, porteros automáticos, videoporteros, cobertura móvil 4G/5G y reparaciones eléctricas.</p><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a></div></section>${quickAccess}${guideNavigation()}<section class="town-directory" id="municipios-provincia"><div class="wrap"><div class="directory-head"><div><span class="eyebrow">Todos los municipios</span><h2>${province.towns.length} municipios de ${esc(province.name)}</h2></div><p>Selecciona una letra para encontrar tu localidad y consultar el servicio.</p></div>${alphabet}${grouped}</div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Consulta tu localidad</h2><p>Llámanos e indica tu localidad de ${esc(province.name)}.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${province.name}.`)}">WhatsApp</a></div></div></section></main>${footer(province.name)}</body></html>`;
 }
 
 
@@ -394,7 +386,9 @@ let home=homeSource.replace('<meta name="robots" content="noindex,nofollow">', `
 home=home.replace(/<section class="town-focus" id="municipios">[\s\S]*?<\/section>/,homeTownFocus());
 home=home.replace(/<section class="section coverage" id="confianza">[\s\S]*?<\/section>/,homeCoverage());
 home=home.replaceAll('href="#bizkaia"','href="/bizkaia/"').replaceAll('href="#gipuzkoa"','href="/gipuzkoa/"').replaceAll('href="#alava"','href="/alava/"');
+home=enhanceHome(home);
 fs.writeFileSync(path.join(ROOT,'index.html'),home);
+fs.writeFileSync(path.join(ROOT,GUIDE_CSS_PATH.slice(1)),GUIDE_CSS);
 
 // SVG cuadrado y autocontenido, generado desde el logo; sin dependencias remotas.
 const favicon=brandSvg
@@ -423,6 +417,11 @@ for(const province of provinces){
     manifest.push({name:town,province:province.name,provinceSlug:province.slug,slug,path:route});
   }
 } 
+const guideApp={head,header,footer,provider,tel,wa,domain:DOMAIN,phone:PHONE,provinces};
+for(const [route,html] of [[extraRoutes[0],renderGuideIndex(guideApp)],...guides.map(g=>[guideRoute(g),renderGuide(g,guideApp)])]){
+  if(routes.has(route))throw Error('Guía con ruta duplicada: '+route);
+  routes.add(route);const dir=path.join(ROOT,route.slice(1));fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'index.html'),html);
+}
 for(const page of legalPages){
   if(routes.has(page.route)) throw new Error(`Ruta duplicada: ${page.route}`);
   routes.add(page.route);
@@ -433,7 +432,7 @@ for(const page of legalPages){
 fs.writeFileSync(path.join(ROOT,'local-pages-manifest.json'),JSON.stringify(manifest,null,2));
 // Publishing output is explicitly mode-dependent, never a manual search/replace.
 const indexableRoutes=[...routes].filter(route=>!legalPages.some(page=>page.route===route));
-const buildInfo={mode:MODE,towns:totalTowns,provinces:provinces.length,htmlCount:routes.size+1,indexable:production?indexableRoutes.length:0};
+const buildInfo={mode:MODE,towns:totalTowns,provinces:provinces.length,htmlCount:routes.size+1,serviceGuides:guides.length,indexable:production?indexableRoutes.length:0};
 fs.writeFileSync(path.join(ROOT,'build-manifest.json'),JSON.stringify(buildInfo,null,2));
 const headerLines=['/*', ...(!production?['  X-Robots-Tag: noindex, nofollow']:[]),
   '  X-Content-Type-Options: nosniff','  Referrer-Policy: strict-origin-when-cross-origin',
@@ -443,7 +442,7 @@ if(production){
   const sitemapDir=path.join(ROOT,'sitemaps');
   fs.mkdirSync(sitemapDir,{recursive:true});
   const sitemapGroups=[
-    {file:'principal.xml',routes:['/']},
+    {file:'principal.xml',routes:['/',...extraRoutes]},
     ...provinces.map(province=>({
       file:`${province.slug}.xml`,
       routes:indexableRoutes.filter(route=>route===`/${province.slug}/`||route.startsWith(`/${province.slug}/`))
@@ -469,4 +468,4 @@ if(production){
   fs.writeFileSync(path.join(ROOT,'robots.txt'),`User-agent: *\nAllow: /\n`);
 }
 fs.writeFileSync(path.join(ROOT,'404.html'),`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="stylesheet" href="/styles.css"><script src="/site.js" defer></script><title>Página no disponible | Antenas Abaso</title></head><body>${header('/#contacto')}<main id="contenido" class="wrap section"><h1>Página no disponible</h1><p>La dirección solicitada no existe. Vuelve al inicio o consulta tu localidad por teléfono.</p><div class="hero-actions"><a class="btn btn-primary" href="/">Volver al inicio</a><a class="btn" href="${tel()}">Llamar ${PHONE}</a></div></main>${footer()}</body></html>`);
-console.log(`BUILD ABASO OK: ${totalTowns} localidades, ${provinces.length} provincias, portada y 3 páginas legales. Modo ${MODE}; ${buildInfo.indexable} URLs indexables.`);
+console.log(`BUILD ABASO OK: ${totalTowns} localidades, ${provinces.length} provincias, ${guides.length} guías, índice de servicios, portada y 3 páginas legales. Modo ${MODE}; ${buildInfo.indexable} URLs indexables.`);

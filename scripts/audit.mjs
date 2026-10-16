@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import services from '../content/services.json' with { type: 'json' };
+import {extraRoutes} from './service-guides.mjs';
 import { provinces, totalTowns } from '../content/municipios.mjs';
 import { comarcaFor, townsInComarca, comarcaGroups } from '../content/comarcas.mjs';
 
@@ -319,7 +320,8 @@ if(production){
   else{
     const principal=fs.readFileSync(principalFile,'utf8');
     const urls=[...principal.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m=>decode(m[1]));
-    if(urls.length!==1||urls[0]!==DOMAIN+'/') errors.push('Sitemap principal debe contener solo la portada');
+    const expectedMain=['/',...extraRoutes].map(route=>DOMAIN+route);
+    if(urls.length!==expectedMain.length||new Set(urls).size!==urls.length||expectedMain.some(u=>!urls.includes(u))) errors.push('Sitemap principal debe contener portada e inventario exacto de servicios');
     allSitemapUrls.push(...urls);
   }
   for(const province of provinces){
@@ -338,7 +340,7 @@ if(production){
     allSitemapUrls.push(...urls);
   }
   const expected=metadata.filter(m=>!legalRoutes.has(m.path)).map(m=>m.canonical);
-  const expectedIndexable=totalTowns+provinces.length+1;
+  const expectedIndexable=totalTowns+provinces.length+1+extraRoutes.length;
   if(allSitemapUrls.length!==expectedIndexable||
      new Set(allSitemapUrls).size!==allSitemapUrls.length||
      allSitemapUrls.some(u=>!expected.includes(u))||
@@ -357,7 +359,7 @@ for(const item of assetSources){
 }
 if(/https?:\/\/www\.antenasabaso\.com\/img\//.test(home+sourceCss)) errors.push('Quedan imágenes dependientes de la web antigua');
 for(const alias of ['Home','Antenas','videoportero','electricidad','formulario']) if(!home.includes(`id="${alias}"`)) errors.push(`Falta ancla histórica ${alias}`);
-const expectedHtmlFiles=expectedTownTotal+provinces.length+1+legalRoutes.size+1; // locales + provincias + portada + legales + 404
+const expectedHtmlFiles=expectedTownTotal+provinces.length+1+legalRoutes.size+1+extraRoutes.length; // locales + provincias + portada + legales + 404
 if(htmlFiles.length!==expectedHtmlFiles) errors.push(`HTML=${htmlFiles.length}; esperados ${expectedHtmlFiles}`);
 const siteJsFile=path.join(ROOT,'site.js');
 if(!fs.existsSync(siteJsFile)) errors.push('Falta site.js');

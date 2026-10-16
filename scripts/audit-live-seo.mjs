@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import {provinces} from '../content/municipios.mjs';
+import {extraRoutes} from './service-guides.mjs';
 
 const DOMAIN='https://antenasabaso.com';
 const timeout=12000;
@@ -39,14 +40,14 @@ for(const p of manifest)await run('sitemap '+p.slug,async()=>{
 });
 await run('sitemap principal',async()=>{
  const r=await check(DOMAIN+'/sitemaps/principal.xml');assert(r.status===200,'HTTP '+r.status);
- const urls=extract(await r.text());assert(urls.length===1&&urls[0]===DOMAIN+'/','Portada incoherente');all.push(...urls);
+ const urls=extract(await r.text());const expected=['/',...extraRoutes].map(route=>DOMAIN+route);assert(urls.length===expected.length&&expected.every(u=>urls.includes(u)),'Portada o servicios incoherentes');all.push(...urls);
 });
 await run('unicidad y cobertura',async()=>{
- const expected=1+manifest.length+manifest.reduce((n,p)=>n+p.count,0);
+ const expected=1+extraRoutes.length+manifest.length+manifest.reduce((n,p)=>n+p.count,0);
  assert(all.length===expected,'Total '+all.length+' en vez de '+expected);
  assert(new Set(all).size===all.length,'URLs duplicadas');
 });
-const sample=[DOMAIN+'/',...manifest.map(p=>DOMAIN+'/'+p.slug+'/'),...all.filter(x=>x.split('/').length>5).slice(0,12)];
+const sample=[DOMAIN+'/',...extraRoutes.map(r=>DOMAIN+r),...manifest.map(p=>DOMAIN+'/'+p.slug+'/'),...all.filter(x=>x.split('/').length>5).slice(0,12)];
 for(const url of [...new Set(sample)])await run('URL canónica '+new URL(url).pathname,async()=>{
  const r=await check(url,'manual');assert(r.status===200,'HTTP '+r.status+' (redirección en sitemap)');
  assert(!/noindex/i.test(r.headers.get('x-robots-tag')||''),'X-Robots noindex');
