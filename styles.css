@@ -498,3 +498,37 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 .province-quick-links nav a{display:block;padding:9px 0;border-bottom:1px solid #dce4ed;font-weight:600;overflow-wrap:anywhere}
 @media(max-width:800px){.province-quick-links nav{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.province-quick-links{padding:25px 0}.province-quick-links nav{grid-template-columns:1fr}.province-quick-links nav a{padding:8px 0}}
+
+/* Portada móvil: cabecera compacta y primera pantalla con acceso a cobertura. */
+.home-service-summary{padding:28px 0;background:#f1f4f7;border-bottom:1px solid var(--line)}
+.home-service-summary h2{margin:0 0 8px;font-size:22px;line-height:1.2;color:var(--navy)}
+.home-service-summary .hero-lead{color:#53616d;font-size:16px;line-height:1.6}
+@media(max-width:640px){
+  .home-page .site-header{position:relative}
+  .home-page .header-inner{grid-template-columns:1fr;gap:0;padding-top:10px;min-height:0}
+  .home-page .brand{justify-content:center;padding-bottom:10px}
+  .home-page .header-phone{display:none}
+  .home-page .main-nav{grid-column:1;gap:0;justify-content:space-between;font-size:12px;padding:0}
+  .home-page .main-nav a{padding:11px 0;min-height:44px}
+  .home-page .hero-shell{min-height:0}
+  .home-page .hero-main{padding:30px 0 24px}
+  .home-page .hero .eyebrow{font-size:10px;letter-spacing:.12em}
+  .home-page .hero h1{font-size:clamp(34px,9vw,42px);line-height:1.08;letter-spacing:-.04em;margin:14px 0 18px}
+  .home-page .hero h1 .hero-area{font-size:1em;line-height:inherit;margin-top:4px;color:#ffd76e}
+  .home-page .hero-statement{font-weight:500;font-size:16px;line-height:1.55;max-width:36ch;margin:0}
+  .home-page .hero .hero-actions{display:flex!important;margin-top:22px}
+  .home-page .hero-actions a[href^="tel:"],.home-page .hero-actions a[href^="https://wa.me/"]{display:none}
+  .home-page .hero-actions .btn-light{background:#fff;color:var(--navy);min-height:46px;border-radius:7px;padding:0 20px;font-size:14px}
+  .home-page .hero-actions .btn-light::after{content:"↓";margin-left:18px}
+  .home-page .hero-meta{margin-top:24px;padding-top:18px;gap:12px}
+  .home-page .hero-meta b{font-size:22px}
+  .home-page .hero-meta span{font-size:10px;line-height:1.4}
+  .home-page .hero-side{margin:0 0 22px;padding:20px;border-radius:10px}
+  .home-page .hero-side-title{padding-bottom:14px}
+  .home-page .hero-side-title strong{font-size:21px}
+  .home-page .hero-side-list a{padding-block:13px;min-height:48px}
+  .home-page .home-service-summary{padding:24px 0}
+  .home-page .home-service-summary h2{font-size:20px}
+  .home-page .home-service-summary .hero-lead{font-size:14px}
+  .home-page .mobile-bar a{border-radius:7px;font-size:15px}
+}
