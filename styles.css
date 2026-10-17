@@ -532,3 +532,18 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
   .home-page .home-service-summary .hero-lead{font-size:14px}
   .home-page .mobile-bar a{border-radius:7px;font-size:15px}
 }
+
+/* Menú móvil: un botón, enlaces en filas y navegación disponible sin JavaScript. */
+.menu-toggle{display:none}
+@media(max-width:640px){
+  .site-header[data-mobile-nav] .header-inner{min-height:68px;grid-template-columns:minmax(0,1fr) 54px;gap:8px;padding-block:8px}
+  .site-header[data-mobile-nav] .brand{grid-column:1;grid-row:1;justify-content:flex-start;padding:0;min-width:0}
+  .site-header[data-mobile-nav] .header-phone{display:none}
+  .site-header[data-mobile-nav] .menu-toggle{grid-column:2;grid-row:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:54px;min-height:46px;padding:5px;border:1px solid #cddbe6;border-radius:8px;background:#f1f6fa;color:var(--navy);font-family:inherit;font-size:11px;font-weight:750;line-height:1.2;cursor:pointer}
+  .menu-toggle>span:first-child{font-size:22px;line-height:1}
+  .menu-toggle>span:last-child{font-size:11px;font-weight:750}
+  .menu-toggle:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+  .site-header[data-mobile-nav] .main-nav{display:none}
+  .site-header[data-mobile-nav][data-menu-open="true"] .main-nav{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:1fr;gap:0;width:100%;margin:4px 0 0;padding:4px 0;border-top:1px solid var(--line);justify-self:stretch}
+  .site-header[data-mobile-nav][data-menu-open="true"] .main-nav a{display:flex;align-items:center;min-height:46px;padding:12px 14px;font-size:14px;line-height:1.4;border-bottom:1px solid var(--line);color:var(--navy);background:#f7fafc}
+}
