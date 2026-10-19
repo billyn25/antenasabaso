@@ -393,6 +393,22 @@ const localTechnicalTopics = [
   {
     title:'Tras cambiar de televisor faltan canales',
     text:t=>`Si una toma de ${t} funcionaba y el problema aparece al cambiar de televisor, se compara esa toma con otras y se revisan sintonización, nivel de señal y conexión antes de modificar la instalación común.`
+  },
+  {
+    title:'Cable coaxial cuarteado con entrada de agua',
+    text:t=>`En instalaciones exteriores de ${t}, un coaxial envejecido o cuarteado puede permitir entrada de humedad. Se revisan tramos expuestos, conectores y cajas porque el agua puede provocar pérdidas e inestabilidad de señal.`
+  },
+  {
+    title:'Señal recibida desde más de un centro emisor',
+    text:t=>`En algunas ubicaciones de ${t} pueden llegar señales por recorridos o centros emisores distintos. Si aparecen ecos, cortes o recepción inestable, se valora orientación, nivel y distribución antes de añadir amplificación.`
+  },
+  {
+    title:'Zona de sombra para la TDT terrestre',
+    text:t=>`Si en una zona de ${t} la cobertura terrestre resulta insuficiente incluso con la instalación revisada, puede valorarse una solución de recepción por satélite cuando el servicio y las condiciones disponibles encajen con la vivienda.`
+  },
+  {
+    title:'Receptor preparado para futuras emisiones UHD',
+    text:t=>`Si se renueva un receptor en ${t}, conviene comprobar qué formatos admite para no quedarse limitado ante futuras emisiones. La disponibilidad real de UHD depende de las emisiones y del equipo compatible en cada momento.`
   }
 ];
 
@@ -438,7 +454,7 @@ const localTechnicalProfiles = [
     eyebrow:'Señal y meteorología',
     title:t=>`Qué revisar en ${t} si la TDT falla después de mal tiempo`,
     intro:'Viento, lluvia y humedad pueden afectar a una instalación exterior de formas distintas. Conviene separar orientación, fijación, conexiones y calidad de señal antes de cambiar la antena.',
-    topicIndexes:[2,17,18,19,0,22]
+    topicIndexes:[2,17,18,19,23,0]
   },
   {
     key:'comunidad',
@@ -459,7 +475,7 @@ const localTechnicalProfiles = [
     eyebrow:'Parabólica y satélite',
     title:t=>`Pérdidas de señal por satélite en ${t}`,
     intro:'Una parabólica sin señal no implica necesariamente cambiar el conjunto. Orientación, LNB, conectores, coaxial y soporte se pueden comprobar por separado.',
-    topicIndexes:[8,2,18,19,11]
+    topicIndexes:[8,2,18,19,25,26]
   },
   {
     key:'conectividad',
@@ -473,7 +489,7 @@ const localTechnicalProfiles = [
     eyebrow:'Cableado y distribución',
     title:t=>`Cuando unas tomas funcionan y otras no en ${t}`,
     intro:'Repartidores, derivaciones, conectores y cable coaxial pueden producir diferencias entre habitaciones. La revisión se centra en el recorrido real de la señal antes de aumentar amplificación.',
-    topicIndexes:[1,3,10,13,22,0]
+    topicIndexes:[1,3,10,13,23,24]
   },
   {
     key:'antigua',
@@ -488,6 +504,20 @@ const localTechnicalProfiles = [
     title:t=>`Averías que aparecen y desaparecen en ${t}`,
     intro:'Los fallos intermitentes suelen necesitar más contexto: cuándo aparecen, con qué equipo y si coinciden con lluvia, uso del abrepuertas o cambios de carga. Esas pistas ayudan a acotar la revisión.',
     topicIndexes:[16,18,2,3,7,21]
+  },
+  {
+    key:'recepcion-compleja',
+    eyebrow:'Recepción complicada',
+    title:t=>`Cuando en ${t} llegan señales por más de un recorrido`,
+    intro:'No siempre más señal significa mejor recepción. Cuando llegan señales con niveles o recorridos distintos, la orientación y el equilibrio de la instalación importan tanto como la potencia.',
+    topicIndexes:[24,3,0,1,23]
+  },
+  {
+    key:'sombra-satelite',
+    eyebrow:'Zonas con poca cobertura terrestre',
+    title:t=>`Alternativas cuando la TDT terrestre no llega bien a ${t}`,
+    intro:'Primero se comprueba que la instalación terrestre esté correcta. Si la cobertura disponible sigue siendo insuficiente, se puede valorar recepción por satélite y la compatibilidad del receptor.',
+    topicIndexes:[25,26,8,18,2]
   }
 ];
 
@@ -506,6 +536,10 @@ function localTechnicalNotes(town,province,h,index){
   return `<section class="local-technical-notes" data-technical-profile="${profile.key}"><div class="wrap"><div class="local-technical-head"><div><span class="eyebrow">${esc(profile.eyebrow)}</span><h2>${esc(profile.title(town))}</h2></div><p>${esc(profile.intro)}</p></div><div class="local-technical-grid local-technical-grid-${topics.length}">${topics.map(item=>`<article><h3>${esc(item.title)}</h3><p>${esc(item.text(town))}</p></article>`).join('')}</div><aside class="local-decision-note"><strong>${esc(decision.title)}</strong><span>${esc(decision.text(town))}</span></aside></div></section>`;
 }
 
+function localBudgetForm(province,town){
+  return `<section class="section contact-section local-budget-section" id="contacto"><div class="wrap budget-panel budget-panel-local"><div class="budget-copy"><span class="eyebrow light">Presupuesto por WhatsApp</span><h2>Consulta el servicio en ${esc(town)}</h2><p>La provincia y el municipio ya están preparados. Elige el servicio, cuéntanos qué ocurre y se abrirá WhatsApp con el mensaje listo.</p><a class="budget-phone" href="${tel()}"><small>¿Prefieres llamar?</small><strong>${PHONE}</strong></a></div><form class="budget-form" data-budget-form><input type="hidden" name="province" value="${esc(province.name)}"><input type="hidden" name="town" value="${esc(town)}"><div class="budget-form-grid budget-form-grid-local"><label><span>Servicio</span><select name="service" required><option value="Antenas TDT">Antenas TDT</option><option value="Antenas parabólicas">Antenas parabólicas</option><option value="TDT por satélite HD">TDT por satélite HD</option><option value="Amplificación y distribución">Amplificación y distribución</option><option value="Portero automático">Portero automático</option><option value="Videoportero">Videoportero</option><option value="Cobertura móvil 4G/5G">Cobertura móvil 4G/5G</option><option value="Reparación eléctrica">Reparación eléctrica</option></select></label><label><span>Tipo de inmueble</span><select name="property"><option value="Vivienda">Vivienda</option><option value="Comunidad de vecinos">Comunidad de vecinos</option><option value="Comercio o negocio">Comercio o negocio</option><option value="Otro">Otro</option></select></label></div><label class="budget-problem"><span>¿Qué ocurre?</span><textarea name="problem" rows="4" maxlength="600" placeholder="Ej. La antena perdió señal después de viento fuerte; el portero llama pero la cerradura no abre..." required></textarea></label><div class="budget-form-footer"><p>Puedes adjuntar una foto del equipo al abrir WhatsApp.</p><button class="btn btn-whatsapp-light budget-submit" type="submit">Preparar consulta →</button></div></form></div></section>`;
+}
+
 function renderTown(province,town,index){
   const townSlug=slugify(town);
   const route=`/${province.slug}/${townSlug}/`;
@@ -515,7 +549,7 @@ function renderTown(province,town,index){
   const comarcaPeers=townsInComarca(province.slug,town).filter(x=>x!==town);
   const pool=(comarcaPeers.length?comarcaPeers:province.towns.filter(x=>x!==town)).slice().sort((a,b)=>a.localeCompare(b,'es'));
   const related=Array.from({length:Math.min(6,pool.length)},(_,i)=>pool[(h+i)%pool.length]);
-  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}${localEquipmentShowcase(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>Antenas, porteros y otros servicios en ${esc(town)}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localTechnicalNotes(town,province,h,index)}${localPrep(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town)||province.name)}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">Antenista en ${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
+  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}${localEquipmentShowcase(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>Antenas, porteros y otros servicios en ${esc(town)}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localTechnicalNotes(town,province,h,index)}${localPrep(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town)||province.name)}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">Antenista en ${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section>${localBudgetForm(province,town)}</main>${footer(town)}</body></html>`;
 }
 
 function legalBreadcrumb(title,route){
