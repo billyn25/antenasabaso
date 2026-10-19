@@ -547,3 +547,23 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
   .site-header[data-mobile-nav][data-menu-open="true"] .main-nav{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:1fr;gap:0;width:100%;margin:4px 0 0;padding:4px 0;border-top:1px solid var(--line);justify-self:stretch}
   .site-header[data-mobile-nav][data-menu-open="true"] .main-nav a{display:flex;align-items:center;min-height:46px;padding:12px 14px;font-size:14px;line-height:1.4;border-bottom:1px solid var(--line);color:var(--navy);background:#f7fafc}
 }
+
+
+/* Equipos reales visibles en cada página local */
+.local-equipment-showcase{padding:54px 0 58px;background:#f3f7fa;border-block:1px solid #dbe5ec}
+.local-equipment-head{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:38px;align-items:end;margin-bottom:24px}
+.local-equipment-head h2{margin:7px 0 0;color:#18324a;font-size:clamp(28px,3vw,38px);line-height:1.12;letter-spacing:-.8px}
+.local-equipment-head>p{margin:0;color:#607386;font-size:14px;line-height:1.7}
+.local-equipment-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.equipment-card{min-width:0;overflow:hidden;background:#fff;border:1px solid #d5e1e9;border-radius:15px;box-shadow:0 10px 28px rgba(18,47,70,.07)}
+.equipment-photo{height:205px;background-color:#eef3f6;background-position:center;background-repeat:no-repeat;background-size:cover;border-bottom:1px solid #dce6ec}
+.equipment-fagor .equipment-photo{background-image:url("https://mir-s3-cdn-cf.behance.net/project_modules/disp/56abd19977795.560dd65d8aeab.jpg")}
+.equipment-tegui .equipment-photo{background-image:linear-gradient(#fff,#f7f7f7),url("https://bricoelige.com/29110-large_default/kit-portero-2-hilos-1-vivienda-serie-8-l2000-378141.jpg");background-size:cover,contain;background-blend-mode:multiply}
+.equipment-televes .equipment-photo{background-image:linear-gradient(#fff,#f8f8f8),url("https://www.cetronic.es/sqlcommerce/ficheros/dk_93/productos/0055529-5.jpg");background-size:cover,contain;background-blend-mode:multiply}
+.equipment-satelite .equipment-photo{background-image:url("/assets/gallery/parabolica-realista.webp")}
+.equipment-copy{padding:18px 18px 20px}
+.equipment-copy>span{display:block;margin-bottom:6px;color:#2e6ea6;font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase}
+.equipment-copy h3{margin:0 0 8px;color:#18324a;font-size:19px;line-height:1.25}
+.equipment-copy p{margin:0;color:#607386;font-size:13px;line-height:1.62}
+@media(max-width:1050px){.local-equipment-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.equipment-photo{height:230px}}
+@media(max-width:760px){.local-equipment-showcase{padding:38px 0 42px}.local-equipment-head{grid-template-columns:1fr;gap:12px}.local-equipment-grid{grid-template-columns:1fr}.equipment-photo{height:220px}.equipment-card{border-radius:13px}.equipment-copy{padding:16px 17px 18px}}
