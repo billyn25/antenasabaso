@@ -558,7 +558,7 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 .equipment-card{min-width:0;overflow:hidden;background:#fff;border:1px solid #d5e1e9;border-radius:15px;box-shadow:0 10px 28px rgba(18,47,70,.07)}
 .equipment-photo{height:205px;background-color:#eef3f6;background-position:center;background-repeat:no-repeat;background-size:cover;border-bottom:1px solid #dce6ec}
 .equipment-fagor .equipment-photo{background-image:url("https://mir-s3-cdn-cf.behance.net/project_modules/disp/56abd19977795.560dd65d8aeab.jpg")}
-.equipment-tegui .equipment-photo{background-image:linear-gradient(#fff,#f7f7f7),url("https://bricoelige.com/29110-large_default/kit-portero-2-hilos-1-vivienda-serie-8-l2000-378141.jpg");background-size:cover,contain;background-blend-mode:multiply}
+.equipment-tegui .equipment-photo{background-image:url("https://www.domoelectra.com/tiendaonline/6522-large_default/telefonillo-serie-8-tegui.jpg"),url("/assets/gallery/videoportero-original.webp");background-position:center,center;background-repeat:no-repeat,no-repeat;background-size:contain,cover;background-color:#f7f9fb}
 .equipment-televes .equipment-photo{background-image:linear-gradient(#fff,#f8f8f8),url("https://www.cetronic.es/sqlcommerce/ficheros/dk_93/productos/0055529-5.jpg");background-size:cover,contain;background-blend-mode:multiply}
 .equipment-satelite .equipment-photo{background-image:url("/assets/gallery/parabolica-realista.webp")}
 .equipment-copy{padding:18px 18px 20px}
