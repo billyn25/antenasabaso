@@ -49,6 +49,7 @@ const titles=new Set(), metas=new Set(), canonicals=new Set();
 const metadata=[];
 let checkedLinks=0, checkedCrumbs=0, serviceContacts=0;
 const similarityDocs=[];
+const technicalProfiles=new Set();
 const stripText=html=>decode(String(html).replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ')).replace(/\s+/g,' ').trim().toLowerCase();
 const shingles=(text,size=5)=>{const words=text.split(/\s+/).filter(Boolean);const set=new Set();for(let i=0;i<=words.length-size;i++) set.add(words.slice(i,i+size).join(' '));return set;};
 const jaccard=(a,b)=>{let common=0;for(const x of a) if(b.has(x)) common++;const union=a.size+b.size-common;return union?common/union:0;};
@@ -171,9 +172,13 @@ for(const page of manifest){
     if(!peer||peer.path===page.path||peer.provinceSlug!==page.provinceSlug||(comarca&&comarcaFor(peer.provinceSlug,peer.name)!==comarca)) errors.push(`${page.path}: enlace territorial inválido: ${link}`);
   }
   if(!html.includes(`Marcas que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta bloque local de marcas`);
-  const technicalBlock=html.match(/<section class="local-technical-notes">([\s\S]*?)<\/section>/)?.[1]||'';
-  if(!technicalBlock.includes(`Qué puede cambiar el diagnóstico en ${page.name}`)) errors.push(`${page.path}: falta contenido técnico variable`);
-  if((technicalBlock.match(/<article>/g)||[]).length!==3) errors.push(`${page.path}: contenido técnico variable debe tener 3 casos`);
+  const technicalMatch=html.match(/<section class="local-technical-notes" data-technical-profile="([^"]+)">([\s\S]*?)<\/section>/);
+  const technicalProfile=technicalMatch?.[1]||'';
+  const technicalBlock=technicalMatch?.[2]||'';
+  if(technicalProfile) technicalProfiles.add(technicalProfile);
+  if(!technicalBlock.includes(page.name)) errors.push(`${page.path}: contenido técnico variable sin localidad`);
+  const technicalCases=(technicalBlock.match(/<article>/g)||[]).length;
+  if(technicalCases<2||technicalCases>4) errors.push(`${page.path}: contenido técnico variable debe tener entre 2 y 4 casos`);
   if(!technicalBlock.includes('class="local-decision-note"')) errors.push(`${page.path}: falta nota de decisión técnica`);
   const equipmentBlock=html.match(/<section class="local-equipment-showcase"[\s\S]*?<\/section>/)?.[0]||'';
   if(!equipmentBlock.includes(`Antenas y equipos que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta galería técnica local`);
@@ -203,6 +208,7 @@ for(let i=0;i<similarityDocs.length;i++) for(let j=i+1;j<similarityDocs.length;j
   if(score>highestSimilarity.score) highestSimilarity={score,a:similarityDocs[i].path,b:similarityDocs[j].path};
   if(score>=0.97) errors.push(`Clon local extremo (${score.toFixed(3)}): ${similarityDocs[i].path} y ${similarityDocs[j].path}`); else if(score>=0.92) warnings.push(`Similitud local alta (${score.toFixed(3)}): ${similarityDocs[i].path} y ${similarityDocs[j].path}; revisar valor útil, no reescribir solo para bajar un porcentaje`);
 }
+if(technicalProfiles.size<8) errors.push(`Perfiles técnicos insuficientes: ${technicalProfiles.size}/8`);
 for(const province of provinces){
   const html=htmlByFile.get(province.slug+'/index.html')||'';
   if(!html.includes('class="alpha-nav"')||!html.includes('class="alpha-group"')) errors.push(`${province.slug}: falta abecedario`);
