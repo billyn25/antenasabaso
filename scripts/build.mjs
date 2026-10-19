@@ -431,10 +431,78 @@ function stableTopicSelection(pool,seed,count,step){
   return out;
 }
 
-function localTechnicalNotes(town,h){
-  const topics=stableTopicSelection(localTechnicalTopics,h%localTechnicalTopics.length,3,5);
-  const decision=localDecisionTopics[(h>>>9)%localDecisionTopics.length];
-  return `<section class="local-technical-notes"><div class="wrap"><div class="local-technical-head"><div><span class="eyebrow">Pistas útiles antes de intervenir</span><h2>Qué puede cambiar el diagnóstico en ${esc(town)}</h2></div><p>No todos los fallos se resuelven sustituyendo la antena o el equipo visible. Estas situaciones ayudan a decidir por dónde empezar.</p></div><div class="local-technical-grid">${topics.map(item=>`<article><h3>${esc(item.title)}</h3><p>${esc(item.text(town))}</p></article>`).join('')}</div><aside class="local-decision-note"><strong>${esc(decision.title)}</strong><span>${esc(decision.text(town))}</span></aside></div></section>`;
+const localTechnicalProfiles = [
+  {
+    key:'tdt-tiempo',
+    eyebrow:'Señal y meteorología',
+    title:t=>`Qué revisar en ${t} si la TDT falla después de mal tiempo`,
+    intro:'Viento, lluvia y humedad pueden afectar a una instalación exterior de formas distintas. Conviene separar orientación, fijación, conexiones y calidad de señal antes de cambiar la antena.',
+    topicIndexes:[2,17,18,19,0,22]
+  },
+  {
+    key:'comunidad',
+    eyebrow:'Vivienda o comunidad',
+    title:t=>`Cómo cambia la revisión comunitaria en ${t}`,
+    intro:'Cuando una avería afecta a más de una vivienda, el recorrido de diagnóstico cambia. Se diferencia la red común de la distribución particular antes de intervenir dentro de un piso.',
+    topicIndexes:[4,3,1,10,9,11]
+  },
+  {
+    key:'accesos',
+    eyebrow:'Porteros y cierre eléctrico',
+    title:t=>`Averías de portero y cerradura eléctrica en ${t}`,
+    intro:'Llamada, audio, apertura y ajuste mecánico de la puerta son funciones diferentes. Revisarlas por separado evita sustituir un telefonillo cuando el problema está en otro punto.',
+    topicIndexes:[5,6,7,14,15,16]
+  },
+  {
+    key:'satelite',
+    eyebrow:'Parabólica y satélite',
+    title:t=>`Pérdidas de señal por satélite en ${t}`,
+    intro:'Una parabólica sin señal no implica necesariamente cambiar el conjunto. Orientación, LNB, conectores, coaxial y soporte se pueden comprobar por separado.',
+    topicIndexes:[8,2,18,19,11]
+  },
+  {
+    key:'conectividad',
+    eyebrow:'Wi‑Fi, router y cobertura móvil',
+    title:t=>`Antes de instalar una antena 4G/5G en ${t}`,
+    intro:'Una mala conexión dentro de casa puede venir del Wi‑Fi, del router o de la cobertura del operador. Distinguirlos evita aplicar una solución de cobertura móvil a un problema de red interior.',
+    topicIndexes:[12,20,21,13,11]
+  },
+  {
+    key:'distribucion',
+    eyebrow:'Cableado y distribución',
+    title:t=>`Cuando unas tomas funcionan y otras no en ${t}`,
+    intro:'Repartidores, derivaciones, conectores y cable coaxial pueden producir diferencias entre habitaciones. La revisión se centra en el recorrido real de la señal antes de aumentar amplificación.',
+    topicIndexes:[1,3,10,13,22,0]
+  },
+  {
+    key:'antigua',
+    eyebrow:'Instalaciones antiguas',
+    title:t=>`Qué merece la pena conservar en una instalación de ${t}`,
+    intro:'Una instalación con años puede tener partes perfectamente aprovechables. Se trata de localizar qué elemento introduce la avería o la incompatibilidad antes de renovar todo el sistema.',
+    topicIndexes:[9,11,3,14,5,1]
+  },
+  {
+    key:'intermitentes',
+    eyebrow:'Fallos intermitentes',
+    title:t=>`Averías que aparecen y desaparecen en ${t}`,
+    intro:'Los fallos intermitentes suelen necesitar más contexto: cuándo aparecen, con qué equipo y si coinciden con lluvia, uso del abrepuertas o cambios de carga. Esas pistas ayudan a acotar la revisión.',
+    topicIndexes:[16,18,2,3,7,21]
+  }
+];
+
+function localTechnicalNotes(town,province,h,index){
+  const profileSeed=hash(`${province.slug}|${town}|${index}|technical-profile`);
+  const profile=localTechnicalProfiles[profileSeed%localTechnicalProfiles.length];
+  const count=2+((profileSeed>>>6)%3);
+  const start=(profileSeed>>>11)%profile.topicIndexes.length;
+  const topics=[];
+  for(let i=0;topics.length<count && i<profile.topicIndexes.length*2;i++){
+    const topic=localTechnicalTopics[profile.topicIndexes[(start+i*2)%profile.topicIndexes.length]];
+    if(topic&&!topics.includes(topic)) topics.push(topic);
+  }
+  const decisionSeed=hash(`${town}|${province.slug}|decision|${index}`);
+  const decision=localDecisionTopics[decisionSeed%localDecisionTopics.length];
+  return `<section class="local-technical-notes" data-technical-profile="${profile.key}"><div class="wrap"><div class="local-technical-head"><div><span class="eyebrow">${esc(profile.eyebrow)}</span><h2>${esc(profile.title(town))}</h2></div><p>${esc(profile.intro)}</p></div><div class="local-technical-grid local-technical-grid-${topics.length}">${topics.map(item=>`<article><h3>${esc(item.title)}</h3><p>${esc(item.text(town))}</p></article>`).join('')}</div><aside class="local-decision-note"><strong>${esc(decision.title)}</strong><span>${esc(decision.text(town))}</span></aside></div></section>`;
 }
 
 function renderTown(province,town,index){
@@ -446,7 +514,7 @@ function renderTown(province,town,index){
   const comarcaPeers=townsInComarca(province.slug,town).filter(x=>x!==town);
   const pool=(comarcaPeers.length?comarcaPeers:province.towns.filter(x=>x!==town)).slice().sort((a,b)=>a.localeCompare(b,'es'));
   const related=Array.from({length:Math.min(6,pool.length)},(_,i)=>pool[(h+i)%pool.length]);
-  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}${localEquipmentShowcase(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>Antenas, porteros y otros servicios en ${esc(town)}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localTechnicalNotes(town,h)}${localPrep(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town)||province.name)}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">Antenista en ${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
+  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}${localEquipmentShowcase(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>Antenas, porteros y otros servicios en ${esc(town)}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localTechnicalNotes(town,province,h,index)}${localPrep(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town)||province.name)}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">Antenista en ${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
 }
 
 function legalBreadcrumb(title,route){
