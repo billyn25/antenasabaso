@@ -432,43 +432,84 @@
     </section>
 
     <section class="section contact-section" id="contacto"><span class="legacy-anchor" id="formulario" aria-hidden="true"></span>
-      <div class="wrap contact-card">
-        <div>
-          <span class="eyebrow light">Contacto directo</span>
+      <div class="wrap budget-panel">
+        <div class="budget-copy">
+          <span class="eyebrow light">Presupuesto por WhatsApp</span>
           <h2>Pide presupuesto sin compromiso</h2>
-          <p>Dinos el municipio, el tipo de instalación y qué ocurre. Te atendemos por teléfono o WhatsApp.</p>
+          <p>Cuéntanos qué necesitas y preparamos el mensaje con los datos básicos. No se envía nada desde la web: al pulsar el botón se abre WhatsApp con tu consulta preparada.</p>
+          <div class="budget-trust">
+            <span><b>24h</b> Urgencias</span>
+            <span><b>20 años</b> de experiencia</span>
+            <span><b>Trato directo</b> con el técnico</span>
+          </div>
+          <a class="budget-phone" href="tel:+34670042626"><small>¿Prefieres llamar?</small><strong>670 042 626</strong></a>
         </div>
-        <div class="contact-actions">
-          <a class="btn btn-light" href="tel:+34670042626">670 042 626</a>
-          <a class="btn btn-whatsapp-light" href="https://wa.me/34670042626?text=Hola%2C%20necesito%20consultar%20un%20servicio%20con%20Antenas%20Abaso.">Abrir WhatsApp</a>
-        </div>
+        <form class="budget-form" data-budget-form>
+          <div class="budget-form-grid">
+            <label><span>Servicio</span><select name="service" required>
+              <option value="Antenas TDT">Antenas TDT</option>
+              <option value="Antenas parabólicas">Antenas parabólicas</option>
+              <option value="TDT por satélite HD">TDT por satélite HD</option>
+              <option value="Amplificación y distribución">Amplificación y distribución</option>
+              <option value="Portero automático">Portero automático</option>
+              <option value="Videoportero">Videoportero</option>
+              <option value="Cobertura móvil 4G/5G">Cobertura móvil 4G/5G</option>
+              <option value="Reparación eléctrica">Reparación eléctrica</option>
+            </select></label>
+            <label><span>Provincia</span><select name="province" required>
+              <option value="Bizkaia">Bizkaia</option><option value="Gipuzkoa">Gipuzkoa</option><option value="Álava">Álava</option>
+              <option value="Burgos">Burgos</option><option value="Cantabria">Cantabria</option><option value="Palencia">Palencia</option>
+              <option value="León">León</option><option value="Navarra">Navarra</option><option value="Valladolid">Valladolid</option>
+            </select></label>
+            <label><span>Municipio</span><input name="town" type="text" placeholder="Ej. Zalla, Lerma, Reinosa..." autocomplete="address-level2" required></label>
+            <label><span>Tipo de inmueble</span><select name="property">
+              <option value="Vivienda">Vivienda</option><option value="Comunidad de vecinos">Comunidad de vecinos</option>
+              <option value="Comercio o negocio">Comercio o negocio</option><option value="Otro">Otro</option>
+            </select></label>
+          </div>
+          <label class="budget-problem"><span>¿Qué ocurre?</span><textarea name="problem" rows="4" maxlength="600" placeholder="Ej. La antena perdió señal después de una tormenta; el portero llama pero la cerradura no abre; el Wi‑Fi llega mal a varias habitaciones..." required></textarea></label>
+          <div class="budget-form-footer">
+            <p>Después puedes adjuntar una foto del equipo directamente en WhatsApp.</p>
+            <button class="btn btn-whatsapp-light budget-submit" type="submit">Preparar consulta por WhatsApp →</button>
+          </div>
+        </form>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="wrap footer-grid">
-      <div>
-        <strong>Antenas Abaso</strong>
-        <p>Técnico en instalación, reparación y mantenimiento de antenas, porteros automáticos y videoporteros. Servicio local organizado por provincias y municipios. Tel. <a href="tel:+34670042626">670 042 626</a>.</p>
+    <div class="wrap footer-top">
+      <div class="footer-brand-block">
+        <strong class="footer-brand-name">Antenas Abaso</strong>
+        <p>Técnico en instalación, reparación y mantenimiento de antenas, porteros automáticos y videoporteros para viviendas y comunidades.</p>
+        <div class="footer-badges"><span>24h urgencias</span><span>20 años de experiencia</span><span>1.624 municipios</span></div>
       </div>
+      <div class="footer-contact-card">
+        <small>Contacto directo</small>
+        <a class="footer-phone" href="tel:+34670042626">670 042 626</a>
+        <a class="footer-wa" href="https://wa.me/34670042626?text=Hola%2C%20necesito%20consultar%20un%20servicio%20con%20Antenas%20Abaso.">WhatsApp</a>
+      </div>
+    </div>
+    <div class="wrap footer-grid footer-grid-rich">
       <div>
-        <strong>Contacto</strong>
-        <p><a href="tel:+34670042626">670 042 626</a><br><a href="mailto:info@antenasabaso.com">info@antenasabaso.com</a></p>
+        <strong>Servicios</strong>
+        <nav class="footer-links" aria-label="Servicios"><a href="/#servicio-tdt">Antenas TDT</a><a href="/#servicio-parabolicas">Parabólicas</a><a href="/#servicio-tdt-satelite">TDT por satélite</a><a href="/#servicio-porteros">Porteros y videoporteros</a><a href="/#servicio-cobertura-movil">Cobertura 4G/5G</a></nav>
       </div>
       <div>
         <strong>Cobertura</strong>
-        <p><a href="/bizkaia/">Bizkaia</a> · <a href="/gipuzkoa/">Gipuzkoa</a> · <a href="/alava/">Álava</a> · <a href="/burgos/">Burgos</a> · <a href="/cantabria/">Cantabria</a> · <a href="/palencia/">Palencia</a> · <a href="/leon/">León</a></p>
+        <nav class="footer-links footer-provinces" aria-label="Provincias"><a href="/bizkaia/">Bizkaia</a><a href="/gipuzkoa/">Gipuzkoa</a><a href="/alava/">Álava</a><a href="/burgos/">Burgos</a><a href="/cantabria/">Cantabria</a><a href="/palencia/">Palencia</a><a href="/leon/">León</a><a href="/navarra/">Navarra</a><a href="/valladolid/">Valladolid</a></nav>
+      </div>
+      <div>
+        <strong>Antes de llamar</strong>
+        <p class="footer-help">Ten a mano el municipio, tipo de inmueble, qué falla y, si es posible, la marca o una foto visible del equipo.</p>
+        <a class="footer-budget-link" href="#formulario">Preparar presupuesto por WhatsApp →</a>
       </div>
       <div class="footer-legal">
         <strong>Información legal</strong>
-        <p><a href="/aviso-legal/">Aviso legal</a><br><a href="/privacidad/">Privacidad</a><br><a href="/cookies/">Cookies</a></p>
+        <nav class="footer-links" aria-label="Información legal"><a href="/aviso-legal/">Aviso legal</a><a href="/privacidad/">Privacidad</a><a href="/cookies/">Cookies</a></nav>
       </div>
     </div>
-    <div class="wrap footer-bottom">
-      <span>© Antenas Abaso</span>
-      <span>Servicio técnico de antenas y porteros</span>
-    </div>
+    <div class="wrap footer-bottom"><span>© Antenas Abaso</span><span>Antenas · Porteros · Videoporteros · Cobertura móvil</span></div>
   </footer>
 
   <aside class="cookie-notice" data-cookie-notice hidden aria-label="Información sobre cookies">
