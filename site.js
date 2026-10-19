@@ -42,7 +42,7 @@
 /* Formulario de presupuesto: prepara el mensaje y abre WhatsApp. No envía datos a la web. */
 (()=>{
   const form=document.querySelector('[data-budget-form]');
-  if(!form) return;
+  if(!form || typeof form.addEventListener!=='function') return;
   form.addEventListener('submit',event=>{
     event.preventDefault();
     const data=new FormData(form);
