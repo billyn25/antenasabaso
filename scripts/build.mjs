@@ -409,6 +409,10 @@ const localTechnicalTopics = [
   {
     title:'Receptor preparado para futuras emisiones UHD',
     text:t=>`Si se renueva un receptor en ${t}, conviene comprobar qué formatos admite para no quedarse limitado ante futuras emisiones. La disponibilidad real de UHD depende de las emisiones y del equipo compatible en cada momento.`
+  },
+  {
+    title:'Torreta o mástil para ganar despeje',
+    text:t=>`En comunidades de ${t}, cuando edificios, arbolado o relieve dificultan la recepción, se puede valorar ganar altura con mástil o torreta si la medición confirma que mejora el despeje. La fijación, estabilidad y seguridad de la estructura forman parte de la solución.`
   }
 ];
 
@@ -454,14 +458,14 @@ const localTechnicalProfiles = [
     eyebrow:'Señal y meteorología',
     title:t=>`Qué revisar en ${t} si la TDT falla después de mal tiempo`,
     intro:'Viento, lluvia y humedad pueden afectar a una instalación exterior de formas distintas. Conviene separar orientación, fijación, conexiones y calidad de señal antes de cambiar la antena.',
-    topicIndexes:[2,17,18,19,23,0]
+    topicIndexes:[2,17,18,19,23,27]
   },
   {
     key:'comunidad',
     eyebrow:'Vivienda o comunidad',
     title:t=>`Cómo cambia la revisión comunitaria en ${t}`,
     intro:'Cuando una avería afecta a más de una vivienda, el recorrido de diagnóstico cambia. Se diferencia la red común de la distribución particular antes de intervenir dentro de un piso.',
-    topicIndexes:[4,3,1,10,9,11]
+    topicIndexes:[4,3,1,10,27,9]
   },
   {
     key:'accesos',
@@ -510,14 +514,14 @@ const localTechnicalProfiles = [
     eyebrow:'Recepción complicada',
     title:t=>`Cuando en ${t} llegan señales por más de un recorrido`,
     intro:'No siempre más señal significa mejor recepción. Cuando llegan señales con niveles o recorridos distintos, la orientación y el equilibrio de la instalación importan tanto como la potencia.',
-    topicIndexes:[24,3,0,1,23]
+    topicIndexes:[24,3,27,0,23]
   },
   {
     key:'sombra-satelite',
     eyebrow:'Zonas con poca cobertura terrestre',
     title:t=>`Alternativas cuando la TDT terrestre no llega bien a ${t}`,
     intro:'Primero se comprueba que la instalación terrestre esté correcta. Si la cobertura disponible sigue siendo insuficiente, se puede valorar recepción por satélite y la compatibilidad del receptor.',
-    topicIndexes:[25,26,8,18,2]
+    topicIndexes:[25,26,27,8,18]
   }
 ];
 
