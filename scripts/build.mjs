@@ -356,6 +356,42 @@ const localTechnicalTopics = [
   {
     title:'Cuando una avería aparece tras una reforma',
     text:t=>`Si el problema de ${t} comenzó después de mover tomas, cambiar cableado o realizar una obra, ese cambio es una pista útil para revisar conexiones y recorridos antes de tocar la antena principal.`
+  },
+  {
+    title:'Cerradura eléctrica del portero que no abre',
+    text:t=>`Si desde el telefonillo de ${t} se oye correctamente pero la puerta no abre, se revisan abrepuertas, alimentación, pulsación, conexiones y estado mecánico antes de culpar al telefonillo.`
+  },
+  {
+    title:'La puerta no cierra bien por holgura',
+    text:t=>`En ${t}, una cerradura eléctrica puede funcionar y aun así no cerrar bien si puerta, pestillo o marco están desalineados. Conviene distinguir un fallo eléctrico de una holgura o ajuste mecánico.`
+  },
+  {
+    title:'El abrepuertas funciona unas veces sí y otras no',
+    text:t=>`Una apertura intermitente en ${t} puede estar relacionada con contactos, alimentación, pulsador, cableado o ajuste del cerradero. El síntoma ayuda a evitar cambiar piezas sin localizar la causa.`
+  },
+  {
+    title:'Antena TDT dañada por tormenta',
+    text:t=>`Después de una tormenta en ${t} se comprueban antena, mástil, fijaciones, orientación, conexiones y alimentación. Viento, agua o un movimiento del conjunto pueden provocar pérdidas de señal aunque el televisor siga funcionando.`
+  },
+  {
+    title:'Agua o humedad en conectores de antena',
+    text:t=>`Si la señal de ${t} empeora después de lluvia, interesa revisar conectores exteriores, cajas y tramos de coaxial expuestos. La humedad puede introducir pérdidas e inestabilidad sin que la antena esté rota.`
+  },
+  {
+    title:'Mástil o soporte con movimiento',
+    text:t=>`Una fijación floja en ${t} puede hacer que la antena cambie ligeramente de orientación con el viento. Se revisa soporte y estabilidad antes de reajustar o sustituir la antena.`
+  },
+  {
+    title:'Wi‑Fi débil no siempre es mala cobertura móvil',
+    text:t=>`Si en una vivienda de ${t} el problema es solo dentro de casa, conviene diferenciar la cobertura Wi‑Fi del router de la señal 4G/5G del operador. Son problemas distintos y requieren comprobaciones diferentes.`
+  },
+  {
+    title:'Tras cambiar el router empeora la señal',
+    text:t=>`Si en ${t} la cobertura o los datos empeoran después de cambiar de router, se revisan ubicación, bandas, conectores y compatibilidad con antena exterior antes de instalar otro equipo.`
+  },
+  {
+    title:'Tras cambiar de televisor faltan canales',
+    text:t=>`Si una toma de ${t} funcionaba y el problema aparece al cambiar de televisor, se compara esa toma con otras y se revisan sintonización, nivel de señal y conexión antes de modificar la instalación común.`
   }
 ];
 
