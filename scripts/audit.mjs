@@ -280,6 +280,10 @@ if(!brandSection.includes('Porteros automáticos y videoporteros')) errors.push(
 if(/<a\b|<button\b|<img\b|servicio (?:t[eé]cnico )?oficial|distribuidor oficial|partner oficial|aggregateRating|reviewCount/i.test(brandSection)) errors.push('Marcas: enlaces o afiliación no autorizada');
 if(home.indexOf('id="marcas"')<home.indexOf('id="servicios"')) errors.push('Marcas antes de servicios');
 for(const title of ['Instalación y reparación de antenas','Porteros automáticos','Reparaciones eléctricas en viviendas','Pide presupuesto sin compromiso']) if(!home.includes(title)) errors.push(`Portada: falta contenido ${title}`);
+if(!home.includes('data-budget-form')||!home.includes('name="service"')||!home.includes('name="province"')||!home.includes('name="town"')||!home.includes('name="problem"')) errors.push('Portada: formulario de presupuesto WhatsApp incompleto');
+const homeFooter=home.match(/<footer class="footer">([\s\S]*?)<\/footer>/)?.[1]||'';
+for(const province of provinces) if(!homeFooter.includes(`href="/${province.slug}/"`)) errors.push(`Pie: falta provincia ${province.name}`);
+if(!homeFooter.includes('Antes de llamar')||!homeFooter.includes('Preparar presupuesto por WhatsApp')) errors.push('Pie: falta ayuda práctica o acceso a presupuesto');
 if(!home.includes('class="review-stars"')||!home.includes('★★★★★')) errors.push('Portada: se han perdido las estrellas de confianza');
 for(const href of ['/aviso-legal/','/privacidad/','/cookies/']) if(!home.includes(`href="${href}"`)) errors.push(`Portada: falta enlace legal ${href}`);
 if(!home.includes('data-cookie-notice')||!home.includes('data-cookie-dismiss')) errors.push('Portada: falta aviso informativo de cookies');
@@ -380,6 +384,7 @@ if(!fs.existsSync(siteJsFile)) errors.push('Falta site.js');
 else{
   const js=fs.readFileSync(siteJsFile,'utf8');
   if(!js.includes('antenas-abaso-cookie-info-v1')||!js.includes('data-cookie-dismiss')) errors.push('site.js: gestión del aviso de cookies incompleta');
+  if(!js.includes('data-budget-form')||!js.includes('wa.me/34670042626')) errors.push('site.js: formulario de presupuesto WhatsApp incompleto');
 }
 
 if(warnings.length){
