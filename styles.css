@@ -582,3 +582,10 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 .local-decision-note strong{color:#18324a;font-size:14px}.local-decision-note span{color:#607386;font-size:13px;line-height:1.6}
 @media(max-width:850px){.local-technical-head{grid-template-columns:1fr;gap:10px}.local-technical-grid{grid-template-columns:1fr 1fr}.local-decision-note{grid-template-columns:1fr}}
 @media(max-width:620px){.local-technical-notes{padding:38px 0}.local-technical-grid{grid-template-columns:1fr}.local-technical-grid article{padding:17px}.local-technical-head h2{font-size:25px}}
+
+.local-technical-grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.local-technical-grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.local-technical-grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:980px){.local-technical-grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){.local-technical-grid-2,.local-technical-grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.local-technical-grid-2,.local-technical-grid-3,.local-technical-grid-4{grid-template-columns:1fr}}
