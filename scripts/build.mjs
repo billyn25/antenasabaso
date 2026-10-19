@@ -270,6 +270,36 @@ function localStructured(title,description,route,town,province){
     {'@type':'Service','@id':canonical(route)+'#service',name:`Servicio técnico de antenas en ${town}`,description:PHRASE,serviceType:services.map(s=>s.name),areaServed:{'@type':'AdministrativeArea',name:`${town}, ${province.name}`},provider:{'@id':DOMAIN+'/#organization'}}
   ]};
 }
+function localEquipmentShowcase(town){
+  const items=[
+    {
+      key:'fagor',
+      kicker:'Antena TDT',
+      title:'Fagor Rhombus',
+      text:'Antena UHF para recepción terrestre. Cuando aparece en una instalación revisamos señal, orientación, conexiones y distribución antes de plantear cambios.'
+    },
+    {
+      key:'tegui',
+      kicker:'Portero automático',
+      title:'Tegui · Serie 8 / Línea 2000',
+      text:'En porteros Tegui se puede separar la avería por llamada, audio y apertura para comprobar qué parte del sistema necesita intervención.'
+    },
+    {
+      key:'televes',
+      kicker:'Amplificación',
+      title:'Televes · amplificación de vivienda',
+      text:'Amplificadores y elementos de distribución pueden mejorar o repartir señal, pero conviene medir primero para evitar amplificar una señal defectuosa.'
+    },
+    {
+      key:'satelite',
+      kicker:'Satélite',
+      title:'Parabólica, LNB y cableado',
+      text:'En recepción por satélite revisamos fijación, orientación, LNB, conectores y coaxial antes de sustituir componentes.'
+    }
+  ];
+  return `<section class="local-equipment-showcase" aria-labelledby="equipos-${slugify(town)}"><div class="wrap"><div class="local-equipment-head"><div><span class="eyebrow">Equipos que nos encontramos</span><h2 id="equipos-${slugify(town)}">Antenas y equipos que podemos revisar en ${esc(town)}</h2></div><p>Ejemplos habituales de equipos de recepción, amplificación y acceso. La reparación depende del modelo, el estado de la instalación y la compatibilidad disponible.</p></div><div class="local-equipment-grid">${items.map(item=>`<article class="equipment-card equipment-${item.key}"><div class="equipment-photo" role="img" aria-label="${esc(item.title)}"></div><div class="equipment-copy"><span>${esc(item.kicker)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></div></article>`).join('')}</div></div></section>`;
+}
+
 function renderTown(province,town,index){
   const townSlug=slugify(town);
   const route=`/${province.slug}/${townSlug}/`;
@@ -279,7 +309,7 @@ function renderTown(province,town,index){
   const comarcaPeers=townsInComarca(province.slug,town).filter(x=>x!==town);
   const pool=(comarcaPeers.length?comarcaPeers:province.towns.filter(x=>x!==town)).slice().sort((a,b)=>a.localeCompare(b,'es'));
   const related=Array.from({length:Math.min(6,pool.length)},(_,i)=>pool[(h+i)%pool.length]);
-  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>Antenas, porteros y otros servicios en ${esc(town)}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localPrep(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town)||province.name)}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">Antenista en ${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
+  return `${head(title,description,route,localStructured(title,description,route,town,province))}<body>${header()}<main class="local-page" id="contenido"><nav class="wrap breadcrumb" aria-label="Ruta"><a href="/">Inicio</a><span>/</span><a href="/${province.slug}/">${esc(province.name)}</a><span>/</span><span aria-current="page">${esc(town)}</span></nav><section class="local-hero"><div class="wrap local-hero-grid"><div><span class="eyebrow">Servicio técnico en ${esc(town)}</span><h1>Antenista en ${esc(town)}, ${esc(province.name)}</h1><p class="hero-statement">${PHRASE}</p><p class="local-lead">${esc(introVariants[h%introVariants.length](town,province.name))}</p><div class="hero-actions"><a class="btn btn-primary" href="${tel()}">Llamar ${PHONE}</a><a class="btn btn-whatsapp" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div><aside class="local-contact"><small>Consulta directa</small><strong>${PHONE}</strong><p>Indica ${esc(town)} y qué problema presenta la instalación.</p><a href="${tel()}">Llamar ahora →</a></aside></div></section>${localTrustStrip(town)}${localEquipmentShowcase(town)}<section class="section services"><div class="wrap"><div class="section-head"><div><span class="eyebrow">Servicios en ${esc(town)}</span><h2>Antenas, porteros y otros servicios en ${esc(town)}</h2></div><p>${esc(adviceVariants[(h>>>7)%adviceVariants.length](town))}</p></div><div class="service-grid">${serviceCards(town,h)}</div></div></section>${localTerritory(province,town)}${localProcess(town,h)}${localPrep(town)}${localBrands(town)}${localIntentSections(town,h)}<section class="local-related"><div class="wrap"><span class="eyebrow">Más localidades</span><h2>Otros municipios de ${esc(comarcaFor(province.slug,town)||province.name)}</h2><div class="related-grid">${related.map(x=>`<a href="/${province.slug}/${slugify(x)}/">Antenista en ${esc(x)} →</a>`).join('')}</div><a class="province-back" href="/${province.slug}/">Ver los ${province.towns.length} municipios de ${esc(province.name)} →</a></div></section><section class="section contact-section" id="contacto"><div class="wrap contact-card"><div><span class="eyebrow light">Contacto directo</span><h2>Servicio en ${esc(town)}</h2><p>Cuéntanos el tipo de instalación y qué ocurre. Consulta las condiciones de visita y diagnóstico antes de concertar la atención.</p></div><div class="contact-actions"><a class="btn btn-light" href="${tel()}">${PHONE}</a><a class="btn btn-whatsapp-light" href="${wa(`Hola, necesito un servicio en ${town}.`)}">WhatsApp</a></div></div></section></main>${footer(town)}</body></html>`;
 }
 
 function legalBreadcrumb(title,route){
