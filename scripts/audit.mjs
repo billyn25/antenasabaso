@@ -171,6 +171,10 @@ for(const page of manifest){
     if(!peer||peer.path===page.path||peer.provinceSlug!==page.provinceSlug||(comarca&&comarcaFor(peer.provinceSlug,peer.name)!==comarca)) errors.push(`${page.path}: enlace territorial inválido: ${link}`);
   }
   if(!html.includes(`Marcas que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta bloque local de marcas`);
+  const technicalBlock=html.match(/<section class="local-technical-notes">([\s\S]*?)<\/section>/)?.[1]||'';
+  if(!technicalBlock.includes(`Qué puede cambiar el diagnóstico en ${page.name}`)) errors.push(`${page.path}: falta contenido técnico variable`);
+  if((technicalBlock.match(/<article>/g)||[]).length!==3) errors.push(`${page.path}: contenido técnico variable debe tener 3 casos`);
+  if(!technicalBlock.includes('class="local-decision-note"')) errors.push(`${page.path}: falta nota de decisión técnica`);
   const equipmentBlock=html.match(/<section class="local-equipment-showcase"[\s\S]*?<\/section>/)?.[0]||'';
   if(!equipmentBlock.includes(`Antenas y equipos que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta galería técnica local`);
   for(const label of ['Fagor Rhombus','Tegui · Serie 8 / Línea 2000','Televes · amplificación de vivienda','Parabólica, LNB y cableado']) if(!equipmentBlock.includes(label)) errors.push(`${page.path}: falta equipo visual ${label}`);
