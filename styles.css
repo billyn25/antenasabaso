@@ -633,3 +633,12 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 .footer-bottom{display:flex;justify-content:space-between;gap:20px;border-top:1px solid rgba(255,255,255,.10);margin-top:0;padding-top:18px;font-size:11px;color:#7f93a2}
 @media(max-width:900px){.footer-top{grid-template-columns:1fr}.footer-contact-card{max-width:340px}.footer-grid-rich{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){.footer-top{padding:32px 0 24px}.footer-grid-rich{grid-template-columns:1fr;gap:24px}.footer-provinces{grid-template-columns:1fr 1fr}.footer-bottom{display:grid}}
+
+
+/* Formulario local: misma utilidad que portada, más compacto */
+.local-budget-section{padding-top:18px!important}
+.budget-panel-local{grid-template-columns:minmax(0,.72fr) minmax(420px,1.28fr);padding:32px 34px}
+.budget-panel-local .budget-copy h2{font-size:clamp(30px,3.4vw,43px)}
+.budget-form-grid-local{grid-template-columns:1fr 1fr}
+@media(max-width:900px){.budget-panel-local{grid-template-columns:1fr}}
+@media(max-width:640px){.budget-panel-local{padding:24px 18px}.budget-form-grid-local{grid-template-columns:1fr}}
