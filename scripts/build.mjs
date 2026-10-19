@@ -413,6 +413,14 @@ const localTechnicalTopics = [
   {
     title:'Torreta o mástil para ganar despeje',
     text:t=>`En comunidades de ${t}, cuando edificios, arbolado o relieve dificultan la recepción, se puede valorar ganar altura con mástil o torreta si la medición confirma que mejora el despeje. La fijación, estabilidad y seguridad de la estructura forman parte de la solución.`
+  },
+  {
+    title:'Antenas de radio FM y DAB/DAB+',
+    text:t=>`En ${t} también se pueden revisar o instalar antenas específicas para radio FM y DAB/DAB+. La orientación, el tipo de antena y la distribución se valoran aparte de la TDT para evitar pérdidas o una recepción deficiente.`
+  },
+  {
+    title:'Radio FM o DAB con señal débil en comunidad',
+    text:t=>`Si una comunidad de ${t} quiere distribuir radio FM o DAB/DAB+, se revisa la captación exterior, el mástil disponible, la amplificación y cómo integrar esa señal en la red sin perjudicar los servicios de televisión.`
   }
 ];
 
@@ -522,6 +530,13 @@ const localTechnicalProfiles = [
     title:t=>`Alternativas cuando la TDT terrestre no llega bien a ${t}`,
     intro:'Primero se comprueba que la instalación terrestre esté correcta. Si la cobertura disponible sigue siendo insuficiente, se puede valorar recepción por satélite y la compatibilidad del receptor.',
     topicIndexes:[25,26,27,8,18]
+  },
+  {
+    key:'radio-fm-dab',
+    eyebrow:'Radio FM y DAB/DAB+',
+    title:t=>`Recepción de radio FM y DAB/DAB+ en ${t}`,
+    intro:'La radio terrestre tiene necesidades de captación distintas de la televisión. Se valora antena, orientación, mástil, amplificación y distribución según la instalación existente.',
+    topicIndexes:[28,29,27,9,11]
   }
 ];
 
