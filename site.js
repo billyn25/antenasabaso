@@ -37,3 +37,32 @@
     }
   });
 })();
+
+
+/* Formulario de presupuesto: prepara el mensaje y abre WhatsApp. No envía datos a la web. */
+(()=>{
+  const form=document.querySelector('[data-budget-form]');
+  if(!form) return;
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    const data=new FormData(form);
+    const service=String(data.get('service')||'').trim();
+    const province=String(data.get('province')||'').trim();
+    const town=String(data.get('town')||'').trim();
+    const property=String(data.get('property')||'').trim();
+    const problem=String(data.get('problem')||'').trim().slice(0,600);
+    if(!service||!province||!town||!problem) return;
+    const message=[
+      'Hola, quiero pedir presupuesto con Antenas Abaso.',
+      '',
+      'Servicio: '+service,
+      'Provincia: '+province,
+      'Municipio: '+town,
+      'Inmueble: '+property,
+      'Problema: '+problem,
+      '',
+      'Si hace falta, puedo adjuntar una foto del equipo.'
+    ].join('\n');
+    window.location.href='https://wa.me/34670042626?text='+encodeURIComponent(message);
+  });
+})();
