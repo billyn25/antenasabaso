@@ -502,9 +502,6 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 @media(max-width:520px){.province-quick-links{padding:25px 0}.province-quick-links nav{grid-template-columns:1fr}.province-quick-links nav a{padding:8px 0}}
 
 /* Portada móvil: cabecera compacta y primera pantalla con acceso a cobertura. */
-.home-service-summary{padding:28px 0;background:#f1f4f7;border-bottom:1px solid var(--line)}
-.home-service-summary h2{margin:0 0 8px;font-size:22px;line-height:1.2;color:var(--navy)}
-.home-service-summary .hero-lead{color:#53616d;font-size:16px;line-height:1.6}
 @media(max-width:640px){
   .home-page .site-header{position:relative}
   .home-page .header-inner{grid-template-columns:1fr;gap:0;padding-top:10px;min-height:0}
@@ -529,9 +526,6 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
   .home-page .hero-side-title{padding-bottom:14px}
   .home-page .hero-side-title strong{font-size:21px}
   .home-page .hero-side-list a{padding-block:13px;min-height:48px}
-  .home-page .home-service-summary{padding:24px 0}
-  .home-page .home-service-summary h2{font-size:20px}
-  .home-page .home-service-summary .hero-lead{font-size:14px}
   .home-page .mobile-bar a{border-radius:7px;font-size:15px}
 }
 
