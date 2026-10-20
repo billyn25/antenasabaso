@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import {createHash} from 'node:crypto';
 import services from '../content/services.json' with { type: 'json' };
 import { provinces, totalTowns } from '../content/municipios.mjs';
 import { comarcaFor, townsInComarca } from '../content/comarcas.mjs';
@@ -206,8 +207,11 @@ function selectDistinct(pool,start,count,step=5){
 
 function rankedLocalSelection(pool,key,count){
   return pool
-    .map((item,index)=>({item,score:hash(`${key}|${index}`)}))
-    .sort((a,b)=>a.score-b.score)
+    .map((item,index)=>({
+      item,
+      score:createHash('sha256').update(`${key}|${index}`).digest('hex')
+    }))
+    .sort((a,b)=>a.score.localeCompare(b.score))
     .slice(0,count)
     .map(x=>x.item);
 }
