@@ -17,6 +17,7 @@ const expectedMode=['deploy-preview','branch-deploy'].includes(process.env.CONTE
 if(buildInfo.mode!==expectedMode) errors.push('Modo generado distinto del solicitado');
 const walk=dir=>fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()?walk(path.join(dir,e.name)):[path.join(dir,e.name)]);
 const decode=s=>String(s).replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&');
+const slugify=value=>String(value).toLocaleLowerCase('es').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
 const htmlFiles=walk(ROOT).filter(f=>f.endsWith('.html'));
 const htmlByFile=new Map(htmlFiles.map(f=>[path.relative(ROOT,f).split(path.sep).join('/'),fs.readFileSync(f,'utf8')]));
 const manifestFile=path.join(ROOT,'local-pages-manifest.json');
