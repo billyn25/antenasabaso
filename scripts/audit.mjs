@@ -266,9 +266,15 @@ for(const [,slug,block] of featuredBlocks){
   const province=provinces.find(p=>p.slug===slug);
   if(!province||featuredProvinces.has(slug)){errors.push(`Portada: provincia desconocida o duplicada ${slug}`);continue;}
   featuredProvinces.add(slug);
-  const list=block.match(/<ul class="town-quick-links"[^>]*>([\s\S]*?)<\/ul>/)?.[1]||'';
-  const links=[...list.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m=>m[1]);
-  if(links.length!==6||new Set(links).size!==links.length) errors.push(`Portada ${slug}: deben existir exactamente seis localidades destacadas`);
+  const visibleList=block.match(/<ul class="town-quick-links"[^>]*>([\s\S]*?)<\/ul>/)?.[1]||'';
+  const extraList=block.match(/<ul class="town-quick-links town-quick-links-extra"[^>]*>([\s\S]*?)<\/ul>/)?.[1]||'';
+  const visibleLinks=[...visibleList.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m=>m[1]);
+  const extraLinks=[...extraList.matchAll(/<a\b[^>]*href="([^"]+)"/g)].map(m=>m[1]);
+  const links=[...visibleLinks,...extraLinks];
+  if(visibleLinks.length!==6) errors.push(`Portada ${slug}: deben existir seis localidades visibles`);
+  if(extraLinks.length!==14) errors.push(`Portada ${slug}: el desplegable debe contener catorce localidades`);
+  if(links.length!==20||new Set(links).size!==20) errors.push(`Portada ${slug}: la selección debe conservar veinte localidades distintas`);
+  if(!block.includes('class="town-more"')||!block.includes('Ver más pueblos')||!block.includes('aria-hidden="true">+</span>')) errors.push(`Portada ${slug}: falta desplegable + de pueblos`);
   for(const href of links) if(!manifest.some(p=>p.path===href&&p.provinceSlug===slug)) errors.push(`Portada ${slug}: destino inválido ${href}`);
   if(!block.includes(`class="town-all" href="/${slug}/"`)||!block.includes(`Ver los ${province.towns.length} municipios`)) errors.push(`Portada ${slug}: listado completo incoherente`);
   if(/<a\b[^>]*>(?:(?!<\/a>)[\s\S])*?<a\b/i.test(block)) errors.push(`Portada ${slug}: enlaces anidados`);
