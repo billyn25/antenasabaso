@@ -66,3 +66,19 @@
     window.location.href='https://wa.me/34670042626?text='+encodeURIComponent(message);
   });
 })();
+
+
+/* Accesos de portada: preseleccionan el servicio antes de bajar al formulario. */
+(()=>{
+  const form=document.querySelector('[data-budget-form]');
+  if(!form || typeof form.querySelector!=='function') return;
+  const service=form.querySelector('[name="service"]');
+  if(!service) return;
+  document.querySelectorAll('[data-home-service]').forEach(link=>{
+    if(typeof link.addEventListener!=='function') return;
+    link.addEventListener('click',()=>{
+      const value=link.getAttribute('data-home-service');
+      if(value) service.value=value;
+    });
+  });
+})();
