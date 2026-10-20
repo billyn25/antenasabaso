@@ -51,7 +51,7 @@ const metadata=[];
 let checkedLinks=0, checkedCrumbs=0, serviceContacts=0;
 const similarityDocs=[];
 const technicalProfiles=new Set();
-const auxiliaryIntentLabels=['Resintonización TDT y canales UHD','Comprobar compatibilidad para TDT UHD','Ordenar canales y eliminar duplicados','Montaje de televisión en soporte de pared','Soporte fijo, inclinable o articulado para TV','Ordenar y canalizar cables detrás del televisor','Montaje de proyector en techo o pared','Instalación de pantalla de proyección','Cableado HDMI y señal entre equipos','Configuración de receptor TDT o satélite','Mover la televisión y preparar un nuevo punto'];
+const auxiliaryIntentLabels=['Resintonización TDT y canales UHD','Comprobar compatibilidad para TDT UHD','Ordenar canales y eliminar duplicados','Montaje de televisión en soporte de pared','Soporte fijo, inclinable o articulado para TV','Ordenar y canalizar cables detrás del televisor','Montaje de proyector en techo o pared','Instalación de pantalla de proyección','Cableado HDMI y señal entre equipos','Configuración de receptor TDT o satélite','Mover la televisión y preparar un nuevo punto','HDMI largo para bar u oficina','Distribuir una fuente HD a varias televisiones','Mejorar Wi‑Fi con puntos de acceso Reyee','Automatizar una puerta de portal'];
 const auxiliaryIntentCounts=new Map(auxiliaryIntentLabels.map(label=>[label,0]));
 const stripText=html=>decode(String(html).replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ')).replace(/\s+/g,' ').trim().toLowerCase();
 const shingles=(text,size=5)=>{const words=text.split(/\s+/).filter(Boolean);const set=new Set();for(let i=0;i<=words.length-size;i++) set.add(words.slice(i,i+size).join(' '));return set;};
