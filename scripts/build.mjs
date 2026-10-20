@@ -135,7 +135,11 @@ const localIntentVariants = [
   ['Instalación de pantalla de proyección', t=>`Una pantalla de proyección en ${t} debe colocarse según tamaño, altura y posición del proyector. En modelos motorizados también se valora la alimentación y el recorrido de control cuando corresponda.`],
   ['Cableado HDMI y señal entre equipos', t=>`Si televisor, receptor o proyector están separados en ${t}, se puede preparar el recorrido de HDMI, coaxial u otros cables de señal evitando tiradas improvisadas y comprobando la conexión antes de cerrar canaletas o soportes.`],
   ['Configuración de receptor TDT o satélite', t=>`En ${t} podemos revisar la conexión y configuración básica de receptores TDT o satélite, búsqueda de canales y salida hacia el televisor. Si falta señal, primero se diferencia configuración de problema de recepción.`],
-  ['Mover la televisión y preparar un nuevo punto', t=>`Si quieres cambiar una TV de ubicación en ${t}, se revisa si el nuevo punto dispone de señal, alimentación y espacio para el soporte. Cuando hace falta, se valora ampliar la toma y ordenar el cableado.`]
+  ['Mover la televisión y preparar un nuevo punto', t=>`Si quieres cambiar una TV de ubicación en ${t}, se revisa si el nuevo punto dispone de señal, alimentación y espacio para el soporte. Cuando hace falta, se valora ampliar la toma y ordenar el cableado.`],
+  ['HDMI largo para bar u oficina', t=>`En un bar, oficina o local de ${t} se puede preparar un recorrido HDMI de mayor longitud comprobando distancia, resolución y conexiones antes de cerrar canaletas o fijar equipos.`],
+  ['Distribuir una fuente HD a varias televisiones', t=>`Si un establecimiento de ${t} necesita mostrar una misma fuente de vídeo autorizada en varias pantallas, se puede estudiar una distribución mediante modulador COFDM HD y la red coaxial disponible.`],
+  ['Mejorar Wi‑Fi con puntos de acceso Reyee', t=>`Cuando la conexión llega bien al router pero hay zonas sin cobertura en ${t}, se puede valorar una red con puntos de acceso Reyee o equivalentes y cableado adecuado.`],
+  ['Automatizar una puerta de portal', t=>`En una comunidad de ${t} se puede valorar un motor para la puerta de portal cuando se quiere facilitar el acceso y reducir el esfuerzo de apertura, comprobando antes el estado mecánico y la seguridad del paso.`]
 ];
 
 const contactPrepItems = [
@@ -455,6 +459,46 @@ const localTechnicalTopics = [
   {
     title:'Radio FM o DAB con señal débil en comunidad',
     text:t=>`Si una comunidad de ${t} quiere distribuir radio FM o DAB/DAB+, se revisa la captación exterior, el mástil disponible, la amplificación y cómo integrar esa señal en la red sin perjudicar los servicios de televisión.`
+  },
+  {
+    title:'Mástil caído, doblado o desplazado',
+    text:t=>`Si en ${t} un temporal ha movido o doblado el mástil, se revisan anclajes, orientación, verticalidad, tensores y estado de la estructura antes de reajustar la recepción.`
+  },
+  {
+    title:'Previo de mástil sulfatado',
+    text:t=>`Un previo de mástil sulfatado en ${t} puede provocar pérdidas, cortes o fallos intermitentes. Se comprueban alimentación, conectores y estado del equipo antes de sustituir la antena.`
+  },
+  {
+    title:'Amplificador exterior mojado o con humedad',
+    text:t=>`Cuando la instalación de ${t} empeora con lluvia, se revisan caja, amplificador exterior, conectores y coaxial. El agua puede degradar la señal aunque la antena siga correctamente orientada.`
+  },
+  {
+    title:'Revisión de amplificación y cabecera comunitaria',
+    text:t=>`Si varias viviendas de ${t} pierden los mismos canales, se revisan central, módulos, fuentes y niveles de entrada y salida antes de intervenir toma por toma.`
+  },
+  {
+    title:'Cambio de toma de TV de pared',
+    text:t=>`Una toma de televisión deteriorada en ${t} puede introducir pérdidas o falsos contactos. Se comprueban mecanismo, conexión y cable antes de sustituirla o crear una nueva derivación.`
+  },
+  {
+    title:'Cable HDMI largo para bar, oficina o local',
+    text:t=>`En un bar, oficina o local de ${t} se puede preparar un recorrido HDMI de mayor longitud con la solución adecuada a la distancia, comprobando resolución, conectores y recorrido antes de cerrar canaletas.`
+  },
+  {
+    title:'Modulador COFDM HD para varias televisiones',
+    text:t=>`Si un establecimiento de ${t} necesita repartir una misma fuente de vídeo autorizada entre varias televisiones, se puede estudiar un modulador COFDM HD aprovechando la red coaxial disponible.`
+  },
+  {
+    title:'Cobertura Wi‑Fi con puntos de acceso Reyee',
+    text:t=>`Cuando en ${t} la conexión de entrada es correcta pero el Wi‑Fi no cubre toda la vivienda o negocio, se puede estudiar una red con puntos de acceso Reyee o equipos equivalentes y cableado adecuado.`
+  },
+  {
+    title:'Cambio de cerradura eléctrica o abrepuertas',
+    text:t=>`Si el portero de ${t} funciona pero la puerta no abre correctamente, se puede revisar y sustituir el cerradero o la cerradura eléctrica cuando la avería está en el mecanismo de apertura.`
+  },
+  {
+    title:'Motor para puerta de portal y accesibilidad',
+    text:t=>`En comunidades de ${t} se puede valorar la motorización de la puerta de portal para facilitar el acceso de personas con movilidad reducida, revisando peso, recorrido, maniobra y elementos de seguridad.`
   }
 ];
 
@@ -571,6 +615,41 @@ const localTechnicalProfiles = [
     title:t=>`Recepción de radio FM y DAB/DAB+ en ${t}`,
     intro:'La radio terrestre tiene necesidades de captación distintas de la televisión. Se valora antena, orientación, mástil, amplificación y distribución según la instalación existente.',
     topicIndexes:[28,29,27,9,11]
+  },
+  {
+    key:'estructura-humedad',
+    eyebrow:'Exterior, mástil y humedad',
+    title:t=>`Mástil, previo y elementos exteriores en ${t}`,
+    intro:'Los fallos exteriores pueden ser mecánicos o eléctricos. Se revisan estructura, conexiones, humedad y alimentación antes de decidir qué componente necesita intervención.',
+    topicIndexes:[30,31,32,17,18,19,23]
+  },
+  {
+    key:'cabecera-tomas',
+    eyebrow:'Cabecera y red interior',
+    title:t=>`Amplificación, cabecera y tomas de TV en ${t}`,
+    intro:'Cuando el problema afecta a varios televisores o a una toma concreta, se separa la red común de la instalación interior y se mide antes de sustituir equipos.',
+    topicIndexes:[33,34,0,1,3,10]
+  },
+  {
+    key:'audiovisual-locales',
+    eyebrow:'Bares, oficinas y audiovisuales',
+    title:t=>`HDMI y distribución de vídeo en locales de ${t}`,
+    intro:'En instalaciones audiovisuales se estudian distancia, resolución y red disponible para evitar recorridos improvisados y elegir entre HDMI directo o distribución por coaxial.',
+    topicIndexes:[35,36,10,23,27]
+  },
+  {
+    key:'wifi-profesional',
+    eyebrow:'Wi‑Fi interior',
+    title:t=>`Cobertura Wi‑Fi con puntos de acceso en ${t}`,
+    intro:'Una mala cobertura Wi‑Fi interior se separa primero de la señal del operador. Después se valora ubicación, cableado y puntos de acceso según las zonas que necesitan servicio.',
+    topicIndexes:[37,20,21,12]
+  },
+  {
+    key:'accesos-motorizados',
+    eyebrow:'Portero, cerradura y accesibilidad',
+    title:t=>`Apertura y automatización de accesos en ${t}`,
+    intro:'El sistema de acceso puede combinar portero, cerradero eléctrico y elementos mecánicos. En determinados portales también se puede valorar motorización para mejorar la accesibilidad.',
+    topicIndexes:[38,39,14,15,16,5,7]
   }
 ];
 
@@ -590,7 +669,7 @@ function localTechnicalNotes(town,province,h,index){
 }
 
 function localBudgetForm(province,town){
-  return `<section class="section contact-section local-budget-section" id="contacto"><div class="wrap budget-panel budget-panel-local"><div class="budget-copy"><span class="eyebrow light">Presupuesto por WhatsApp</span><h2>Consulta el servicio en ${esc(town)}</h2><p>La provincia y el municipio ya están preparados. Elige el servicio, cuéntanos qué ocurre y se abrirá WhatsApp con el mensaje listo.</p><a class="budget-phone" href="${tel()}"><small>¿Prefieres llamar?</small><strong>${PHONE}</strong></a></div><form class="budget-form" data-budget-form><input type="hidden" name="province" value="${esc(province.name)}"><input type="hidden" name="town" value="${esc(town)}"><div class="budget-form-grid budget-form-grid-local"><label><span>Servicio</span><select name="service" required><option value="Antenas TDT">Antenas TDT</option><option value="Antenas parabólicas">Antenas parabólicas</option><option value="TDT por satélite HD">TDT por satélite HD</option><option value="Amplificación y distribución">Amplificación y distribución</option><option value="Portero automático">Portero automático</option><option value="Videoportero">Videoportero</option><option value="Cobertura móvil 4G/5G">Cobertura móvil 4G/5G</option><option value="Reparación eléctrica">Reparación eléctrica</option><option value="Resintonización TDT y UHD">Resintonización TDT y UHD</option><option value="Montaje de TV en pared">Montaje de TV en pared</option><option value="Montaje de proyector y pantalla">Montaje de proyector y pantalla</option><option value="Cableado HDMI y audiovisual">Cableado HDMI y audiovisual</option><option value="Configuración de receptor TDT/SAT">Configuración de receptor TDT/SAT</option></select></label><label><span>Tipo de inmueble</span><select name="property"><option value="Vivienda">Vivienda</option><option value="Comunidad de vecinos">Comunidad de vecinos</option><option value="Comercio o negocio">Comercio o negocio</option><option value="Otro">Otro</option></select></label></div><label class="budget-problem"><span>¿Qué ocurre?</span><textarea name="problem" rows="4" maxlength="600" placeholder="Ej. La antena perdió señal después de viento fuerte; el portero llama pero la cerradura no abre..." required></textarea></label><div class="budget-form-footer"><p>Puedes adjuntar una foto del equipo al abrir WhatsApp.</p><button class="btn btn-whatsapp-light budget-submit" type="submit">Preparar consulta →</button></div></form></div></section>`;
+  return `<section class="section contact-section local-budget-section" id="contacto"><div class="wrap budget-panel budget-panel-local"><div class="budget-copy"><span class="eyebrow light">Presupuesto por WhatsApp</span><h2>Consulta el servicio en ${esc(town)}</h2><p>La provincia y el municipio ya están preparados. Elige el servicio, cuéntanos qué ocurre y se abrirá WhatsApp con el mensaje listo.</p><a class="budget-phone" href="${tel()}"><small>¿Prefieres llamar?</small><strong>${PHONE}</strong></a></div><form class="budget-form" data-budget-form><input type="hidden" name="province" value="${esc(province.name)}"><input type="hidden" name="town" value="${esc(town)}"><div class="budget-form-grid budget-form-grid-local"><label><span>Servicio</span><select name="service" required><option value="Antenas TDT">Antenas TDT</option><option value="Antenas parabólicas">Antenas parabólicas</option><option value="TDT por satélite HD">TDT por satélite HD</option><option value="Amplificación y distribución">Amplificación y distribución</option><option value="Portero automático">Portero automático</option><option value="Videoportero">Videoportero</option><option value="Cobertura móvil 4G/5G">Cobertura móvil 4G/5G</option><option value="Reparación eléctrica">Reparación eléctrica</option><option value="Resintonización TDT y UHD">Resintonización TDT y UHD</option><option value="Montaje de TV en pared">Montaje de TV en pared</option><option value="Montaje de proyector y pantalla">Montaje de proyector y pantalla</option><option value="Cableado HDMI y audiovisual">Cableado HDMI y audiovisual</option><option value="Configuración de receptor TDT/SAT">Configuración de receptor TDT/SAT</option><option value="HDMI largo para bar u oficina">HDMI largo para bar u oficina</option><option value="Distribución COFDM HD">Distribución COFDM HD</option><option value="Wi-Fi con puntos de acceso">Wi-Fi con puntos de acceso</option><option value="Cerradura eléctrica de portero">Cerradura eléctrica de portero</option><option value="Motor para puerta de portal">Motor para puerta de portal</option></select></label><label><span>Tipo de inmueble</span><select name="property"><option value="Vivienda">Vivienda</option><option value="Comunidad de vecinos">Comunidad de vecinos</option><option value="Comercio o negocio">Comercio o negocio</option><option value="Otro">Otro</option></select></label></div><label class="budget-problem"><span>¿Qué ocurre?</span><textarea name="problem" rows="4" maxlength="600" placeholder="Ej. La antena perdió señal después de viento fuerte; el portero llama pero la cerradura no abre..." required></textarea></label><div class="budget-form-footer"><p>Puedes adjuntar una foto del equipo al abrir WhatsApp.</p><button class="btn btn-whatsapp-light budget-submit" type="submit">Preparar consulta →</button></div></form></div></section>`;
 }
 
 function renderTown(province,town,index){
