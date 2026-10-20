@@ -832,27 +832,13 @@ fs.copyFileSync(path.resolve('styles.css'),path.join(ROOT,'styles.css'));
 fs.copyFileSync(path.resolve('site.js'),path.join(ROOT,'site.js'));
 if(fs.existsSync(path.resolve('assets'))) fs.cpSync(path.resolve('assets'),path.join(ROOT,'assets'),{recursive:true});
 fs.mkdirSync(path.join(ROOT,'assets','equipment'),{recursive:true});
-async function fetchBuildAsset(url,target,label){
-  let last;
-  for(let attempt=1;attempt<=3;attempt++){
-    try{
-      const response=await fetch(url,{headers:{'user-agent':'Mozilla/5.0 AntenasAbaso/1.0'}});
-      if(!response.ok) throw new Error(`HTTP ${response.status}`);
-      const data=Buffer.from(await response.arrayBuffer());
-      if(data.length<5000) throw new Error(`archivo demasiado pequeño (${data.length} bytes)`);
-      fs.writeFileSync(target,data);
-      return;
-    }catch(error){
-      last=error;
-      if(attempt<3) await new Promise(resolve=>setTimeout(resolve,500*attempt));
-    }
+// Las fotografías están versionadas: el build no depende de tiendas externas.
+for(const file of ['ikusi-flash-hdtf-c48v.jpg','tegui-serie-8-374794.jpg']){
+  const target=path.join(ROOT,'assets','equipment',file);
+  if(!fs.existsSync(target)||fs.statSync(target).size<5000){
+    throw new Error(`Falta fotografía local de equipo: ${file}`);
   }
-  throw new Error(`No se pudo preparar ${label}: ${last?.message||last}`);
 }
-await Promise.all([
-  fetchBuildAsset('https://www.hellasdigital.gr/images/detailed/27/HDTF-C48V.jpeg',path.join(ROOT,'assets','equipment','ikusi-flash-hdtf-c48v.jpg'),'Ikusi Flash HDTF-C48V'),
-  fetchBuildAsset('https://bricoelige.com/18902-thickbox_default/telefono-portero-tegui-2-hilos-serie-8-legrand.jpg',path.join(ROOT,'assets','equipment','tegui-serie-8-374794.jpg'),'Tegui Serie 8')
-]);
 
 let home=homeSource.replace('<meta name="robots" content="noindex,nofollow">', `<meta name="robots" content="${ROBOTS}">`);
 home=home.replace(/<section class="town-focus" id="municipios">[\s\S]*?<\/section>/,homeTownFocus());
