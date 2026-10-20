@@ -642,3 +642,16 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 .budget-form-grid-local{grid-template-columns:1fr 1fr}
 @media(max-width:900px){.budget-panel-local{grid-template-columns:1fr}}
 @media(max-width:640px){.budget-panel-local{padding:24px 18px}.budget-form-grid-local{grid-template-columns:1fr}}
+
+
+/* Móvil estrecho: formulario y pie sin desbordamiento horizontal */
+.budget-panel,.budget-copy,.budget-form,.budget-form-grid,.budget-form label,.budget-form-footer,.footer-top,.footer-grid-rich,.footer-contact-card{min-width:0}
+.budget-submit{max-width:100%;white-space:normal;text-align:center;line-height:1.3}
+.budget-form input,.budget-form select,.budget-form textarea{max-width:100%}
+@media(max-width:360px){
+  .budget-panel{padding:22px 14px}
+  .budget-form{padding:18px 14px}
+  .budget-submit{padding-left:12px;padding-right:12px;font-size:13px}
+  .footer-contact-card{min-width:0;width:100%}
+  .footer-provinces{grid-template-columns:1fr}
+}
