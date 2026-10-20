@@ -74,6 +74,7 @@
   if(!form || typeof form.querySelector!=='function') return;
   const service=form.querySelector('[name="service"]');
   if(!service) return;
+  if(typeof document.querySelectorAll!=='function') return;
   document.querySelectorAll('[data-home-service]').forEach(link=>{
     if(typeof link.addEventListener!=='function') return;
     link.addEventListener('click',()=>{
