@@ -281,6 +281,18 @@ for(const [,slug,block] of featuredBlocks){
   featuredCount+=links.length;
 }
 
+const equipmentSection=home.match(/<section class="home-equipment" id="equipos"[\s\S]*?<\/section>/)?.[0]||'';
+if(!equipmentSection) errors.push('Portada: falta bloque visual de equipos');
+else{
+  for(const label of ['IKUSI · FLASH','TEGUI · SERIE 8 / LÍNEA 2000','No todas las instalaciones necesitan el mismo equipo','Medición','TDT + SAT','Garantía']) if(!equipmentSection.includes(label)) errors.push(`Portada equipos: falta ${label}`);
+  for(const asset of ['/assets/gallery/tdt-original.webp','/assets/gallery/videoportero-original.webp']) if(!equipmentSection.includes(`src="${asset}"`)) errors.push(`Portada equipos: falta recurso ${asset}`);
+  if(/<img\b[^>]*src="https?:\/\//i.test(equipmentSection)) errors.push('Portada equipos: imagen externa no permitida');
+}
+if(home.indexOf('id="equipos"')<0||home.indexOf('id="equipos"')>home.indexOf('id="servicios"')) errors.push('Portada: equipos debe aparecer antes de servicios');
+if(home.includes('class="coverage-list"')) errors.push('Portada: no debe repetir un segundo listado largo de provincias tras el directorio de pueblos');
+const workflow=home.match(/<section class="section coverage home-workflow" id="confianza"[\s\S]*?<\/section>/)?.[0]||'';
+if(!workflow||!workflow.includes('Diagnóstico antes de cambiar equipos')||!workflow.includes('03 · RESOLVER')) errors.push('Portada: bloque Cómo trabajamos incompleto');
+
 const brandSections=[...home.matchAll(/<section class="abaso-brands" id="marcas"[^>]*>([\s\S]*?)<\/section>/g)];
 if(brandSections.length!==1) errors.push('Portada: sección de marcas ausente o duplicada');
 const brandSection=brandSections[0]?.[1]||'';
@@ -300,10 +312,11 @@ if(/<a\b|<button\b|<img\b|servicio (?:t[eé]cnico )?oficial|distribuidor oficial
 if(home.indexOf('id="marcas"')<home.indexOf('id="servicios"')) errors.push('Marcas antes de servicios');
 for(const title of ['Instalación y reparación de antenas','Porteros automáticos','Reparaciones eléctricas en viviendas','Pide presupuesto sin compromiso']) if(!home.includes(title)) errors.push(`Portada: falta contenido ${title}`);
 if(!home.includes('data-budget-form')||!home.includes('name="service"')||!home.includes('name="province"')||!home.includes('name="town"')||!home.includes('name="problem"')) errors.push('Portada: formulario de presupuesto WhatsApp incompleto');
+for(const option of ['HDMI largo para bar u oficina','Distribución COFDM HD','Wi-Fi con puntos de acceso','Cerradura eléctrica de portero','Motor para puerta de portal']) if(!home.includes(`<option value="${option}">`)) errors.push(`Portada: formulario sin servicio ${option}`);
 const homeFooter=home.match(/<footer class="footer">([\s\S]*?)<\/footer>/)?.[1]||'';
 for(const province of provinces) if(!homeFooter.includes(`href="/${province.slug}/"`)) errors.push(`Pie: falta provincia ${province.name}`);
 if(!homeFooter.includes('Antes de llamar')||!homeFooter.includes('Preparar presupuesto por WhatsApp')) errors.push('Pie: falta ayuda práctica o acceso a presupuesto');
-if(!home.includes('class="review-stars"')||!home.includes('★★★★★')) errors.push('Portada: se han perdido las estrellas de confianza');
+if(!home.includes('class="review-meter"')||!home.includes('PROMAX')||home.includes('★★★★★')) errors.push('Portada: franja técnica de confianza incorrecta');
 for(const href of ['/aviso-legal/','/privacidad/','/cookies/']) if(!home.includes(`href="${href}"`)) errors.push(`Portada: falta enlace legal ${href}`);
 if(!home.includes('data-cookie-notice')||!home.includes('data-cookie-dismiss')) errors.push('Portada: falta aviso informativo de cookies');
 if(!home.includes('property="og:image"')||!home.includes('name="twitter:card"')) errors.push('Portada: faltan metadatos sociales de cierre');
