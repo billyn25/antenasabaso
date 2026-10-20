@@ -686,8 +686,10 @@ function spreadTowns(province,count=20){
 }
 function homeTownFocus(){
   const cards=provinces.map(p=>{
-    const links=spreadTowns(p,6).map(t=>`<li><a href="/${p.slug}/${slugify(t)}/">Antenista en ${esc(t)} <span aria-hidden="true">→</span></a></li>`).join('');
-    return `<article class="town-province" data-province="${p.slug}" aria-labelledby="home-${p.slug}-title"><span class="town-count">${p.towns.length} municipios</span><h3 id="home-${p.slug}-title"><a href="/${p.slug}/">${esc(p.name)}</a></h3><ul class="town-quick-links" aria-label="Accesos directos a municipios de ${esc(p.name)}">${links}</ul><a class="town-all" href="/${p.slug}/">Ver los ${p.towns.length} municipios <span aria-hidden="true">→</span></a></article>`;
+    const selected=spreadTowns(p,20);
+    const visible=selected.slice(0,6).map(t=>`<li><a href="/${p.slug}/${slugify(t)}/">Antenista en ${esc(t)} <span aria-hidden="true">→</span></a></li>`).join('');
+    const extra=selected.slice(6).map(t=>`<li><a href="/${p.slug}/${slugify(t)}/">Antenista en ${esc(t)} <span aria-hidden="true">→</span></a></li>`).join('');
+    return `<article class="town-province" data-province="${p.slug}" aria-labelledby="home-${p.slug}-title"><span class="town-count">${p.towns.length} municipios</span><h3 id="home-${p.slug}-title"><a href="/${p.slug}/">${esc(p.name)}</a></h3><ul class="town-quick-links" aria-label="Localidades destacadas de ${esc(p.name)}">${visible}</ul><details class="town-more"><summary>Ver más pueblos <span aria-hidden="true">+</span></summary><ul class="town-quick-links town-quick-links-extra" aria-label="Más localidades de ${esc(p.name)}">${extra}</ul></details><a class="town-all" href="/${p.slug}/">Ver los ${p.towns.length} municipios <span aria-hidden="true">→</span></a></article>`;
   }).join('');
   return `<section class="town-focus" id="municipios"><div class="wrap"><div class="town-focus-head"><div><span class="eyebrow">Cobertura local</span><h2>Encuentra servicio en tu pueblo</h2></div><p>Accede a una selección de localidades o entra en cada provincia para consultar todos los municipios publicados.</p></div><div class="town-province-grid">${cards}</div><div class="town-total"><strong>${totalTowns.toLocaleString('es-ES')} municipios</strong><span>con página local organizados en ${provinces.length} provincias</span></div></div></section>`;
 }
