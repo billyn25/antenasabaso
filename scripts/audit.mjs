@@ -285,8 +285,12 @@ const equipmentSection=home.match(/<section class="home-equipment" id="equipos"[
 if(!equipmentSection) errors.push('Portada: falta bloque visual de equipos');
 else{
   for(const label of ['ANTENA TDT · ALTA GANANCIA','TEGUI · SERIE 8 / LÍNEA 2000','No todas las instalaciones necesitan el mismo equipo','Ikusi','familia Flash','Medición','TDT + SAT','Garantía']) if(!equipmentSection.includes(label)) errors.push(`Portada equipos: falta ${label}`);
-  for(const asset of ['/assets/gallery/tdt-original.webp','/assets/gallery/videoportero-original.webp']) if(!equipmentSection.includes(`src="${asset}"`)) errors.push(`Portada equipos: falta recurso ${asset}`);
+  for(const asset of ['/assets/equipment/ikusi-flash-hdtf-c48v.jpg','/assets/equipment/tegui-serie-8-374794.jpg']) if(!equipmentSection.includes(`src="${asset}"`)) errors.push(`Portada equipos: falta recurso ${asset}`);
   if(/<img\b[^>]*src="https?:\/\//i.test(equipmentSection)) errors.push('Portada equipos: imagen externa no permitida');
+  for(const file of ['ikusi-flash-hdtf-c48v.jpg','tegui-serie-8-374794.jpg']){
+    const full=path.join(ROOT,'assets','equipment',file);
+    if(!fs.existsSync(full)||fs.statSync(full).size<5000) errors.push(`Portada equipos: asset local inválido ${file}`);
+  }
 }
 if(home.indexOf('id="equipos"')<0||home.indexOf('id="equipos"')>home.indexOf('id="servicios"')) errors.push('Portada: equipos debe aparecer antes de servicios');
 if(home.includes('class="coverage-list"')) errors.push('Portada: no debe repetir un segundo listado largo de provincias tras el directorio de pueblos');
