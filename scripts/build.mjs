@@ -208,8 +208,14 @@ function rankedLocalSelection(pool,key,count){
     .map(x=>x.item);
 }
 
+const localCoreIntentVariants=localIntentVariants.slice(0,12);
+const localAuxiliaryIntentVariants=localIntentVariants.slice(12);
+
 function localIntentSections(town,h){
-  const intents=rankedLocalSelection(localIntentVariants,`${town}|intent|${h}`,4);
+  const intents=[
+    ...rankedLocalSelection(localCoreIntentVariants,`${town}|core-intent|${h}`,2),
+    ...rankedLocalSelection(localAuxiliaryIntentVariants,`${town}|aux-intent|${h}`,2)
+  ];
   const faqs=rankedLocalSelection(localFaqVariants,`${town}|faq|${h}`,3);
   const intentHtml=`<section class="local-intents"><div class="wrap"><span class="eyebrow">Casos habituales</span><h2>Qué podemos revisar en ${esc(town)}</h2><div class="local-intents-grid">${intents.map(([title,text])=>`<article><h3>${esc(title)}</h3><p>${esc(text(town))}</p></article>`).join('')}</div></div></section>`;
   const faqHtml=`<section class="local-faq"><div class="wrap"><span class="eyebrow">Preguntas frecuentes</span><h2>Antes de pedir servicio en ${esc(town)}</h2><div class="local-faq-list">${faqs.map(([q,a])=>`<details><summary>${esc(q(town))}</summary><p>${esc(a(town))}</p></details>`).join('')}</div></div></section>`;
