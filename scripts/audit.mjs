@@ -50,7 +50,7 @@ const metadata=[];
 let checkedLinks=0, checkedCrumbs=0, serviceContacts=0;
 const similarityDocs=[];
 const technicalProfiles=new Set();
-const auxiliaryIntentLabels=['Resintonización TDT y canales UHD','Montaje de televisión en soporte de pared','Montaje de proyector en techo o pared','Cableado HDMI y señal entre equipos','Configuración de receptor TDT o satélite'];
+const auxiliaryIntentLabels=['Resintonización TDT y canales UHD','Comprobar compatibilidad para TDT UHD','Ordenar canales y eliminar duplicados','Montaje de televisión en soporte de pared','Soporte fijo, inclinable o articulado para TV','Ordenar y canalizar cables detrás del televisor','Montaje de proyector en techo o pared','Instalación de pantalla de proyección','Cableado HDMI y señal entre equipos','Configuración de receptor TDT o satélite','Mover la televisión y preparar un nuevo punto'];
 const auxiliaryIntentCounts=new Map(auxiliaryIntentLabels.map(label=>[label,0]));
 const stripText=html=>decode(String(html).replace(/<script[\s\S]*?<\/script>/gi,' ').replace(/<style[\s\S]*?<\/style>/gi,' ').replace(/<[^>]+>/g,' ')).replace(/\s+/g,' ').trim().toLowerCase();
 const shingles=(text,size=5)=>{const words=text.split(/\s+/).filter(Boolean);const set=new Set();for(let i=0;i<=words.length-size;i++) set.add(words.slice(i,i+size).join(' '));return set;};
@@ -192,7 +192,9 @@ for(const page of manifest){
   const faqCount=[...faqBlock.matchAll(/<details>/g)].length;
   if(intentCards!==4) errors.push(`${page.path}: deben existir 4 casos locales útiles`);
   if(faqCount!==3) errors.push(`${page.path}: deben existir 3 preguntas frecuentes locales`);
-  for(const label of auxiliaryIntentLabels) if(intentBlock.includes(label)) auxiliaryIntentCounts.set(label,auxiliaryIntentCounts.get(label)+1);
+  let auxiliaryHere=0;
+  for(const label of auxiliaryIntentLabels) if(intentBlock.includes(label)){ auxiliaryIntentCounts.set(label,auxiliaryIntentCounts.get(label)+1); auxiliaryHere++; }
+  if(auxiliaryHere!==2) errors.push(`${page.path}: deben verse exactamente 2 servicios complementarios, encontrados ${auxiliaryHere}`);
   const localBudget=html.match(/<section class="section contact-section local-budget-section"[\s\S]*?<\/section>/)?.[0]||'';
   for(const option of ['Resintonización TDT y UHD','Montaje de TV en pared','Montaje de proyector y pantalla','Cableado HDMI y audiovisual','Configuración de receptor TDT/SAT']) if(!localBudget.includes(option)) errors.push(`${page.path}: formulario local sin servicio auxiliar ${option}`);
   if(!intentBlock.includes(`Qué podemos revisar en ${page.name}`)||!faqBlock.includes(page.name)) errors.push(`${page.path}: bloque práctico/FAQ sin localidad real`);
