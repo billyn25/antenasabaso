@@ -503,6 +503,38 @@ const localTechnicalTopics = [
   {
     title:'Motor para puerta de portal y accesibilidad',
     text:t=>`En comunidades de ${t} se puede valorar la motorización de la puerta de portal para facilitar el acceso de personas con movilidad reducida, revisando peso, recorrido, maniobra y elementos de seguridad.`
+  },
+  {
+    title:'Elegir antena pasiva o con dipolo activo',
+    text:t=>`En ${t} no se instala la misma antena en todos los casos. Según nivel, calidad y margen de señal se elige una antena pasiva —sin dipolo activo— o un modelo con dipolo activo cuando la instalación y la alimentación lo justifican.`
+  },
+  {
+    title:'Antena directiva para reducir rebotes e interferencias',
+    text:t=>`Si en ${t} llegan señales por varios recorridos o repetidores, una antena más directiva puede ayudar a discriminar direcciones no deseadas. La elección se basa en medición, orientación y calidad, no solo en ganancia nominal.`
+  },
+  {
+    title:'Rechazo LTE/5G en la recepción TDT',
+    text:t=>`En una instalación de ${t} expuesta a señales móviles intensas se valora antena con filtrado integrado o filtro LTE/5G adecuado, comprobando antes si existe realmente interferencia y qué margen tiene la TDT.`
+  },
+  {
+    title:'Diplexores para mezclar TDT y satélite',
+    text:t=>`Cuando en ${t} interesa aprovechar un mismo coaxial para TDT y satélite, se puede estudiar una combinación mediante diplexores compatibles, respetando paso de corriente, frecuencias y equipos existentes.`
+  },
+  {
+    title:'Cable coaxial negro de polietileno para exterior',
+    text:t=>`En recorridos exteriores de ${t} conviene usar coaxial preparado para intemperie, por ejemplo cubierta negra de polietileno, para mejorar resistencia frente a sol, humedad y envejecimiento respecto a cable interior expuesto.`
+  },
+  {
+    title:'Conectores blindados y terminaciones protegidas',
+    text:t=>`Una instalación exterior de ${t} también depende de cómo se terminan los cables. Se emplean conectores blindados y terminaciones protegidas cuando corresponde, evitando falsos contactos, entrada de humedad y pérdidas innecesarias.`
+  },
+  {
+    title:'Ajuste con medidor de campo profesional Promax',
+    text:t=>`La elección y orientación de antena en ${t} se comprueba con medidor de campo profesional Promax, observando nivel, calidad y margen de recepción antes de dar por terminado el ajuste.`
+  },
+  {
+    title:'Garantía del trabajo y material instalado',
+    text:t=>`En trabajos realizados en ${t}, la garantía se concreta sobre la intervención y los materiales instalados según las condiciones del presupuesto y la garantía aplicable de cada fabricante.`
   }
 ];
 
@@ -654,6 +686,20 @@ const localTechnicalProfiles = [
     title:t=>`Apertura y automatización de accesos en ${t}`,
     intro:'El sistema de acceso puede combinar portero, cerradero eléctrico y elementos mecánicos. En determinados portales también se puede valorar motorización para mejorar la accesibilidad.',
     topicIndexes:[38,39,14,15,16,5,7]
+  },
+  {
+    key:'seleccion-antena-medicion',
+    eyebrow:'Antena, filtrado y medida',
+    title:t=>`Cómo elegimos y ajustamos la antena TDT en ${t}`,
+    intro:'La antena se elige por la señal real de la instalación: nivel, calidad, dirección de llegada, interferencias, pérdidas del cableado y servicios que deben convivir. La medición decide si conviene una antena pasiva, dipolo activo, mayor directividad o filtrado.',
+    topicIndexes:[40,41,42,46,43,44,45,47]
+  },
+  {
+    key:'cableado-exterior-sat',
+    eyebrow:'Cableado exterior y mezcla TDT/SAT',
+    title:t=>`Cableado, conectores y mezcla de señales en ${t}`,
+    intro:'En exterior importa tanto la captación como el recorrido hasta los equipos. Cable adecuado, conectores protegidos y diplexores bien elegidos evitan pérdidas y permiten integrar TDT y satélite cuando la instalación lo requiere.',
+    topicIndexes:[43,44,45,46,40,42,47]
   }
 ];
 
