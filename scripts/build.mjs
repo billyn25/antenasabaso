@@ -124,7 +124,18 @@ const localIntentVariants = [
   ['Hay poca cobertura móvil en casa', t=>`Si en una vivienda de ${t} hay poca cobertura móvil, necesitamos saber operador, router o teléfono afectado y si el problema es de llamadas, datos o ambos antes de valorar una antena exterior.`],
   ['El router 4G/5G recibe poca señal', t=>`Para mejorar un router 4G/5G en ${t}, la antena y su ubicación dependen de la señal realmente disponible. No todos los routers ni conectores admiten la misma solución.`],
   ['Hay una pequeña avería eléctrica', t=>`Para una avería eléctrica en ${t}, describe qué circuito, enchufe, interruptor o punto de luz falla y si el problema es permanente o intermitente. Eso permite preparar la revisión con más precisión.`],
-  ['La avería afecta a una comunidad', t=>`Si la incidencia en ${t} afecta a una comunidad, dinos si ocurre en todas las viviendas o zonas comunes o solo en una parte. Esa diferencia cambia el punto por el que conviene empezar a revisar.`]
+  ['La avería afecta a una comunidad', t=>`Si la incidencia en ${t} afecta a una comunidad, dinos si ocurre en todas las viviendas o zonas comunes o solo en una parte. Esa diferencia cambia el punto por el que conviene empezar a revisar.`],
+  ['Resintonización TDT y canales UHD', t=>`En ${t} podemos realizar búsqueda y resintonización de canales TDT cuando cambian emisiones o faltan servicios. Si el televisor o receptor es compatible, también se comprueba la recepción de emisiones UHD/DVB-T2 antes de atribuir el problema a la antena.`],
+  ['Comprobar compatibilidad para TDT UHD', t=>`Si un televisor de ${t} no localiza nuevas emisiones, se puede revisar si admite DVB-T2 y HEVC, además de comprobar la señal disponible. Resintonizar no corrige una incompatibilidad del receptor ni una avería de la instalación.`],
+  ['Ordenar canales y eliminar duplicados', t=>`Después de una búsqueda automática en ${t}, podemos ayudar a ordenar canales, eliminar duplicados y comprobar que el televisor conserva correctamente la lista antes de dar por terminada la intervención.`],
+  ['Montaje de televisión en soporte de pared', t=>`Para instalar una TV en pared en ${t}, se valora el peso y tamaño del televisor, el tipo de soporte y la pared disponible. También se prepara el recorrido de antena, HDMI y alimentación para evitar cables innecesariamente expuestos.`],
+  ['Soporte fijo, inclinable o articulado para TV', t=>`El soporte de una televisión en ${t} se elige según medidas VESA, peso, distancia de visualización y movimiento necesario. Una pared hueca o un brazo articulado requieren una fijación distinta de un soporte fijo sobre muro macizo.`],
+  ['Ordenar y canalizar cables detrás del televisor', t=>`En una instalación de TV en ${t} se puede organizar cable de antena, HDMI y alimentación mediante canaleta o recorrido adecuado. Antes de ocultarlos se comprueba longitud, conectores y acceso futuro a los equipos.`],
+  ['Montaje de proyector en techo o pared', t=>`Para montar un proyector en ${t} se revisan distancia de proyección, posición de la imagen, soporte, alimentación y recorrido HDMI o de señal. La ubicación se decide antes de perforar para evitar correcciones posteriores.`],
+  ['Instalación de pantalla de proyección', t=>`Una pantalla de proyección en ${t} debe colocarse según tamaño, altura y posición del proyector. En modelos motorizados también se valora la alimentación y el recorrido de control cuando corresponda.`],
+  ['Cableado HDMI y señal entre equipos', t=>`Si televisor, receptor o proyector están separados en ${t}, se puede preparar el recorrido de HDMI, coaxial u otros cables de señal evitando tiradas improvisadas y comprobando la conexión antes de cerrar canaletas o soportes.`],
+  ['Configuración de receptor TDT o satélite', t=>`En ${t} podemos revisar la conexión y configuración básica de receptores TDT o satélite, búsqueda de canales y salida hacia el televisor. Si falta señal, primero se diferencia configuración de problema de recepción.`],
+  ['Mover la televisión y preparar un nuevo punto', t=>`Si quieres cambiar una TV de ubicación en ${t}, se revisa si el nuevo punto dispone de señal, alimentación y espacio para el soporte. Cuando hace falta, se valora ampliar la toma y ordenar el cableado.`]
 ];
 
 const contactPrepItems = [
@@ -147,7 +158,12 @@ const contactPrepItems = [
   'Si una avería eléctrica afecta a un punto concreto o a todo un circuito.',
   'Si ha saltado alguna protección del cuadro eléctrico.',
   'Si la instalación es individual o forma parte de una red comunitaria.',
-  'Un teléfono de contacto y la franja en la que resulta más fácil localizarte.'
+  'Un teléfono de contacto y la franja en la que resulta más fácil localizarte.',
+  'El modelo del televisor y sus pulgadas si quieres instalarlo en pared.',
+  'Si ya dispones del soporte de TV y qué tipo de pared hay en la zona de montaje.',
+  'La distancia aproximada entre proyector y pantalla cuando la consulta es audiovisual.',
+  'Qué cables necesitas llevar hasta la TV o el proyector: antena, HDMI, red o alimentación.',
+  'Si el problema es de resintonización, indica el modelo del televisor o receptor y qué canales faltan.'
 ];
 
 function localPrep(town){
@@ -168,7 +184,11 @@ const localFaqVariants = [
   [t=>`¿Se puede añadir una toma de televisión en ${t}?`, t=>`Sí, después de comprobar cómo está distribuida la señal y por dónde puede realizarse la nueva derivación y el cableado.`],
   [t=>`¿Revisáis parabólicas en ${t}?`, t=>`Sí. Se puede comprobar orientación, LNB, conectores, cableado y recepción antes de decidir qué componente necesita intervención.`],
   [t=>`¿Hacéis pequeñas reparaciones eléctricas en ${t}?`, t=>`Sí, para averías y pequeñas reparaciones en viviendas, comercios y comunidades. Al contactar conviene describir el punto o circuito afectado.`],
-  [t=>`¿Puedo enviar una foto del equipo antes de la visita?`, t=>`Sí. Una foto de la marca, modelo, placa, monitor, amplificador o router puede ayudar a identificar el sistema y preparar la revisión.`]
+  [t=>`¿Puedo enviar una foto del equipo antes de la visita?`, t=>`Sí. Una foto de la marca, modelo, placa, monitor, amplificador o router puede ayudar a identificar el sistema y preparar la revisión.`],
+  [t=>`¿Resintonizáis canales TDT y UHD en ${t}?`, t=>`Sí. Se puede realizar una nueva búsqueda de canales y comprobar la compatibilidad del televisor o receptor con las emisiones disponibles. Si faltan servicios por un problema de señal, la instalación también debe revisarse.`],
+  [t=>`¿Montáis televisores en soporte de pared en ${t}?`, t=>`Sí. Para preparar el montaje conviene indicar pulgadas, peso aproximado, modelo de soporte y tipo de pared, además de cómo quieres resolver antena, HDMI y alimentación.`],
+  [t=>`¿Podéis montar un proyector y pantalla en ${t}?`, t=>`Se puede valorar el montaje del proyector y la pantalla según distancia, soporte, alimentación y recorrido de señal. La posición se define antes de fijar los equipos.`],
+  [t=>`¿Podéis ordenar el cableado de una TV o proyector en ${t}?`, t=>`Sí, se puede valorar el recorrido de antena, HDMI y otros cables mediante canaleta o la solución adecuada al espacio, manteniendo acceso razonable a conexiones y equipos.`]
 ];
 
 function selectDistinct(pool,start,count,step=5){
@@ -180,9 +200,17 @@ function selectDistinct(pool,start,count,step=5){
   return out;
 }
 
+function rankedLocalSelection(pool,key,count){
+  return pool
+    .map((item,index)=>({item,score:hash(`${key}|${index}`)}))
+    .sort((a,b)=>a.score-b.score)
+    .slice(0,count)
+    .map(x=>x.item);
+}
+
 function localIntentSections(town,h){
-  const intents=selectDistinct(localIntentVariants,h%localIntentVariants.length,4,5);
-  const faqs=selectDistinct(localFaqVariants,(h>>>5)%localFaqVariants.length,3,3);
+  const intents=rankedLocalSelection(localIntentVariants,`${town}|intent|${h}`,4);
+  const faqs=rankedLocalSelection(localFaqVariants,`${town}|faq|${h}`,3);
   const intentHtml=`<section class="local-intents"><div class="wrap"><span class="eyebrow">Casos habituales</span><h2>Qué podemos revisar en ${esc(town)}</h2><div class="local-intents-grid">${intents.map(([title,text])=>`<article><h3>${esc(title)}</h3><p>${esc(text(town))}</p></article>`).join('')}</div></div></section>`;
   const faqHtml=`<section class="local-faq"><div class="wrap"><span class="eyebrow">Preguntas frecuentes</span><h2>Antes de pedir servicio en ${esc(town)}</h2><div class="local-faq-list">${faqs.map(([q,a])=>`<details><summary>${esc(q(town))}</summary><p>${esc(a(town))}</p></details>`).join('')}</div></div></section>`;
   return intentHtml+faqHtml;
@@ -556,7 +584,7 @@ function localTechnicalNotes(town,province,h,index){
 }
 
 function localBudgetForm(province,town){
-  return `<section class="section contact-section local-budget-section" id="contacto"><div class="wrap budget-panel budget-panel-local"><div class="budget-copy"><span class="eyebrow light">Presupuesto por WhatsApp</span><h2>Consulta el servicio en ${esc(town)}</h2><p>La provincia y el municipio ya están preparados. Elige el servicio, cuéntanos qué ocurre y se abrirá WhatsApp con el mensaje listo.</p><a class="budget-phone" href="${tel()}"><small>¿Prefieres llamar?</small><strong>${PHONE}</strong></a></div><form class="budget-form" data-budget-form><input type="hidden" name="province" value="${esc(province.name)}"><input type="hidden" name="town" value="${esc(town)}"><div class="budget-form-grid budget-form-grid-local"><label><span>Servicio</span><select name="service" required><option value="Antenas TDT">Antenas TDT</option><option value="Antenas parabólicas">Antenas parabólicas</option><option value="TDT por satélite HD">TDT por satélite HD</option><option value="Amplificación y distribución">Amplificación y distribución</option><option value="Portero automático">Portero automático</option><option value="Videoportero">Videoportero</option><option value="Cobertura móvil 4G/5G">Cobertura móvil 4G/5G</option><option value="Reparación eléctrica">Reparación eléctrica</option></select></label><label><span>Tipo de inmueble</span><select name="property"><option value="Vivienda">Vivienda</option><option value="Comunidad de vecinos">Comunidad de vecinos</option><option value="Comercio o negocio">Comercio o negocio</option><option value="Otro">Otro</option></select></label></div><label class="budget-problem"><span>¿Qué ocurre?</span><textarea name="problem" rows="4" maxlength="600" placeholder="Ej. La antena perdió señal después de viento fuerte; el portero llama pero la cerradura no abre..." required></textarea></label><div class="budget-form-footer"><p>Puedes adjuntar una foto del equipo al abrir WhatsApp.</p><button class="btn btn-whatsapp-light budget-submit" type="submit">Preparar consulta →</button></div></form></div></section>`;
+  return `<section class="section contact-section local-budget-section" id="contacto"><div class="wrap budget-panel budget-panel-local"><div class="budget-copy"><span class="eyebrow light">Presupuesto por WhatsApp</span><h2>Consulta el servicio en ${esc(town)}</h2><p>La provincia y el municipio ya están preparados. Elige el servicio, cuéntanos qué ocurre y se abrirá WhatsApp con el mensaje listo.</p><a class="budget-phone" href="${tel()}"><small>¿Prefieres llamar?</small><strong>${PHONE}</strong></a></div><form class="budget-form" data-budget-form><input type="hidden" name="province" value="${esc(province.name)}"><input type="hidden" name="town" value="${esc(town)}"><div class="budget-form-grid budget-form-grid-local"><label><span>Servicio</span><select name="service" required><option value="Antenas TDT">Antenas TDT</option><option value="Antenas parabólicas">Antenas parabólicas</option><option value="TDT por satélite HD">TDT por satélite HD</option><option value="Amplificación y distribución">Amplificación y distribución</option><option value="Portero automático">Portero automático</option><option value="Videoportero">Videoportero</option><option value="Cobertura móvil 4G/5G">Cobertura móvil 4G/5G</option><option value="Reparación eléctrica">Reparación eléctrica</option><option value="Resintonización TDT y UHD">Resintonización TDT y UHD</option><option value="Montaje de TV en pared">Montaje de TV en pared</option><option value="Montaje de proyector y pantalla">Montaje de proyector y pantalla</option><option value="Cableado HDMI y audiovisual">Cableado HDMI y audiovisual</option><option value="Configuración de receptor TDT/SAT">Configuración de receptor TDT/SAT</option></select></label><label><span>Tipo de inmueble</span><select name="property"><option value="Vivienda">Vivienda</option><option value="Comunidad de vecinos">Comunidad de vecinos</option><option value="Comercio o negocio">Comercio o negocio</option><option value="Otro">Otro</option></select></label></div><label class="budget-problem"><span>¿Qué ocurre?</span><textarea name="problem" rows="4" maxlength="600" placeholder="Ej. La antena perdió señal después de viento fuerte; el portero llama pero la cerradura no abre..." required></textarea></label><div class="budget-form-footer"><p>Puedes adjuntar una foto del equipo al abrir WhatsApp.</p><button class="btn btn-whatsapp-light budget-submit" type="submit">Preparar consulta →</button></div></form></div></section>`;
 }
 
 function renderTown(province,town,index){
