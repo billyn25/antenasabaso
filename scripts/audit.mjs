@@ -284,7 +284,7 @@ for(const [,slug,block] of featuredBlocks){
 const equipmentSection=home.match(/<section class="home-equipment" id="equipos"[\s\S]*?<\/section>/)?.[0]||'';
 if(!equipmentSection) errors.push('Portada: falta bloque visual de equipos');
 else{
-  for(const label of ['IKUSI · FLASH','TEGUI · SERIE 8 / LÍNEA 2000','No todas las instalaciones necesitan el mismo equipo','Medición','TDT + SAT','Garantía']) if(!equipmentSection.includes(label)) errors.push(`Portada equipos: falta ${label}`);
+  for(const label of ['ANTENA TDT · ALTA GANANCIA','TEGUI · SERIE 8 / LÍNEA 2000','No todas las instalaciones necesitan el mismo equipo','Ikusi','familia Flash','Medición','TDT + SAT','Garantía']) if(!equipmentSection.includes(label)) errors.push(`Portada equipos: falta ${label}`);
   for(const asset of ['/assets/gallery/tdt-original.webp','/assets/gallery/videoportero-original.webp']) if(!equipmentSection.includes(`src="${asset}"`)) errors.push(`Portada equipos: falta recurso ${asset}`);
   if(/<img\b[^>]*src="https?:\/\//i.test(equipmentSection)) errors.push('Portada equipos: imagen externa no permitida');
 }
