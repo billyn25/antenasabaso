@@ -3,8 +3,6 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths:
-      - '.github/workflows/audit-live.yml'
 jobs:
   audit-live:
     runs-on: ubuntu-latest
