@@ -554,7 +554,12 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 .equipment-card{min-width:0;overflow:hidden;background:#fff;border:1px solid #d5e1e9;border-radius:15px;box-shadow:0 10px 28px rgba(18,47,70,.07)}
 .equipment-photo{height:205px;background-color:#eef3f6;background-position:center;background-repeat:no-repeat;background-size:cover;border-bottom:1px solid #dce6ec}
 .equipment-fagor .equipment-photo{background-image:url("https://mir-s3-cdn-cf.behance.net/project_modules/disp/56abd19977795.560dd65d8aeab.jpg")}
-.equipment-tegui .equipment-photo{background-image:url("https://www.domoelectra.com/tiendaonline/6522-large_default/telefonillo-serie-8-tegui.jpg"),url("/assets/gallery/videoportero-original.webp");background-position:center,center;background-repeat:no-repeat,no-repeat;background-size:contain,cover;background-color:#f7f9fb}
+.equipment-tegui .equipment-photo{background:#fff}
+.equipment-tegui .equipment-products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px 10px 10px}
+.equipment-tegui .equipment-product{display:grid;grid-template-rows:minmax(0,1fr) auto;gap:6px;min-width:0;min-height:0;margin:0}
+.equipment-tegui .equipment-product img{display:block;width:100%;height:100%;min-height:0;object-fit:contain}
+.equipment-tegui .equipment-product-handset img{max-width:180px;justify-self:center;object-fit:cover}
+.equipment-tegui .equipment-product figcaption{color:#607386;font-size:10px;font-weight:700;line-height:1.3;text-align:center}
 .equipment-televes .equipment-photo{background-image:linear-gradient(#fff,#f8f8f8),url("https://www.cetronic.es/sqlcommerce/ficheros/dk_93/productos/0055529-5.jpg");background-size:cover,contain;background-blend-mode:multiply}
 .equipment-satelite .equipment-photo{background-image:url("/assets/gallery/parabolica-realista.webp")}
 .equipment-copy{padding:18px 18px 20px}

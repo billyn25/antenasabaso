@@ -185,7 +185,7 @@ for(const page of manifest){
   if(!technicalBlock.includes('class="local-decision-note"')) errors.push(`${page.path}: falta nota de decisión técnica`);
   const equipmentBlock=html.match(/<section class="local-equipment-showcase"[\s\S]*?<\/section>/)?.[0]||'';
   if(!equipmentBlock.includes(`Antenas y equipos que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta galería técnica local`);
-  for(const label of ['Fagor Rhombus','Tegui · Serie 8 / Línea 2000','Televes · amplificación de vivienda','Parabólica, LNB y cableado']) if(!equipmentBlock.includes(label)) errors.push(`${page.path}: falta equipo visual ${label}`);
+  for(const label of ['Fagor Rhombus','Tegui · Telefonillo y placa Sfera','Televes · amplificación de vivienda','Parabólica, LNB y cableado']) if(!equipmentBlock.includes(label)) errors.push(`${page.path}: falta equipo visual ${label}`);
   if((equipmentBlock.match(/class="equipment-card /g)||[]).length!==4) errors.push(`${page.path}: la galería técnica debe tener 4 equipos`);
   const intentBlock=html.match(/<section class="local-intents">([\s\S]*?)<\/section>/)?.[1]||'';
   const intentCards=[...intentBlock.matchAll(/<article>/g)].length;

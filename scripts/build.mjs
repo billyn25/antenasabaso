@@ -289,7 +289,7 @@ function footer(location=''){
 function head(title,description,route,structured){
   const socialImage=DOMAIN+'/assets/gallery/parabolica-realista.webp';
   const robots=production && ['/aviso-legal/','/privacidad/','/cookies/'].includes(route) ? 'noindex,follow' : ROBOTS;
-  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="robots" content="${robots}"><link rel="canonical" href="${esc(canonical(route))}"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical(route))}"><meta property="og:type" content="website"><meta property="og:site_name" content="Antenas Abaso"><meta property="og:image" content="${socialImage}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${socialImage}"><meta name="theme-color" content="#18324a"><link rel="stylesheet" href="/styles.css?v=abaso-20261020-mobile2">${['/aviso-legal/','/privacidad/','/cookies/'].includes(route)?'':`<link rel="stylesheet" href="${GUIDE_CSS_PATH}">`}<script src="/site.js" defer></script><script type="application/ld+json">${JSON.stringify(structured).replace(/</g,'\\u003c')}</script></head>`;
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>${esc(title)}</title><meta name="description" content="${esc(description)}"><meta name="robots" content="${robots}"><link rel="canonical" href="${esc(canonical(route))}"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(description)}"><meta property="og:url" content="${esc(canonical(route))}"><meta property="og:type" content="website"><meta property="og:site_name" content="Antenas Abaso"><meta property="og:image" content="${socialImage}"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(description)}"><meta name="twitter:image" content="${socialImage}"><meta name="theme-color" content="#18324a"><link rel="stylesheet" href="/styles.css?v=abaso-20261021-tegui-sfera">${['/aviso-legal/','/privacidad/','/cookies/'].includes(route)?'':`<link rel="stylesheet" href="${GUIDE_CSS_PATH}">`}<script src="/site.js" defer></script><script type="application/ld+json">${JSON.stringify(structured).replace(/</g,'\\u003c')}</script></head>`;
 }
 function serviceCards(town='',h=0){
   return services.map((s,i)=>{
@@ -324,8 +324,12 @@ function localEquipmentShowcase(town){
     {
       key:'tegui',
       kicker:'Portero automático',
-      title:'Tegui · Serie 8 / Línea 2000',
-      text:'En porteros Tegui se puede separar la avería por llamada, audio y apertura para comprobar qué parte del sistema necesita intervención.'
+      title:'Tegui · Telefonillo y placa Sfera',
+      text:'Telefonillo Tegui Serie 8 para la vivienda y placa Sfera New para el portal del edificio. Revisamos llamada, audio y apertura, y comprobamos el sistema y la compatibilidad antes de reparar o sustituir equipos.',
+      products:[
+        {key:'handset',src:'/assets/equipment/tegui-serie-8-374794.jpg',alt:'Telefonillo Tegui Serie 8 para el interior de la vivienda',width:1080,height:1080,label:'Telefonillo Serie 8'},
+        {key:'panel',src:'/assets/equipment/tegui-sfera-new-placa-edificio.jpg',alt:'Placa exterior Tegui Sfera New con pulsadores para un edificio de viviendas',width:241,height:690,label:'Placa Sfera New'}
+      ]
     },
     {
       key:'televes',
@@ -340,7 +344,13 @@ function localEquipmentShowcase(town){
       text:'En recepción por satélite revisamos fijación, orientación, LNB, conectores y coaxial antes de sustituir componentes.'
     }
   ];
-  return `<section class="local-equipment-showcase" aria-labelledby="equipos-${slugify(town)}"><div class="wrap"><div class="local-equipment-head"><div><span class="eyebrow">Equipos que nos encontramos</span><h2 id="equipos-${slugify(town)}">Antenas y equipos que podemos revisar en ${esc(town)}</h2></div><p>Ejemplos habituales de equipos de recepción, amplificación y acceso. La reparación depende del modelo, el estado de la instalación y la compatibilidad disponible.</p></div><div class="local-equipment-grid">${items.map(item=>`<article class="equipment-card equipment-${item.key}"><div class="equipment-photo" role="img" aria-label="${esc(item.title)}"></div><div class="equipment-copy"><span>${esc(item.kicker)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></div></article>`).join('')}</div></div></section>`;
+  const cards=items.map(item=>{
+    const photo=item.products
+      ? `<div class="equipment-photo equipment-products">${item.products.map(product=>`<figure class="equipment-product equipment-product-${product.key}"><img src="${product.src}" alt="${esc(product.alt)}" width="${product.width}" height="${product.height}" loading="lazy" decoding="async"><figcaption>${esc(product.label)}</figcaption></figure>`).join('')}</div>`
+      : `<div class="equipment-photo" role="img" aria-label="${esc(item.title)}"></div>`;
+    return `<article class="equipment-card equipment-${item.key}">${photo}<div class="equipment-copy"><span>${esc(item.kicker)}</span><h3>${esc(item.title)}</h3><p>${esc(item.text)}</p></div></article>`;
+  }).join('');
+  return `<section class="local-equipment-showcase" aria-labelledby="equipos-${slugify(town)}"><div class="wrap"><div class="local-equipment-head"><div><span class="eyebrow">Equipos que nos encontramos</span><h2 id="equipos-${slugify(town)}">Antenas y equipos que podemos revisar en ${esc(town)}</h2></div><p>Ejemplos habituales de equipos de recepción, amplificación y acceso. La reparación depende del modelo, el estado de la instalación y la compatibilidad disponible.</p></div><div class="local-equipment-grid">${cards}</div></div></section>`;
 }
 
 const localTechnicalTopics = [
@@ -833,7 +843,7 @@ fs.copyFileSync(path.resolve('site.js'),path.join(ROOT,'site.js'));
 if(fs.existsSync(path.resolve('assets'))) fs.cpSync(path.resolve('assets'),path.join(ROOT,'assets'),{recursive:true});
 fs.mkdirSync(path.join(ROOT,'assets','equipment'),{recursive:true});
 // Las fotografías están versionadas: el build no depende de tiendas externas.
-for(const file of ['ikusi-flash-hdtf-c48v.jpg','tegui-serie-8-374794.jpg']){
+for(const file of ['ikusi-flash-hdtf-c48v.jpg','tegui-serie-8-374794.jpg','tegui-sfera-new-placa-edificio.jpg']){
   const target=path.join(ROOT,'assets','equipment',file);
   if(!fs.existsSync(target)||fs.statSync(target).size<5000){
     throw new Error(`Falta fotografía local de equipo: ${file}`);
@@ -925,5 +935,5 @@ if(production){
   // Google needs to crawl the preview to see noindex. No sitemap in previews.
   fs.writeFileSync(path.join(ROOT,'robots.txt'),`User-agent: *\nAllow: /\n`);
 }
-fs.writeFileSync(path.join(ROOT,'404.html'),`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="stylesheet" href="/styles.css?v=abaso-20261020-mobile2"><script src="/site.js" defer></script><title>Página no disponible | Antenas Abaso</title></head><body>${header('/#contacto')}<main id="contenido" class="wrap section"><h1>Página no disponible</h1><p>La dirección solicitada no existe. Vuelve al inicio o consulta tu localidad por teléfono.</p><div class="hero-actions"><a class="btn btn-primary" href="/">Volver al inicio</a><a class="btn" href="${tel()}">Llamar ${PHONE}</a></div></main>${footer()}</body></html>`);
+fs.writeFileSync(path.join(ROOT,'404.html'),`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><link rel="icon" type="image/svg+xml" sizes="any" href="/favicon.svg"><link rel="stylesheet" href="/styles.css?v=abaso-20261021-tegui-sfera"><script src="/site.js" defer></script><title>Página no disponible | Antenas Abaso</title></head><body>${header('/#contacto')}<main id="contenido" class="wrap section"><h1>Página no disponible</h1><p>La dirección solicitada no existe. Vuelve al inicio o consulta tu localidad por teléfono.</p><div class="hero-actions"><a class="btn btn-primary" href="/">Volver al inicio</a><a class="btn" href="${tel()}">Llamar ${PHONE}</a></div></main>${footer()}</body></html>`);
 console.log(`BUILD ABASO OK: ${totalTowns} localidades, ${provinces.length} provincias, ${guides.length} guías, índice de servicios, portada y 3 páginas legales. Modo ${MODE}; ${buildInfo.indexable} URLs indexables.`);
