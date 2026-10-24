@@ -292,7 +292,7 @@ else{
     if(!fs.existsSync(full)||fs.statSync(full).size<5000) errors.push(`Portada equipos: asset local inválido ${file}`);
   }
 }
-if(home.indexOf('id="equipos"')<0||home.indexOf('id="equipos"')>home.indexOf('id="servicios"')) errors.push('Portada: equipos debe aparecer antes de servicios');
+if(home.indexOf('id="equipos"')<home.indexOf('id="servicios"')) errors.push('Portada: servicios debe aparecer antes de equipos');
 if(home.includes('class="coverage-list"')) errors.push('Portada: no debe repetir un segundo listado largo de provincias tras el directorio de pueblos');
 const workflow=home.match(/<section class="section coverage home-workflow" id="confianza"[\s\S]*?<\/section>/)?.[0]||'';
 if(!workflow||!workflow.includes('Diagnóstico antes de cambiar equipos')||!workflow.includes('03 · RESOLVER')) errors.push('Portada: bloque Cómo trabajamos incompleto');
