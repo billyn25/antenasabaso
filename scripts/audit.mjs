@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import services from '../content/services.json' with { type: 'json' };
+import {nearestTowns} from './local-reception.mjs';
 import {extraRoutes} from './service-guides.mjs';
 import { provinces, totalTowns } from '../content/municipios.mjs';
 import { comarcaFor, townsInComarca, comarcaGroups } from '../content/comarcas.mjs';
@@ -165,15 +166,16 @@ for(const page of manifest){
   if(comarca){
     if(!html.includes(`<h2>${page.name} · ${comarca}</h2>`)||!html.includes(`pertenece a la comarca ${comarca}`)) errors.push(`${page.path}: falta contexto territorial/comarca`);
   }else if(!html.includes(`<h2>${page.name} · ${page.province}</h2>`)||!html.includes(`Esta página corresponde al servicio técnico en ${page.name}, ${page.province}`)) errors.push(`${page.path}: falta contexto territorial provincial`);
-  const relatedTitle=`Otros municipios de ${comarca||page.province}`;
-  if(!html.includes(relatedTitle)) errors.push(`${page.path}: enlazado relacionado sin contexto territorial`);
+  const relatedTitle=`Pueblos cercanos a ${page.name}`;
+  if(!html.includes(relatedTitle)) errors.push(`${page.path}: falta bloque de proximidad`);
   const relatedBlock=html.match(/<div class="related-grid">([\s\S]*?)<\/div>/)?.[1]||'';
   const relatedLinks=[...relatedBlock.matchAll(/href="([^"]+)"/g)].map(m=>m[1]);
-  if(new Set(relatedLinks).size!==relatedLinks.length) errors.push(`${page.path}: enlaces de comarca repetidos`);
+  const expectedNearby=nearestTowns(page.provinceSlug,page.name).map(x=>x.path);
+  if(JSON.stringify(relatedLinks)!==JSON.stringify(expectedNearby)) errors.push(`${page.path}: cercanos incorrectos o desordenados`);
   for(const link of relatedLinks){
-    const peer=manifest.find(x=>x.path===link);
-    if(!peer||peer.path===page.path||peer.provinceSlug!==page.provinceSlug||(comarca&&comarcaFor(peer.provinceSlug,peer.name)!==comarca)) errors.push(`${page.path}: enlace territorial inválido: ${link}`);
+    if(!manifest.some(x=>x.path===link)||link===page.path) errors.push(`${page.path}: enlace cercano inválido: ${link}`);
   }
+  if(!html.includes('id="frecuencias-tdt"')||!html.includes('class="tdt-table"')) errors.push(`${page.path}: faltan frecuencias TDT`);
   if(!html.includes(`Marcas que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta bloque local de marcas`);
   const technicalMatch=html.match(/<section class="local-technical-notes" data-technical-profile="([^"]+)">([\s\S]*?)<\/section>/);
   const technicalProfile=technicalMatch?.[1]||'';
