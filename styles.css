@@ -763,10 +763,7 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 }
 
 /* Accesos locales y consultas de municipio. */
-.home-local-links{display:flex;flex-wrap:wrap;gap:4px 18px;margin:15px 0 0;max-width:700px}
-.home-local-links a{display:inline-flex;align-items:center;min-height:44px;color:inherit;font-size:14px;font-weight:750;text-decoration:underline;text-underline-offset:4px}
-.home-local-links a:hover{color:var(--amber)}
-.home-local-links a:focus-visible,.town-search a:focus-visible,.secondary-coverage a:focus-visible{outline:3px solid var(--amber);outline-offset:4px}
+.town-search a:focus-visible,.secondary-coverage a:focus-visible{outline:3px solid var(--amber);outline-offset:4px}
 .town-search{max-width:840px;margin:0 0 28px;padding:22px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--navy)}
 .town-search[hidden]{display:none}
 .town-search>label{display:block;margin-bottom:10px;font-size:18px;font-weight:800}
@@ -798,7 +795,6 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 .priority-local-links a:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
 @media(max-width:900px){.priority-local-grid{grid-template-columns:1fr}.priority-local-card{padding:20px}}
 @media(max-width:640px){
-  .home-local-links{gap:0 16px;margin-top:10px}
   .town-search{padding:17px;margin-bottom:22px}
   .town-search li a{align-items:flex-start;flex-direction:column;gap:0}
   .priority-local-section{padding:32px 0}

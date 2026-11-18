@@ -829,7 +829,7 @@ function renderProvince(province){
 function townSearch(province){
   const scope=province?.slug||'all';
   const label=province?`Encuentra tu municipio en ${province.name}`:'Encuentra tu municipio';
-  return `<div class="town-search" data-town-search data-province="${province?.slug||''}" hidden><label for="town-query-${scope}">${esc(label)}</label><input id="town-query-${scope}" data-town-query type="search" placeholder="${province?'Nombre del municipio':'Ej. Bilbao, Zalla o Torrelavega'}" autocomplete="off" maxlength="90" aria-describedby="town-search-status-${scope}" aria-controls="town-results-${scope}"><p id="town-search-status-${scope}" data-town-search-status role="status">Escribe al menos dos letras.</p><ul id="town-results-${scope}" data-town-results></ul></div>`;
+  return `<div class="town-search" data-town-search data-province="${province?.slug||''}" hidden><label for="town-query-${scope}">${esc(label)}</label><input id="town-query-${scope}" data-town-query type="search" placeholder="Nombre del municipio" autocomplete="off" maxlength="90" aria-describedby="town-search-status-${scope}" aria-controls="town-results-${scope}"><p id="town-search-status-${scope}" data-town-search-status role="status">Escribe al menos dos letras.</p><ul id="town-results-${scope}" data-town-results></ul></div>`;
 }
 function renderSecondaryCoverage(province,town){
   const links=secondaryCoverageLinks(province,town);
