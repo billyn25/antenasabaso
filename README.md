@@ -28,7 +28,7 @@ La portada conserva el título y encabezado generales originales. El refuerzo de
 
 La sección de comunidades de la portada enlaza a las guías de antenas colectivas y videoporteros. Sus accesos al presupuesto preseleccionan el servicio y «Comunidad de vecinos», sin borrar los datos escritos ni enviar el formulario. Las dos guías detallan instalación, renovación, reparación y alcance del presupuesto comunitario.
 
-Las 1.624 fichas permiten consultar una cadena y obtener su MUX, canal UHF y MHz. El selector lee las filas de su tabla local; no mantiene una copia de datos ni consulta servicios externos. Las tablas y los seis pueblos próximos siguen al final de cada ficha. La fecha de revisión de frecuencias procede de `content/local-reception.json` y no cambia por una modificación de diseño.
+Las 1.624 fichas permiten consultar una cadena y obtener su MUX, canal UHF y MHz, o consultar la cobertura cuando no existe una frecuencia confirmada. El selector lee las filas de su tabla local; no mantiene una copia de frecuencias ni consulta servicios externos. `content/regional-television.json` añade ETB, Navarra Televisión, CyLTV y referencias locales por municipio, con fuentes y revisión propias. Las cadenas se identifican por servicio, no solo por el nombre MAUT: se respetan las fronteras autonómicas y las emisiones locales no se extienden a toda la provincia. Las frecuencias de CyLTV procedentes del plan se señalan como planificadas; Popular TV Cantabria, Tele7 y TeleBilbao remiten a consulta cuando no hay un canal actual contrastado. Las tablas y los seis pueblos próximos siguen al final de cada ficha. La revisión del plan nacional procede de `content/local-reception.json` y no cambia por una modificación de diseño.
 
 ## Fotografías y privacidad
 

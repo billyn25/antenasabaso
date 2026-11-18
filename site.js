@@ -26,25 +26,28 @@
     if(!select || !result || !rows.length) return;
     form.addEventListener('submit',event=>{
       event.preventDefault();
-      const mux=select.value;
-      const matches=rows.filter(row=>row.dataset.tdtMux===mux);
-      rows.forEach(row=>row.classList.toggle('tdt-selected',mux!=='' && matches.includes(row)));
-      if(!mux || !matches.length){
+      const selection=select.value;
+      const matches=rows.filter(row=>row.dataset.tdtMux===selection || row.dataset.tdtServices?.split(' ').includes(selection));
+      rows.forEach(row=>row.classList.toggle('tdt-selected',selection!=='' && matches.includes(row)));
+      if(!selection || !matches.length){
         result.textContent='Selecciona una cadena para consultar su frecuencia.';
         return;
       }
       const frequencies=matches.map(row=>{
         const uhf=Number(row.dataset.tdtUhf),mhz=Number(row.dataset.tdtMhz);
         if(!Number.isInteger(uhf) || uhf<21 || uhf>48 || !Number.isFinite(mhz)) return '';
-        return `${row.dataset.tdtZone}: UHF ${uhf} (${mhz} MHz)`;
+        return `${row.dataset.tdtZone}: UHF ${uhf} (${mhz} MHz)${row.dataset.tdtPlanned==='true'?' — frecuencia planificada':''}`;
       }).filter(Boolean);
+      const channel=String(select.selectedOptions?.[0]?.textContent||selection).trim();
+      const mux=[...new Set(matches.map(row=>row.dataset.tdtMux))].join(' / ');
+      const withoutFrequency=matches.filter(row=>!Number.isInteger(Number(row.dataset.tdtUhf)) || Number(row.dataset.tdtUhf)<21 || Number(row.dataset.tdtUhf)>48 || !Number.isFinite(Number(row.dataset.tdtMhz)));
+      const coverageNote=withoutFrequency.length?` ${[...new Set(withoutFrequency.map(row=>row.dataset.tdtZone))].join(' / ')}: consulta la cobertura y la frecuencia para tu dirección en las fuentes de la tabla.`:'';
       if(!frequencies.length){
-        result.textContent='Consulta la fila de '+mux+' en la tabla de frecuencias.';
+        result.textContent=`${channel} · ${mux}. No hay una frecuencia confirmada en esta ficha.${coverageNote}`;
         return;
       }
-      const channel=String(select.selectedOptions?.[0]?.textContent||mux).trim();
-      const compatibility=mux==='RGE2'?' Para UHD necesitas un receptor compatible con DVB-T2 y HEVC/H.265.':'';
-      result.textContent=`${channel} · ${mux}. ${frequencies.join('; ')}. Usa el canal UHF en la búsqueda manual de Antena/TDT.${compatibility} La recepción depende del repetidor.`;
+      const compatibility=selection==='RGE2'?' Para UHD necesitas un receptor compatible con DVB-T2 y HEVC/H.265.':'';
+      result.textContent=`${channel} · ${mux}. ${frequencies.join('; ')}. Usa el canal UHF en la búsqueda manual de Antena/TDT.${compatibility}${coverageNote} La recepción depende del repetidor.`;
     });
     form.hidden=false;
   });

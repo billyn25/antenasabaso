@@ -1,0 +1,84 @@
+{
+  "reviewed": "2026-11-18",
+  "services": {
+    "etb1": {"name": "ETB1"},
+    "etb2": {"name": "ETB2"},
+    "etb1-on": {"name": "ETB1 ON"},
+    "etb2-on": {"name": "ETB2 ON"},
+    "hamaika": {"name": "Hamaika Telebista"},
+    "tele7": {"name": "Tele7"},
+    "telebilbao": {"name": "TeleBilbao"},
+    "cyl-la7": {"name": "La 7 (Castilla y León)"},
+    "cyl-la8": {"name": "La 8 (edición local)"},
+    "navarra-tv": {"name": "Navarra Televisión"},
+    "navarra-tv2": {"name": "Navarra Televisión 2"},
+    "popular-cantabria": {"name": "Popular TV Cantabria"}
+  },
+  "sources": {
+    "etb-frequencies": {"label": "Gobierno Vasco · frecuencias de ETB", "url": "https://www.euskadi.eus/contenidos/informacion/tdt/es_tdt/adjuntos/Frecuencias-TDT.pdf"},
+    "etb-channels": {"label": "EITB · canales de televisión en abierto", "url": "https://www.eitb.eus/es/grupo-eitb/detalle/10183400/etb1-on-ofrecera-12-horas-ininterrumpidas-de-programacion-infantil-en-euskera-en-su-emision-por-tdt/"},
+    "etb-renaming": {"label": "EITB · nuevos nombres ETB1 ON y ETB2 ON", "url": "https://www.eitb.eus/es/grupo-eitb/detalle/10179457/etb1-y-etb2-culminan-su-adaptacion-al-entorno-digital-y-lanzan-sus-versiones-digitales-etb1-on-y-etb2-on/"},
+    "hamaika": {"label": "Hamaika · cómo sintonizar", "url": "https://www.hamaika.eus/nola-ikusi-hamaika.html"},
+    "tele7": {"label": "Tele7 · recepción TDT", "url": "https://tele7.tv/como-vernos/"},
+    "telebilbao": {"label": "TeleBilbao · información de la cadena", "url": "https://www.telebilbao.es/"},
+    "cyl-channels": {"label": "CyLTV · La 7 y La 8", "url": "https://www.cyltv.es/InformacionCorporativa.aspx"},
+    "cyl-editions": {"label": "CyLTV · ediciones locales de La 8", "url": "https://www.cyltvplay.es/Directos.aspx"},
+    "navarra-maut": {"label": "Gobierno de Navarra · Navarra TV y ETB", "url": "https://www.navarra.es/documents/48192/50364032/NotificacionAcuerdos_Traslado%2B3211%2B%281%29.pdf/0645c371-bb9d-c4bd-6c0a-fb21dbbe7241?t=1750933457280"},
+    "navarra-names": {"label": "CNMC · canales de Navarra Televisión", "url": "https://www.cnmc.es/sites/default/files/5921717.pdf"},
+    "navarra-2026": {"label": "Gobierno de Navarra · televisión autonómica 2026–2027", "url": "https://www.navarra.es/es/-/nota-prensa/el-gobierno-foral-autoriza-una-nueva-ayuda-directa-de-1-7-millones-para-impulsar-la-programacion-propia-de-navarra-tv-durante-el-curso-2026-2027"},
+    "popular-cantabria": {"label": "Popular TV Cantabria · información de la cadena", "url": "https://populartvcantabria.com/"},
+    "local-basque-2026": {"label": "Gobierno Vasco · demarcaciones de TDT local", "url": "https://www.euskadi.eus/bopv2/datos/2026/02/2600728a.pdf"}
+  },
+  "networks": [
+    {
+      "id": "eitb",
+      "area": "País Vasco",
+      "provinces": ["bizkaia", "gipuzkoa", "alava"],
+      "zones": ["Bizkaia Este", "Bizkaia Oeste", "Gipuzkoa", "Álava"],
+      "services": ["etb1", "etb2", "etb1-on", "etb2-on"],
+      "sources": ["etb-frequencies", "etb-channels", "etb-renaming"],
+      "note": "ETB1 ON y ETB2 ON son los nombres actuales de los canales que antes figuraban como ETB3 y ETB4."
+    },
+    {
+      "id": "cyltv",
+      "area": "Castilla y León",
+      "provinces": ["burgos", "leon", "palencia", "valladolid"],
+      "zones": ["Burgos Norte", "Burgos Sur", "León Este", "León Oeste", "Palencia", "Valladolid", "Zamora", "Soria"],
+      "services": ["cyl-la7", "cyl-la8"],
+      "sources": ["cyl-channels", "cyl-editions"],
+      "planned": true,
+      "note": "La 7 ofrece la programación regional de CyLTV. La 8 incluye programación local: la edición depende de la zona de recepción. El canal UHF indicado es el del plan técnico y debe contrastarse con el emisor de tu dirección."
+    },
+    {
+      "id": "navarra-maut",
+      "area": "Navarra",
+      "provinces": ["navarra"],
+      "zones": ["Navarra"],
+      "services": ["navarra-tv", "navarra-tv2", "etb1", "etb2"],
+      "sources": ["navarra-maut", "navarra-names", "navarra-2026"],
+      "note": "Navarra Televisión y Navarra Televisión 2 comparten el múltiplex autonómico con ETB1 y ETB2. La recepción concreta depende del centro emisor."
+    },
+    {
+      "id": "popular-cantabria",
+      "area": "Cantabria",
+      "provinces": ["cantabria"],
+      "zones": [],
+      "services": ["popular-cantabria"],
+      "sources": ["popular-cantabria"],
+      "note": "Consulta con Popular TV Cantabria su cobertura TDT y canal de recepción para tu dirección."
+    }
+  ],
+  "local": [
+    {"id": "hamaika-bilbao", "province": "bizkaia", "ine": ["48020"], "area": "Bilbao", "uhf": 23, "services": ["hamaika"], "sources": ["hamaika"], "note": "Frecuencia publicada por Hamaika para Bilbao; la recepción depende del emisor y de la antena."},
+    {"id": "hamaika-donostia", "province": "gipuzkoa", "ine": ["20069"], "area": "Donostia/San Sebastián", "uhf": 23, "services": ["hamaika"], "sources": ["hamaika"], "note": "Frecuencia publicada por Hamaika para Donostialdea; comprueba la recepción en tu dirección."},
+    {"id": "hamaika-vitoria", "province": "alava", "ine": ["01059"], "area": "Vitoria-Gasteiz", "uhf": 42, "services": ["hamaika"], "sources": ["hamaika"], "note": "Frecuencia publicada por Hamaika para Gasteiz; comprueba la recepción en tu dirección."},
+    {"id": "hamaika-getxo", "province": "bizkaia", "ine": ["48044"], "area": "Getxo", "uhf": 48, "services": ["hamaika"], "sources": ["hamaika", "local-basque-2026"], "note": "Frecuencia publicada por Hamaika para Getxo; comprueba la recepción en tu dirección."},
+    {"id": "hamaika-mungia", "province": "bizkaia", "ine": ["48069"], "area": "Mungia", "uhf": 34, "services": ["hamaika"], "sources": ["hamaika", "local-basque-2026"], "note": "Frecuencia publicada por Hamaika para Mungia; comprueba la recepción en tu dirección."},
+    {"id": "hamaika-durango", "province": "bizkaia", "ine": ["48027"], "area": "Durango", "uhf": 46, "services": ["hamaika"], "sources": ["hamaika", "local-basque-2026"], "note": "Frecuencia publicada por Hamaika para Durangaldea; comprueba la recepción en tu dirección."},
+    {"id": "hamaika-irun", "province": "gipuzkoa", "ine": ["20045"], "area": "Irun", "uhf": 29, "services": ["hamaika"], "sources": ["hamaika", "local-basque-2026"], "note": "Frecuencia publicada por Hamaika para Oarso-Bidasoa; comprueba la recepción en tu dirección."},
+    {"id": "hamaika-zarautz", "province": "gipuzkoa", "ine": ["20079"], "area": "Zarautz", "uhf": 35, "services": ["hamaika"], "sources": ["hamaika", "local-basque-2026"], "note": "Frecuencia publicada por Hamaika para Urola Kosta; comprueba la recepción en tu dirección."},
+    {"id": "hamaika-pamplona", "province": "navarra", "ine": ["31201"], "area": "Pamplona/Iruña", "uhf": 39, "services": ["hamaika"], "sources": ["hamaika"], "note": "Frecuencia publicada por Hamaika para Iruñea; comprueba la recepción en tu dirección."},
+    {"id": "tele7-barakaldo", "province": "bizkaia", "ine": ["48013"], "area": "Barakaldo", "uhf": null, "services": ["tele7"], "sources": ["tele7"], "note": "Consulta con la cadena el canal de recepción para tu dirección antes de hacer una búsqueda manual."},
+    {"id": "telebilbao-bilbao", "province": "bizkaia", "ine": ["48020"], "area": "Bilbao", "uhf": null, "services": ["telebilbao"], "sources": ["telebilbao"], "note": "La frecuencia y la recepción local deben confirmarse para la dirección y el centro emisor."}
+  ]
+}
