@@ -106,11 +106,12 @@
 })();
 
 
-/* Accesos de portada: preseleccionan el servicio antes de bajar al formulario. */
+/* Accesos de portada: preparan el servicio y, cuando se indica, el tipo de inmueble. */
 (()=>{
   const form=document.querySelector('[data-budget-form]');
   if(!form || typeof form.querySelector!=='function') return;
   const service=form.querySelector('[name="service"]');
+  const property=form.querySelector('[name="property"]');
   if(!service) return;
   if(typeof document.querySelectorAll!=='function') return;
   document.querySelectorAll('[data-home-service]').forEach(link=>{
@@ -118,6 +119,8 @@
     link.addEventListener('click',()=>{
       const value=link.getAttribute('data-home-service');
       if(value) service.value=value;
+      const propertyValue=link.getAttribute('data-home-property');
+      if(property && propertyValue) property.value=propertyValue;
     });
   });
 })();

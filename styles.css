@@ -803,3 +803,55 @@ h1,h2,h3,.breadcrumb,.legal-copy{overflow-wrap:anywhere}
 
 /* Mantiene el formulario inactivo hasta preparar el envío por WhatsApp. */
 [data-budget-form][hidden]{display:none}
+
+/* Comunidades y cobertura del País Vasco. */
+.hero-service-links{display:flex;flex-wrap:wrap;gap:4px 24px;margin-top:14px}
+.hero-service-links a{display:inline-flex;align-items:center;min-height:44px;color:inherit;font-size:14px;font-weight:750;text-decoration:underline;text-underline-offset:4px}
+.hero-service-links a:focus-visible{outline:3px solid var(--amber);outline-offset:4px}
+.community-services{padding:48px 0;background:var(--paper);border-bottom:1px solid var(--line);scroll-margin-top:105px}
+.community-services-heading{max-width:940px;margin-bottom:24px}
+.community-services-heading h2{margin:8px 0 16px;font-size:clamp(28px,3.5vw,40px);line-height:1.15;letter-spacing:-.025em;color:var(--navy)}
+.community-services-heading p{margin:0;color:var(--muted);font-size:16px;line-height:1.7}
+.community-services-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.community-service-card{min-width:0;display:flex;flex-direction:column;align-items:flex-start;padding:26px;background:#fff;border:1px solid var(--line);border-top:3px solid var(--amber);border-radius:10px}
+.community-service-card h3{margin:0 0 12px;color:var(--navy);font-size:24px;line-height:1.25}
+.community-service-card p,.community-service-card li{color:var(--muted);font-size:15px;line-height:1.7}
+.community-service-card p{margin:0 0 12px}
+.community-service-card ul{margin:0 0 12px;padding-left:20px}
+.community-service-card li+li{margin-top:8px}
+.community-service-card .community-guide-link{display:block;min-height:44px;padding:9px 0;color:var(--blue);font-size:14px;font-weight:750;line-height:1.5;margin-top:auto}
+.community-service-card .btn{margin-top:12px;max-width:100%;white-space:normal;text-align:center;line-height:1.4}
+.community-services-note{max-width:1000px;margin:22px 0 0;color:var(--muted);font-size:14px;line-height:1.7}
+.basque-coverage{padding:38px 0;background:#fff;border-bottom:1px solid var(--line);scroll-margin-top:105px}
+.basque-coverage-heading{max-width:940px;margin-bottom:22px}
+.basque-coverage-heading h2{margin:0 0 12px;color:var(--navy);font-size:clamp(26px,3vw,35px);line-height:1.2;letter-spacing:-.025em}
+.basque-coverage-heading p{margin:0;color:var(--muted);font-size:15px;line-height:1.7}
+.basque-coverage-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.basque-coverage-card{min-width:0;padding:22px;background:var(--soft);border:1px solid var(--line);border-radius:10px}
+.basque-coverage-card h3{margin:0 0 12px;font-size:24px;line-height:1.2;color:var(--navy)}
+.basque-coverage-towns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 12px;list-style:none;margin:0;padding:0}
+.basque-coverage-towns a{display:flex;align-items:center;min-height:44px;padding:5px 0;color:var(--blue);font-size:14px;line-height:1.4;font-weight:700;overflow-wrap:anywhere}
+.basque-coverage-directory,.basque-coverage-all{display:inline-flex;align-items:center;min-height:44px;font-size:14px;line-height:1.5;font-weight:750;color:var(--blue)}
+.basque-coverage-directory{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.basque-coverage-all{margin-top:14px}
+.community-province{padding:40px 0;background:var(--paper);border-block:1px solid var(--line);scroll-margin-top:105px}
+.community-province-heading h2{max-width:1000px;margin:0 0 18px;color:var(--navy);font-size:clamp(27px,3vw,36px);line-height:1.2;letter-spacing:-.025em}
+.community-province-copy{max-width:1000px}
+.community-province-copy p{margin:0 0 14px;font-size:16px;line-height:1.75;color:var(--muted)}
+.community-province-links,.community-province-coverage{display:flex;flex-wrap:wrap;align-items:center;gap:6px 24px}
+.community-province-links a,.community-province-coverage a{display:inline-flex;align-items:center;min-height:44px;font-size:14px;line-height:1.5;font-weight:750;color:var(--blue)}
+.community-province-actions{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0}
+.community-province-actions .btn{max-width:100%;white-space:normal;text-align:center;line-height:1.4}
+.community-province-coverage{padding-top:14px;border-top:1px solid var(--line)}
+.community-province-coverage-label{margin:0;font-size:14px;font-weight:750;color:var(--navy)}
+.community-services a:focus-visible,.basque-coverage a:focus-visible,.community-province a:focus-visible{outline:3px solid var(--blue);outline-offset:4px}
+@media(max-width:800px){.community-services-grid,.basque-coverage-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:640px){
+  .community-services,.community-province{padding:32px 0}
+  .community-service-card{padding:20px}
+  .basque-coverage{padding:30px 0}
+  .basque-coverage-card{padding:18px}
+  .hero-service-links{gap:0 18px;margin-top:10px}
+  .community-province-links,.community-province-coverage{align-items:flex-start;flex-direction:column;gap:0}
+  .community-province-actions{flex-direction:column}
+}

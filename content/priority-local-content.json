@@ -376,5 +376,254 @@
       "https://television.digital.gob.es/television-digital/tdt/consulta-la-cobertura-tdt-de-tu-localidad"
     ],
     "displayName": "Reinosa"
+  },
+  "/alava/vitoria-gasteiz/": {
+    "town": "Vitoria-Gasteiz",
+    "province": "alava",
+    "displayName": "Vitoria-Gasteiz",
+    "title": "Antenista en Vitoria-Gasteiz | Comunidades | 670 042 626",
+    "description": "Antenista en Vitoria-Gasteiz, Álava. Instalación y reparación de antenas colectivas y videoporteros para comunidades. 670 042 626.",
+    "intro": "Instalación y reparación de antenas colectivas y videoporteros en Vitoria-Gasteiz. Para una comunidad de viviendas, concreta si necesitas resolver una avería, renovar equipos o equipar nuevos accesos; así podemos preparar la consulta con el alcance adecuado.",
+    "heading": "Antenas y videoporteros para comunidades en Vitoria-Gasteiz",
+    "lead": "Indica barrio, calle y portal, tanto en Salburua como en Zabalgana o el resto de la ciudad. Si la dirección pertenece a un concejo del municipio, añade su nombre. Aclara qué portales incluye la solicitud de la comunidad.",
+    "cards": [
+      {
+        "heading": "Una antena compartida por varios portales",
+        "text": "Si varios edificios comparten antena, identifica cuáles reciben bien y cuáles tienen cortes. Para instalar o renovar el sistema, facilita el número de viviendas y los equipos existentes. El presupuesto debe precisar qué parte común se interviene y qué comprobaciones se harán en las tomas."
+      },
+      {
+        "heading": "Videoportero con más de una entrada",
+        "text": "Dibuja un esquema sencillo de los accesos: calle, entrada del bloque y otras puertas que se quieran atender. Indica desde qué placas debe llamarse a cada vivienda y qué puertas debe abrir el monitor. Ese alcance permite valorar la instalación completa."
+      },
+      {
+        "heading": "Reparar una función concreta",
+        "text": "Si la llamada funciona pero falla la imagen o la apertura, recoge el síntoma por vivienda y por placa. Comunica también si comenzó tras sustituir un terminal. Esta relación ayuda a preparar la revisión antes de proponer cambios de equipos."
+      }
+    ],
+    "preparation": [
+      "Número de portales, viviendas, placas exteriores y terminales que se quieren instalar o revisar.",
+      "Contacto de la administración o presidencia y acceso previsto a los recintos de telecomunicaciones."
+    ],
+    "links": [
+      {
+        "label": "Planificar una antena colectiva",
+        "href": "/servicios/antenas-colectivas/"
+      },
+      {
+        "label": "Instalación y reparación de videoporteros",
+        "href": "/servicios/videoporteros/"
+      }
+    ],
+    "source_urls": [
+      "https://www.vitoria-gasteiz.org/wb021/was/contenidoAction.do?idioma=es&uid=u1ec27183_12eb7fcdbc3__7fdc",
+      "https://www.vitoria-gasteiz.org/wb021/was/contenidoAction.do?idioma=es&uid=u_288ad294_133aad788ec__7f9f"
+    ]
+  },
+  "/alava/laudio-llodio/": {
+    "town": "Laudio/Llodio",
+    "province": "alava",
+    "displayName": "Laudio/Llodio",
+    "title": "Antenista en Laudio/Llodio | Comunidades | 670 042 626",
+    "description": "Antenista en Laudio/Llodio, Álava. Antenas colectivas y videoporteros: instalación, reparación y renovación para comunidades. 670 042 626.",
+    "intro": "Antenas colectivas y videoporteros en Laudio/Llodio: instalación, reparación y renovación para comunidades. Cuando se quiere conservar parte del equipo, conviene identificar los modelos existentes y las funciones que necesita cada vivienda antes de decidir el cambio.",
+    "heading": "Preparar una renovación o avería comunitaria en Laudio/Llodio",
+    "lead": "Areta, Ugarte y Gardea son barrios de Laudio/Llodio. Añade la calle y el portal al nombre del barrio; si la consulta abarca varios bloques, identifica cada uno y explica si comparten antena o sistema de portero.",
+    "cards": [
+      {
+        "heading": "Combinar telefonillos y monitores",
+        "text": "Si unos vecinos quieren videoportero y otros conservar sólo audio, inclúyelo en la petición. Pide que se compruebe la compatibilidad de esa combinación y se detallen los terminales que pueden mantenerse. La renovación debe describir también los equipos comunes necesarios."
+      },
+      {
+        "heading": "Antena que falla tras una modificación",
+        "text": "Anota si la pérdida de canales empezó después de una reforma, un nuevo repartidor o un cambio en el cuarto de telecomunicaciones. Localiza los pisos afectados y conserva una relación de canales que sí se ven. Esa secuencia orienta la revisión del tramo modificado."
+      },
+      {
+        "heading": "Instalar distribución para más viviendas",
+        "text": "Para ampliar una antena colectiva, aporta el número de nuevas viviendas y las tomas previstas en cada una. Solicita que el presupuesto incluya recorridos, reparto de señal y comprobación de los puntos existentes, además de las nuevas conexiones."
+      }
+    ],
+    "preparation": [
+      "Fotos de las referencias visibles de placa, terminales y equipos de antena, sin desmontarlos.",
+      "Relación de viviendas incluidas en la renovación y persona que coordinará el acceso a cada portal."
+    ],
+    "links": [
+      {
+        "label": "Ampliar o reparar la antena colectiva",
+        "href": "/servicios/antenas-colectivas/"
+      },
+      {
+        "label": "Renovar el videoportero de la comunidad",
+        "href": "/servicios/videoporteros/"
+      }
+    ],
+    "source_urls": [
+      "https://www.laudio.eus/garapena/es/laudio-llodio/nuestro-valle"
+    ]
+  },
+  "/alava/amurrio/": {
+    "town": "Amurrio",
+    "province": "alava",
+    "displayName": "Amurrio",
+    "title": "Antenista en Amurrio | Comunidades | 670 042 626",
+    "description": "Antenista en Amurrio, Álava. Instalación y reparación de antenas y videoporteros para comunidades de viviendas. Consulta: 670 042 626.",
+    "intro": "Instalación y reparación de antenas y videoporteros para comunidades de viviendas en Amurrio. Para preparar un presupuesto, distingue los elementos compartidos de los de cada casa y explica si se trata de una instalación nueva, una ampliación o una avería.",
+    "heading": "Organizar el trabajo de antena y videoportero en Amurrio",
+    "lead": "El municipio incluye concejos como Baranbio, Larrinbe y Lezama. Indica la localidad concreta junto a la dirección y una referencia de acceso si hace falta. Para una comunidad, señala qué viviendas forman parte de la instalación que se quiere revisar.",
+    "cards": [
+      {
+        "heading": "Reunir los avisos de antena",
+        "text": "Elige una persona de contacto que recopile los canales y viviendas afectados. Anota si el fallo aparece en todas las tomas o sólo en algunas. Para revisar la antena colectiva resulta útil poder comparar una vivienda con buena recepción y otra con el problema."
+      },
+      {
+        "heading": "Videoportero con acceso separado",
+        "text": "Si la placa estará en una cancela o entrada exterior distinta del portal, indícalo al pedir la instalación. Facilita la distancia aproximada y el recorrido disponible hasta las viviendas. En una reparación, explica si fallan la llamada, la conversación o la apertura de ese acceso."
+      },
+      {
+        "heading": "Prever la instalación antes de una reforma",
+        "text": "Un plano sencillo con las tomas de televisión y la posición deseada de los monitores ayuda a definir el trabajo. Señala qué canalizaciones están disponibles y qué equipos se conservan. Conviene concretar esos recorridos antes de cerrar los acabados de la obra."
+      }
+    ],
+    "preparation": [
+      "Localidad, viviendas incluidas y ubicación de los accesos que debe atender el videoportero.",
+      "Plano o croquis disponible y contacto para revisar los equipos compartidos con la comunidad."
+    ],
+    "links": [
+      {
+        "label": "Antenas para comunidades de viviendas",
+        "href": "/servicios/antenas-colectivas/"
+      },
+      {
+        "label": "Preparar la instalación del videoportero",
+        "href": "/servicios/videoporteros/"
+      }
+    ],
+    "source_urls": [
+      "https://udala.amurrio.eus/cas/juntas-administrativas"
+    ]
+  },
+  "/gipuzkoa/donostia-san-sebastian/": {
+    "town": "Donostia/San Sebastián",
+    "province": "gipuzkoa",
+    "displayName": "Donostia/San Sebastián",
+    "title": "Antenista en Donostia/San Sebastián | 670 042 626",
+    "description": "Antenista en Donostia/San Sebastián, Gipuzkoa. Instalación y reparación de antenas colectivas y videoporteros para comunidades. 670 042 626.",
+    "intro": "Antenas colectivas y videoporteros en Donostia/San Sebastián para comunidades: instalación, reparación y renovación. Si la actuación se coordina con una reforma del portal o del edificio, indica qué instalaciones se van a conservar y qué cambios necesita la comunidad.",
+    "heading": "Qué concretar con la comunidad en Donostia/San Sebastián",
+    "lead": "Riberas de Loiola se integra en Amara Berri en la división municipal. Puedes indicar ambas referencias para ubicar el inmueble, junto con calle y portal. Si hay varias entradas, concreta en cuál está la placa o el equipo que requiere atención.",
+    "cards": [
+      {
+        "heading": "Antena colectiva durante una reforma",
+        "text": "Antes de modificar la distribución, recoge qué tomas funcionan y qué cambios se quieren hacer. Si ya existe una avería, separa ese aviso de las nuevas conexiones solicitadas. El presupuesto podrá distinguir la reparación de la instalación que necesita la reforma."
+      },
+      {
+        "heading": "Videoportero con respuesta desde el móvil",
+        "text": "Incluye esta función expresamente si la comunidad la quiere. Facilita la referencia del sistema actual y pide confirmar qué equipos son compatibles y qué conexión necesita cada vivienda. Al comparar propuestas, aclara qué funciones tendrá el monitor y cuáles dependerán del móvil."
+      },
+      {
+        "heading": "Comprobar la reparación desde ambos extremos",
+        "text": "Para un fallo de videoportero, describe lo que ocurre en la placa de calle y en el terminal de la vivienda. Indica si se oye en un sentido, si llega la llamada y si abre la puerta. Recoger ambos lados evita una descripción incompleta."
+      }
+    ],
+    "preparation": [
+      "Número de viviendas y monitores, trabajos previstos en el portal y modelos que se quieren conservar.",
+      "Una persona para las pruebas desde la entrada y otra para facilitar el acceso a la vivienda afectada."
+    ],
+    "links": [
+      {
+        "label": "Reparación y renovación de antenas colectivas",
+        "href": "/servicios/antenas-colectivas/"
+      },
+      {
+        "label": "Elegir funciones para el videoportero",
+        "href": "/servicios/videoporteros/"
+      }
+    ],
+    "source_urls": [
+      "https://www.donostia.eus/es/como-es-ciudad/barrios",
+      "https://soporte.fermax.com/portal/es/kb/articles/wi-box-compatibilidad-con-terminales"
+    ]
+  },
+  "/gipuzkoa/irun/": {
+    "town": "Irun",
+    "province": "gipuzkoa",
+    "displayName": "Irun",
+    "title": "Antenista en Irun | Comunidades | 670 042 626",
+    "description": "Antenista en Irun, Gipuzkoa. Instalación y reparación de antenas colectivas y videoporteros para comunidades de vecinos. 670 042 626.",
+    "intro": "Instalación y reparación de antenas colectivas y videoporteros en Irun. Para un aviso comunitario, identifica qué servicio falla y qué accesos o viviendas están afectados; para una instalación nueva, prepara el número de terminales y las funciones que necesitáis.",
+    "heading": "Consultas de antena y videoportero para comunidades en Irun",
+    "lead": "Anaka, Behobia y Artia son referencias útiles de zona, pero añade siempre calle y número. En edificios con varios portales, indica cuál corresponde al aviso y si la solicitud procede de una vivienda o de la comunidad completa.",
+    "cards": [
+      {
+        "heading": "Comparar la misma forma de ver televisión",
+        "text": "Al preguntar a otros vecinos por la avería, comprueba que reciben esas cadenas por la toma de antena. Verlas mediante una aplicación o el descodificador de un operador no sirve para comparar la señal TDT. Anota los canales que fallan en televisores conectados a la instalación colectiva."
+      },
+      {
+        "heading": "Dimensionar un videoportero nuevo",
+        "text": "Cuenta las viviendas, los locales que deban recibir llamadas y los monitores adicionales que se desean dentro de cada inmueble. Indica también las puertas que se quieren abrir. Con ese inventario se puede preparar una propuesta de instalación ajustada a los usos de la comunidad."
+      },
+      {
+        "heading": "Una placa responde y otra no",
+        "text": "Si hay varias entradas, identifica desde cuál falla la llamada o la imagen y comprueba si afecta a los mismos vecinos. Incluye el resultado desde las otras placas. Este detalle permite orientar la reparación sin confundir un problema de acceso con uno de un terminal concreto."
+      }
+    ],
+    "preparation": [
+      "Relación de accesos, viviendas y locales incluidos en el presupuesto o afectados por la avería.",
+      "Fotos frontales de las placas y referencias de los monitores, junto con un contacto de la comunidad."
+    ],
+    "links": [
+      {
+        "label": "Revisar la señal de una antena colectiva",
+        "href": "/servicios/antenas-colectivas/"
+      },
+      {
+        "label": "Instalar o reparar un videoportero",
+        "href": "/servicios/videoporteros/"
+      }
+    ],
+    "source_urls": [
+      "https://www.irun.org/es/turismo-ciudad/demografia-estadistica/poblacion-hoy/analisis-habitantes-zonas"
+    ]
+  },
+  "/gipuzkoa/eibar/": {
+    "town": "Eibar",
+    "province": "gipuzkoa",
+    "displayName": "Eibar",
+    "title": "Antenista en Eibar | Comunidades | 670 042 626",
+    "description": "Antenista en Eibar, Gipuzkoa. Antenas colectivas y videoporteros para comunidades: instalación, reparación y renovación. 670 042 626.",
+    "intro": "Antenas colectivas y videoporteros en Eibar: instalación y reparación para comunidades de vecinos. Para valorar el trabajo, ayuda identificar la parte que falla, los equipos que se quieren conservar y las viviendas o accesos que deben quedar incluidos.",
+    "heading": "Preparar la instalación o reparación comunitaria en Eibar",
+    "lead": "Indica la dirección y el portal; Amaña, Ipurua o Txonta pueden servir como referencia de zona. Si consultas por la comunidad, concreta si necesitas recuperar un servicio que funcionaba o instalar nuevos puntos de televisión, placas o monitores.",
+    "cards": [
+      {
+        "heading": "La referencia TDT correcta para Eibar",
+        "text": "Aunque Eibar pertenece a Gipuzkoa, su zona técnica TDT es Bizkaia Este. MPE5 figura en UHF {{mpe5_uhf}}, {{mpe5_mhz}} MHz. Si falta ese grupo de canales en varias viviendas, utiliza la tabla de esta ficha para preparar la revisión de la antena colectiva; la recepción concreta debe comprobarse."
+      },
+      {
+        "heading": "Sustituir una placa conservando monitores",
+        "text": "Para renovar sólo la entrada, facilita las referencias de la placa y de los terminales de las viviendas. Solicita que se confirme qué equipos pueden mantenerse y qué adaptaciones harían falta. Si la placa está averiada, describe por separado llamada, sonido, imagen y apertura."
+      },
+      {
+        "heading": "Acordar cómo se comprobará la instalación",
+        "text": "En una nueva antena colectiva o renovación de videoportero, pide concretar las pruebas incluidas al terminar: recepción en los puntos previstos y llamadas y apertura desde los accesos instalados. Coordinar el acceso a las viviendas permite verificar el servicio completo."
+      }
+    ],
+    "preparation": [
+      "Número de viviendas, tomas de televisión y placas incluidas en el trabajo comunitario.",
+      "Canales o funciones afectados, referencias de equipos y persona que facilitará las pruebas."
+    ],
+    "links": [
+      {
+        "label": "Instalar y reparar antenas colectivas",
+        "href": "/servicios/antenas-colectivas/"
+      },
+      {
+        "label": "Renovación y reparación de videoporteros",
+        "href": "/servicios/videoporteros/"
+      }
+    ],
+    "source_urls": [
+      "https://b5m.gipuzkoa.eus/web5000/es/directorio-geografico/barrio-y-o-nombre-urbano?city=030",
+      "https://www.boe.es/buscar/act.php?id=BOE-A-2025-6004"
+    ]
   }
 }

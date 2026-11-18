@@ -22,7 +22,11 @@ Producción publica **1.641 URLs indexables repartidas en un índice de sitemaps
 
 `scripts/coverage-navigation.mjs` selecciona los accesos destacados a localidades existentes. La portada y los nueve directorios incorporan un buscador que carga `local-pages-manifest.json` al usarlo; las consultas se resuelven en el navegador y el directorio HTML permanece disponible.
 
-`content/priority-local-content.json` contiene textos y fuentes para nueve fichas prioritarias. Sustituye sus bloques genéricos de comprobaciones, preguntas y preparación por una sección editorial propia. `scripts/priority-local-content.mjs` obtiene las cifras técnicas de la misma base de frecuencias utilizada en las tablas.
+`content/priority-local-content.json` contiene textos y fuentes para quince fichas prioritarias: doce del País Vasco y tres de Cantabria. Sustituye sus bloques genéricos de comprobaciones, preguntas y preparación por una sección editorial propia. `scripts/priority-local-content.mjs` obtiene las cifras técnicas de la misma base de frecuencias utilizada en las tablas.
+
+La portada conserva el título y encabezado generales originales. El refuerzo del País Vasco solicitado se presenta en `scripts/basque-coverage.mjs`, con el mismo espacio para Bizkaia, Gipuzkoa y Álava, junto al directorio completo de las nueve provincias. `scripts/community-provinces.mjs` añade contenido sobre instalación y reparación para comunidades en esos tres directorios.
+
+La sección de comunidades de la portada enlaza a las guías de antenas colectivas y videoporteros. Sus accesos al presupuesto preseleccionan el servicio y «Comunidad de vecinos», sin borrar los datos escritos ni enviar el formulario. Las dos guías detallan instalación, renovación, reparación y alcance del presupuesto comunitario.
 
 Las 1.624 fichas permiten consultar una cadena y obtener su MUX, canal UHF y MHz. El selector lee las filas de su tabla local; no mantiene una copia de datos ni consulta servicios externos. Las tablas y los seis pueblos próximos siguen al final de cada ficha. La fecha de revisión de frecuencias procede de `content/local-reception.json` y no cambia por una modificación de diseño.
 
