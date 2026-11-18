@@ -3,6 +3,7 @@ import path from 'node:path';
 import services from '../content/services.json' with { type: 'json' };
 import {nearestTowns} from './local-reception.mjs';
 import {extraRoutes} from './service-guides.mjs';
+import {getPriorityLocalContent} from './priority-local-content.mjs';
 import { provinces, totalTowns } from '../content/municipios.mjs';
 import { comarcaFor, townsInComarca, comarcaGroups } from '../content/comarcas.mjs';
 
@@ -143,30 +144,42 @@ for(const [rel,html] of htmlByFile){
 for(const page of manifest){
   const html=htmlByFile.get(page.provinceSlug+'/'+page.slug+'/index.html');
   if(!html){errors.push(`Falta ${page.path}`);continue;}
+  const localContent=getPriorityLocalContent(page.path);
+  const displayName=localContent?.displayName||page.name;
   const meta=metadata.find(m=>m.path===page.path);
-  if(!meta?.title.includes(page.name)||!meta.description.startsWith(`Antenista en ${page.name}, ${page.province}.`)) errors.push(`${page.path}: metadatos sin localidad real`);
-  if(!html.includes(`<h1>Antenista en ${page.name}, ${page.province}</h1>`)) errors.push(`${page.path}: H1 local incorrecto`);
+  if(!meta?.title.includes(displayName)||!meta.description.startsWith(`Antenista en ${displayName}, ${page.province}.`)) errors.push(`${page.path}: metadatos sin localidad real`);
+  if(!html.includes(`<h1>Antenista en ${displayName}, ${page.province}</h1>`)) errors.push(`${page.path}: H1 local incorrecto`);
   for(const service of services){
-    if(!html.includes(`<h3>${service.name} en ${page.name}</h3>`)) errors.push(`${page.path}: falta servicio local ${service.name}`);
+    if(!html.includes(`<h3>${service.name} en ${displayName}</h3>`)) errors.push(`${page.path}: falta servicio local ${service.name}`);
     const card=html.match(new RegExp(`<article[^>]+id="servicio-${service.id}"[^>]*>([\\s\\S]*?)<\\/article>`))?.[1]||'';
     const href=decode(card.match(/href="([^"]+)"/)?.[1]||'');
     try{
       const url=new URL(href);
       const message=url.searchParams.get('text')||'';
-      if(url.hostname!=='wa.me'||url.pathname!=='/34670042626'||!message.includes(page.name)||!message.includes(service.name.toLowerCase())) errors.push(`${page.path}: consulta de ${service.id} sin contexto o contacto incorrecto`);
+      if(url.hostname!=='wa.me'||url.pathname!=='/34670042626'||(!message.includes(page.name)&&!message.includes(displayName))||!message.includes(service.name.toLowerCase())) errors.push(`${page.path}: consulta de ${service.id} sin contexto o contacto incorrecto`);
       serviceContacts++;
     }catch{errors.push(`${page.path}: falta consulta específica de ${service.id}`);}
   }
-  if(!html.includes(`class="local-trust-strip"`)||!html.includes(`Experiencia</small><strong>20 años</strong>`)||!html.includes(`Ámbito</small><strong>${page.name}</strong>`)) errors.push(`${page.path}: falta franja local de confianza`);
-  if(!html.includes(`Así planteamos una intervención en ${page.name}`)) errors.push(`${page.path}: falta proceso local`);
-  const prepBlock=html.match(/<section class="local-prep">([\s\S]*?)<\/section>/)?.[1]||'';
-  if(!prepBlock.includes(`Qué datos ayudan a preparar el aviso en ${page.name}`)) errors.push(`${page.path}: falta preparación local del aviso`);
-  if([...prepBlock.matchAll(/<li>/g)].length!==5) errors.push(`${page.path}: preparación local debe tener 5 datos útiles`);
+  if(!html.includes(`class="local-trust-strip"`)||!html.includes(`Experiencia</small><strong>20 años</strong>`)||!html.includes(`Ámbito</small><strong>${displayName}</strong>`)) errors.push(`${page.path}: falta franja local de confianza`);
+  if(!html.includes(`Así planteamos una intervención en ${displayName}`)) errors.push(`${page.path}: falta proceso local`);
+  if(localContent){
+    const localHelp=html.match(/<section class="priority-local-section" id="ayuda-local">([\s\S]*?)<\/section>/)?.[1]||'';
+    if(!localHelp.includes(localContent.heading)||!html.includes(localContent.intro)) errors.push(`${page.path}: falta contenido editorial propio`);
+    if((localHelp.match(/class="priority-local-card"/g)||[]).length!==3) errors.push(`${page.path}: deben existir 3 comprobaciones locales`);
+    if((localHelp.match(/<li>/g)||[]).length!==2) errors.push(`${page.path}: faltan los 2 datos para preparar el aviso`);
+    if(localHelp.includes('{{')) errors.push(`${page.path}: dato técnico editorial sin resolver`);
+    for(const link of localContent.links) if(!localHelp.includes(`href="${link.href}"`)) errors.push(`${page.path}: falta guía relacionada ${link.href}`);
+    if(!localHelp.includes('href="#contacto"')) errors.push(`${page.path}: falta acceso a preparar la consulta`);
+  }else{
+    const prepBlock=html.match(/<section class="local-prep">([\s\S]*?)<\/section>/)?.[1]||'';
+    if(!prepBlock.includes(`Qué datos ayudan a preparar el aviso en ${displayName}`)) errors.push(`${page.path}: falta preparación local del aviso`);
+    if([...prepBlock.matchAll(/<li>/g)].length!==5) errors.push(`${page.path}: preparación local debe tener 5 datos útiles`);
+  }
   const comarca=comarcaFor(page.provinceSlug,page.name);
   if(comarca){
-    if(!html.includes(`<h2>${page.name} · ${comarca}</h2>`)||!html.includes(`pertenece a la comarca ${comarca}`)) errors.push(`${page.path}: falta contexto territorial/comarca`);
-  }else if(!html.includes(`<h2>${page.name} · ${page.province}</h2>`)||!html.includes(`Esta página corresponde al servicio técnico en ${page.name}, ${page.province}`)) errors.push(`${page.path}: falta contexto territorial provincial`);
-  const relatedTitle=`Pueblos cercanos a ${page.name}`;
+    if(!html.includes(`<h2>${displayName} · ${comarca}</h2>`)||!html.includes(`pertenece a la comarca ${comarca}`)) errors.push(`${page.path}: falta contexto territorial/comarca`);
+  }else if(!html.includes(`<h2>${displayName} · ${page.province}</h2>`)||!html.includes(`Esta página corresponde al servicio técnico en ${displayName}, ${page.province}`)) errors.push(`${page.path}: falta contexto territorial provincial`);
+  const relatedTitle=`Pueblos cercanos a ${displayName}`;
   if(!html.includes(relatedTitle)) errors.push(`${page.path}: falta bloque de proximidad`);
   const relatedBlock=html.match(/<div class="related-grid">([\s\S]*?)<\/div>/)?.[1]||'';
   const relatedLinks=[...relatedBlock.matchAll(/href="([^"]+)"/g)].map(m=>m[1]);
@@ -176,38 +189,38 @@ for(const page of manifest){
     if(!manifest.some(x=>x.path===link)||link===page.path) errors.push(`${page.path}: enlace cercano inválido: ${link}`);
   }
   if(!html.includes('id="frecuencias-tdt"')||!html.includes('class="tdt-table"')) errors.push(`${page.path}: faltan frecuencias TDT`);
-  if(!html.includes(`Marcas que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta bloque local de marcas`);
+  if(!html.includes(`Marcas que podemos revisar en ${displayName}`)) errors.push(`${page.path}: falta bloque local de marcas`);
   const technicalMatch=html.match(/<section class="local-technical-notes" data-technical-profile="([^"]+)">([\s\S]*?)<\/section>/);
   const technicalProfile=technicalMatch?.[1]||'';
   const technicalBlock=technicalMatch?.[2]||'';
   if(technicalProfile) technicalProfiles.add(technicalProfile);
-  if(!technicalBlock.includes(page.name)) errors.push(`${page.path}: contenido técnico variable sin localidad`);
+  if(!localContent&&!technicalBlock.includes(displayName)) errors.push(`${page.path}: contenido técnico variable sin localidad`);
   const technicalCases=(technicalBlock.match(/<article>/g)||[]).length;
-  if(technicalCases<2||technicalCases>4) errors.push(`${page.path}: contenido técnico variable debe tener entre 2 y 4 casos`);
-  if(!technicalBlock.includes('class="local-decision-note"')) errors.push(`${page.path}: falta nota de decisión técnica`);
+  if(!localContent&&(technicalCases<2||technicalCases>4)) errors.push(`${page.path}: contenido técnico variable debe tener entre 2 y 4 casos`);
+  if(!localContent&&!technicalBlock.includes('class="local-decision-note"')) errors.push(`${page.path}: falta nota de decisión técnica`);
   const equipmentBlock=html.match(/<section class="local-equipment-showcase"[\s\S]*?<\/section>/)?.[0]||'';
-  if(!equipmentBlock.includes(`Antenas y equipos que podemos revisar en ${page.name}`)) errors.push(`${page.path}: falta galería técnica local`);
+  if(!equipmentBlock.includes(`Antenas y equipos que podemos revisar en ${displayName}`)) errors.push(`${page.path}: falta galería técnica local`);
   for(const label of ['Fagor Rhombus','Tegui · Telefonillo y placa Sfera','Televes · amplificación de vivienda','Parabólica, LNB y cableado']) if(!equipmentBlock.includes(label)) errors.push(`${page.path}: falta equipo visual ${label}`);
   if((equipmentBlock.match(/class="equipment-card /g)||[]).length!==4) errors.push(`${page.path}: la galería técnica debe tener 4 equipos`);
   const intentBlock=html.match(/<section class="local-intents">([\s\S]*?)<\/section>/)?.[1]||'';
   const intentCards=[...intentBlock.matchAll(/<article>/g)].length;
   const faqBlock=html.match(/<section class="local-faq">([\s\S]*?)<\/section>/)?.[1]||'';
   const faqCount=[...faqBlock.matchAll(/<details>/g)].length;
-  if(intentCards!==4) errors.push(`${page.path}: deben existir 4 casos locales útiles`);
-  if(faqCount!==3) errors.push(`${page.path}: deben existir 3 preguntas frecuentes locales`);
+  if(!localContent&&intentCards!==4) errors.push(`${page.path}: deben existir 4 casos locales útiles`);
+  if(!localContent&&faqCount!==3) errors.push(`${page.path}: deben existir 3 preguntas frecuentes locales`);
   let auxiliaryHere=0;
   for(const label of auxiliaryIntentLabels) if(intentBlock.includes(label)){ auxiliaryIntentCounts.set(label,auxiliaryIntentCounts.get(label)+1); auxiliaryHere++; }
-  if(auxiliaryHere!==2) errors.push(`${page.path}: deben verse exactamente 2 servicios complementarios, encontrados ${auxiliaryHere}`);
+  if(!localContent&&auxiliaryHere!==2) errors.push(`${page.path}: deben verse exactamente 2 servicios complementarios, encontrados ${auxiliaryHere}`);
   const localBudget=html.match(/<section class="section contact-section local-budget-section"[\s\S]*?<\/section>/)?.[0]||'';
   for(const option of ['Resintonización TDT y UHD','Montaje de TV en pared','Montaje de proyector y pantalla','Cableado HDMI y audiovisual','Configuración de receptor TDT/SAT']) if(!localBudget.includes(option)) errors.push(`${page.path}: formulario local sin servicio auxiliar ${option}`);
-  if(!intentBlock.includes(`Qué podemos revisar en ${page.name}`)||!faqBlock.includes(page.name)) errors.push(`${page.path}: bloque práctico/FAQ sin localidad real`);
+  if(!localContent&&(!intentBlock.includes(`Qué podemos revisar en ${displayName}`)||!faqBlock.includes(displayName))) errors.push(`${page.path}: bloque práctico/FAQ sin localidad real`);
   if(html.includes('<small>Bizkaia, Gipuzkoa y Álava</small>')) errors.push(`${page.path}: logo con subtítulo retirado`);
   const bar=html.match(/<div class="mobile-bar">([\s\S]*?)<\/div>/)?.[1]||'';
   const barHref=decode(bar.match(/href="(https:\/\/wa\.me[^"]+)"/)?.[1]||'');
-  if(!barHref||!new URL(barHref).searchParams.get('text')?.includes(page.name)) errors.push(`${page.path}: WhatsApp móvil pierde localidad`);
+  if(!barHref||![page.name,displayName].some(name=>new URL(barHref).searchParams.get('text')?.includes(name))) errors.push(`${page.path}: WhatsApp móvil pierde localidad`);
   const mainBlock=html.match(/<main class="local-page"[^>]*>([\s\S]*?)<\/main>/)?.[1]||'';
   let normalized=stripText(mainBlock);
-  for(const value of [page.name,page.province,comarca,PHONE].filter(Boolean)) normalized=normalized.replaceAll(String(value).toLowerCase(),'{local}');
+  for(const value of [page.name,displayName,page.province,comarca,PHONE].filter(Boolean)) normalized=normalized.replaceAll(String(value).toLowerCase(),'{local}');
   normalized=normalized.replace(/\b\d+[a-z]?\b/g,'#');
   similarityDocs.push({path:page.path,set:shingles(normalized)});
 }

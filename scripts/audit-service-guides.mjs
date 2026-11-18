@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import assert from 'node:assert/strict';
 import {guides,guideRoute,extraRoutes,serviceGuideLinks,GUIDE_CSS_PATH} from './service-guides.mjs';
+import {getPriorityLocalContent} from './priority-local-content.mjs';
 const root='dist',base='https://antenasabaso.com';
 const build=JSON.parse(fs.readFileSync(root+'/build-manifest.json'));
 const towns=JSON.parse(fs.readFileSync(root+'/local-pages-manifest.json'));
@@ -24,7 +25,8 @@ for(const g of guides){
 assert.equal(towns.length,1624);
 for(const t of towns){
  const h=htmlFor(t.path);
- assert(h.includes('Antenas, porteros y otros servicios en '+t.name));
+ const displayName=getPriorityLocalContent(t.path)?.displayName||t.name;
+ assert(h.includes('Antenas, porteros y otros servicios en '+displayName));
  let count=0;
  for(const id of ['tdt','parabolicas','amplificacion','porteros','videoporteros']){
   const block=h.match(new RegExp('<article[^>]*id="servicio-'+id+'"[^>]*>([\\s\\S]*?)</article>'))?.[1]||'';

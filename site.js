@@ -13,6 +13,43 @@
   });
 })();
 
+/* Consulta local de frecuencias. Las tablas completas permanecen visibles. */
+(()=>{
+  if(typeof document.querySelectorAll!=='function') return;
+  document.querySelectorAll('[data-tdt-finder]').forEach(form=>{
+    if(typeof form.closest!=='function' || typeof form.addEventListener!=='function') return;
+    const section=form.closest('.local-reception');
+    if(!section || typeof section.querySelectorAll!=='function') return;
+    const select=form.querySelector('select');
+    const result=form.querySelector('[data-tdt-result]');
+    const rows=[...section.querySelectorAll('[data-tdt-mux]')];
+    if(!select || !result || !rows.length) return;
+    form.addEventListener('submit',event=>{
+      event.preventDefault();
+      const mux=select.value;
+      const matches=rows.filter(row=>row.dataset.tdtMux===mux);
+      rows.forEach(row=>row.classList.toggle('tdt-selected',mux!=='' && matches.includes(row)));
+      if(!mux || !matches.length){
+        result.textContent='Selecciona una cadena para consultar su frecuencia.';
+        return;
+      }
+      const frequencies=matches.map(row=>{
+        const uhf=Number(row.dataset.tdtUhf),mhz=Number(row.dataset.tdtMhz);
+        if(!Number.isInteger(uhf) || uhf<21 || uhf>48 || !Number.isFinite(mhz)) return '';
+        return `${row.dataset.tdtZone}: UHF ${uhf} (${mhz} MHz)`;
+      }).filter(Boolean);
+      if(!frequencies.length){
+        result.textContent='Consulta la fila de '+mux+' en la tabla de frecuencias.';
+        return;
+      }
+      const channel=String(select.selectedOptions?.[0]?.textContent||mux).trim();
+      const compatibility=mux==='RGE2'?' Para UHD necesitas un receptor compatible con DVB-T2 y HEVC/H.265.':'';
+      result.textContent=`${channel} · ${mux}. ${frequencies.join('; ')}. Usa el canal UHF en la búsqueda manual de Antena/TDT.${compatibility} La recepción depende del repetidor.`;
+    });
+    form.hidden=false;
+  });
+})();
+
 (()=>{
   const button=document.querySelector('[data-menu-toggle]');
   if(!button || typeof button.closest!=='function') return;
@@ -65,6 +102,7 @@
     ].join('\n');
     window.location.href='https://wa.me/34670042626?text='+encodeURIComponent(message);
   });
+  form.hidden=false;
 })();
 
 

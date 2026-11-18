@@ -1,0 +1,380 @@
+{
+  "/bizkaia/bilbao/": {
+    "town": "Bilbao",
+    "province": "bizkaia",
+    "title": "Antenista en Bilbao | Antenas y porteros · 670 042 626",
+    "description": "Antenista en Bilbao, Bizkaia. Revisión de antenas TDT y porteros en viviendas y comunidades. Coordinación del acceso a equipos comunes. 670 042 626.",
+    "intro": "¿Falla la televisión de tu vivienda o también la de otros vecinos? En Bilbao revisamos antenas individuales y colectivas, parabólicas, porteros y videoporteros. Indica la calle, el portal y qué equipos han dejado de funcionar para preparar la visita.",
+    "heading": "Preparar una reparación de antena o portero en Bilbao",
+    "lead": "Al pedir asistencia, concreta el distrito o barrio y el portal. Deusto, Abando o Santutxu ayudan a ubicar la dirección, pero para una avería comunitaria también necesitamos saber cuántas viviendas están afectadas.",
+    "cards": [
+      {
+        "heading": "Una vivienda frente a toda la comunidad",
+        "text": "Pregunta a un vecino si conserva los mismos canales. Si el fallo afecta a varios pisos, conviene coordinar con la presidencia o administración el acceso a los equipos comunes. Si únicamente falla tu televisión, anota si ocurre también en otra toma de casa."
+      },
+      {
+        "heading": "El portero llama, pero no abre",
+        "text": "Distingue si sucede desde todos los telefonillos o solo desde uno. La llamada, el audio y la apertura son funciones diferentes: indicar cuáles funcionan ayuda a revisar el equipo adecuado. Una foto de la placa y del terminal permite comprobar marca y sistema."
+      },
+      {
+        "heading": "Qué debe incluir el presupuesto comunitario",
+        "text": "Solicita que se identifique el elemento averiado y se separen ajuste, reparación y sustitución. Si se propone renovar la instalación, deben concretarse los equipos, las viviendas incluidas y el aprovechamiento del cableado. Así la comunidad puede valorar el alcance antes de decidir."
+      }
+    ],
+    "preparation": [
+      "Calle, portal y persona que facilitará el acceso a las zonas comunes.",
+      "Canales o funciones del portero que fallan y número de viviendas afectadas."
+    ],
+    "links": [
+      {
+        "label": "Revisión de antenas colectivas y comunidades",
+        "href": "/servicios/antenas-colectivas/"
+      },
+      {
+        "label": "Qué comprobar en un portero automático",
+        "href": "/servicios/porteros-automaticos/"
+      }
+    ],
+    "source_urls": [
+      "https://www.bilbao.eus/observatoriobarrios/perfil_d.html"
+    ],
+    "displayName": "Bilbao"
+  },
+  "/bizkaia/getxo/": {
+    "town": "Getxo",
+    "province": "bizkaia",
+    "title": "Antenista en Getxo | TDT y videoporteros · 670 042 626",
+    "description": "Antenista en Getxo, Bizkaia. Antenas, parabólicas y videoporteros. Comprobamos señal y compatibilidad antes de sustituir equipos. 670 042 626.",
+    "intro": "Para una reparación en Getxo, cuéntanos si necesitas recuperar canales, revisar una parabólica o solucionar el portero. Trabajamos sobre la instalación existente y comprobamos qué puede aprovecharse antes de plantear una renovación.",
+    "heading": "Televisión y videoporteros: concretar la solución en Getxo",
+    "lead": "Indica si la dirección está en Algorta, Las Arenas, Romo, Neguri o Andra Mari, además de la calle y el número. En una comunidad, aclara si la consulta corresponde a una vivienda o a toda la instalación.",
+    "cards": [
+      {
+        "heading": "Una segunda televisión sin señal",
+        "text": "Si el televisor principal funciona y el de otra habitación no, prueba primero un cable de conexión que sepas que funciona. Anota la toma afectada y si antes se veía bien. Revisar ese recorrido puede evitar cambiar una antena que sigue entregando señal."
+      },
+      {
+        "heading": "Pasar de portero a videoportero",
+        "text": "Conserva la referencia de los telefonillos y de la placa de entrada. Tener dos hilos no basta para asegurar compatibilidad entre marcas o sistemas. El presupuesto debe indicar si incluye placa, monitores, alimentación, abrepuertas y adaptación del cableado existente."
+      },
+      {
+        "heading": "Parabólica individual o comunitaria",
+        "text": "Indica qué satélite o canales recibías y si el problema comenzó tras cambiar el receptor. En una instalación compartida, pregunta si también falla a otros usuarios. La orientación, la configuración del receptor y la distribución requieren comprobaciones distintas; una foto exterior puede ayudar a identificar el equipo."
+      }
+    ],
+    "preparation": [
+      "Barrio, dirección y tipo de instalación: individual o compartida.",
+      "Modelo del receptor o videoportero y una foto de sus conexiones visibles."
+    ],
+    "links": [
+      {
+        "label": "Renovar o reparar un videoportero",
+        "href": "/servicios/videoporteros/"
+      },
+      {
+        "label": "Orientación y averías de parabólicas",
+        "href": "/servicios/antenas-parabolicas/"
+      }
+    ],
+    "source_urls": [
+      "https://www.getxo.eus/es/euskara/toponimia/mapa-toponimico1?acordeon=7",
+      "https://www.getxo.eus/es/ayuntamiento/organizacion-municipal/oficinas-municipales-getxo"
+    ],
+    "displayName": "Getxo"
+  },
+  "/bizkaia/barakaldo/": {
+    "town": "Barakaldo",
+    "province": "bizkaia",
+    "title": "Antenista en Barakaldo | Reparación · 670 042 626",
+    "description": "Antenista en Barakaldo, Bizkaia. Averías de canales, distribución comunitaria y porteros. Revisión de llamada, audio y apertura. 670 042 626.",
+    "intro": "En Barakaldo atendemos problemas de televisión y acceso en viviendas y comunidades. Explica si faltan todos los canales, si falla una sola toma o si el portero ha perdido llamada, audio o apertura: cada síntoma orienta una revisión diferente.",
+    "heading": "Localizar la avería antes de sustituir equipos en Barakaldo",
+    "lead": "Para organizar el aviso, indica la dirección y la zona, por ejemplo Gurutzeta/Cruces, Retuerto o San Vicente. Si es una comunidad, añade el portal y una persona de contacto para acceder a los equipos compartidos.",
+    "cards": [
+      {
+        "heading": "Han desaparecido varios canales juntos",
+        "text": "Anota sus nombres antes de resintonizar. Si pertenecen al mismo múltiplex, la revisión puede centrarse en esa frecuencia y en su paso por la cabecera comunitaria. La tabla TDT de esta ficha permite agruparlos; perder unas cadenas no implica que toda la antena haya dejado de funcionar."
+      },
+      {
+        "heading": "Fallan unos pisos y otros no",
+        "text": "Prepara una relación sencilla de las viviendas afectadas y de las que reciben bien. Esa diferencia permite revisar el reparto de señal, las derivaciones y las tomas. En un portero, indica también si el fallo aparece al llamar a un pulsador concreto o desde cualquier vivienda."
+      },
+      {
+        "heading": "Cambiar un telefonillo sin perder funciones",
+        "text": "Fotografía el modelo visible del terminal y la placa exterior. Un telefonillo parecido puede pertenecer a otra tecnología y no ser compatible. Antes de comprar el recambio conviene comprobar llamada, conversación y apertura por separado, y confirmar si la avería está realmente en el terminal."
+      }
+    ],
+    "preparation": [
+      "Listado breve de canales afectados y número de viviendas con la misma avería.",
+      "Marca del portero y fecha aproximada en que empezó el problema."
+    ],
+    "links": [
+      {
+        "label": "Comprobar una pérdida de señal TDT",
+        "href": "/servicios/reparacion-antenas-tdt/"
+      },
+      {
+        "label": "Diagnóstico de porteros automáticos",
+        "href": "/servicios/porteros-automaticos/"
+      }
+    ],
+    "source_urls": [
+      "https://www.barakaldo.eus/OficinaVirtualBarakaldo/tramites/acceso.do?id=446"
+    ],
+    "displayName": "Barakaldo"
+  },
+  "/bizkaia/zalla/": {
+    "town": "Zalla",
+    "province": "bizkaia",
+    "title": "Antenista en Zalla | TDT y parabólicas · 670 042 626",
+    "description": "Antenista en Zalla, Bizkaia. Reparación de TDT, parabólicas y porteros. Comprobaciones de canales y tomas para preparar la visita. 670 042 626.",
+    "intro": "Si la televisión se pixela o han desaparecido canales en Zalla, dinos cuáles y si ocurre en todas las tomas. También revisamos parabólicas y porteros, concretando primero el equipo existente y el alcance de la avería.",
+    "heading": "Qué comprobar antes de pedir un antenista en Zalla",
+    "lead": "Al preparar la visita, concreta la calle o barrio y si la dirección corresponde a Mimetiz o Aranguren. Para una vivienda sin número fácilmente visible, una referencia de acceso ayuda a localizar el inmueble.",
+    "cards": [
+      {
+        "heading": "Distinguir la antena de la entrada del televisor",
+        "text": "Si la pantalla indica «sin señal», comprueba si estás viendo la entrada Antena/TDT o una entrada HDMI conectada a un receptor. Indica qué aparato muestra el mensaje. Cambiar de entrada puede resolver una selección incorrecta; una pérdida de recepción requiere revisar otro recorrido."
+      },
+      {
+        "heading": "No aparecen La Séptima o DKISS",
+        "text": "En la zona técnica asignada a Zalla, MPE5 figura en UHF {{mpe5_uhf}}, {{mpe5_mhz}} MHz. Comprueba en la tabla si faltan también otras cadenas de ese grupo. La recepción depende del repetidor; si la búsqueda manual no encuentra señal, anota el resultado para la revisión."
+      },
+      {
+        "heading": "Añadir una toma de televisión",
+        "text": "Antes de instalar una derivación, indica cuántas tomas utilizas y en cuál se recibe mejor. El trabajo debe considerar las pérdidas del reparto y el recorrido del coaxial. Un amplificador adicional no sustituye la comprobación de la calidad de señal disponible."
+      }
+    ],
+    "preparation": [
+      "Modelo de televisor o receptor y canales que siguen funcionando.",
+      "Número de tomas afectadas y si el fallo es continuo o intermitente."
+    ],
+    "links": [
+      {
+        "label": "Revisar amplificadores y tomas de televisión",
+        "href": "/servicios/amplificadores-antena/"
+      },
+      {
+        "label": "Tabla de frecuencias para Zalla",
+        "href": "#frecuencias-tdt"
+      }
+    ],
+    "source_urls": [
+      "https://www.bizkaia.eus/es/web/rutas-del-colesterol/ruta/-/ficha/154",
+      "https://www.boe.es/buscar/act.php?id=BOE-A-2025-6004"
+    ],
+    "displayName": "Zalla"
+  },
+  "/bizkaia/lekeitio/": {
+    "town": "Lekeitio",
+    "province": "bizkaia",
+    "title": "Antenista en Lekeitio | Señal TDT y porteros · 670 042 626",
+    "description": "Antenista en Lekeitio, Bizkaia. Frecuencias de su zona de emisión y revisión de señal, tomas y antenas colectivas. Consulta: 670 042 626.",
+    "intro": "Para recuperar canales en Lekeitio conviene comprobar la frecuencia que corresponde a su zona de emisión y cómo llega a cada toma. Revisamos recepción TDT, distribución de televisión, parabólicas y averías de porteros en viviendas y comunidades.",
+    "heading": "Sintonización y revisión de la instalación en Lekeitio",
+    "lead": "Lekeitio pertenece a Bizkaia, pero el Plan Técnico de TDT lo asigna a la zona técnica Gipuzkoa. Al buscar canales manualmente, utiliza la tabla de esta ficha y comprueba la cobertura del repetidor que recibes.",
+    "cards": [
+      {
+        "heading": "Una frecuencia útil para comprobar MPE5",
+        "text": "La Séptima, Ten, Real Madrid TV y DKISS comparten MPE5. Para la zona de Lekeitio figura UHF {{mpe5_uhf}}, {{mpe5_mhz}} MHz. Si faltan juntas, anota el nivel y la calidad que muestra el televisor en esa frecuencia; no tomes como referencia la tabla de Bilbao."
+      },
+      {
+        "heading": "Resintonizar no corrige todas las averías",
+        "text": "Si los canales se ven por momentos y se pixelan después, guarda cuáles fallan y a qué horas. Comprueba si sucede en varios televisores y pregunta a otro vecino cuando la antena es comunitaria. Esa información ayuda a separar un problema de recepción de uno de distribución interior."
+      },
+      {
+        "heading": "Preparar el acceso a una antena colectiva",
+        "text": "En un edificio, concreta quién puede facilitar la llave del cuarto o recinto de telecomunicaciones. Antes de intervenir se valora el acceso y el estado de la instalación. No es necesario que subas a la cubierta para enviar fotos: sirven las del televisor, toma y equipos accesibles."
+      }
+    ],
+    "preparation": [
+      "Dirección, tipo de antena y canales afectados.",
+      "Una foto del menú de señal y un contacto para los equipos comunitarios."
+    ],
+    "links": [
+      {
+        "label": "Frecuencias TDT de Lekeitio",
+        "href": "#frecuencias-tdt"
+      },
+      {
+        "label": "Revisión de una antena comunitaria",
+        "href": "/servicios/antenas-colectivas/"
+      }
+    ],
+    "source_urls": [
+      "https://www.boe.es/buscar/act.php?id=BOE-A-2025-6004",
+      "https://television.digital.gob.es/television-digital/tdt/consulta-la-cobertura-tdt-de-tu-localidad"
+    ],
+    "displayName": "Lekeitio"
+  },
+  "/gipuzkoa/zumarraga/": {
+    "town": "Zumarraga",
+    "province": "gipuzkoa",
+    "title": "Antenista en Zumarraga | Antenas colectivas · 670 042 626",
+    "description": "Antenista en Zumarraga, Gipuzkoa. Revisión de antenas colectivas, tomas y porteros. Prepara los datos de la avería y de la comunidad. 670 042 626.",
+    "intro": "En Zumarraga revisamos instalaciones de televisión y porteros identificando primero dónde empieza el fallo. Si afecta a un edificio, prepara los datos de las viviendas implicadas y el acceso a los equipos comunes para concretar la intervención.",
+    "heading": "Organizar una revisión de televisión o portero en Zumarraga",
+    "lead": "Zumarraga y Urretxu son municipios distintos, separados por el río Urola. Confirma el municipio y la dirección del aviso para asociar correctamente la consulta y el desplazamiento al inmueble que necesita la revisión.",
+    "cards": [
+      {
+        "heading": "Falta un grupo de cadenas en varios pisos",
+        "text": "Antes de repetir la búsqueda en todos los televisores, apunta qué cadenas faltan y si ocurre en distintos portales. Si comparten antena o cabecera, interesa revisar esa parte común. La tabla de esta ficha corresponde a la zona técnica Gipuzkoa y permite identificar cada múltiplex."
+      },
+      {
+        "heading": "Imagen correcta en una toma y mala en otra",
+        "text": "Compara las mismas cadenas con un cable de conexión conocido. Indica si hay repartidores accesibles o si la avería apareció después de añadir otra televisión. Una nueva toma aumenta las necesidades de distribución; el presupuesto debe contemplar el recorrido y la señal que llegará al punto final."
+      },
+      {
+        "heading": "Aviso de portero para varios vecinos",
+        "text": "Recoge qué función falla: llamada, conversación, imagen o apertura. Una avería compartida requiere comprobar componentes comunes antes de cambiar todos los terminales. Si se plantea una renovación, concreta cuántas viviendas y accesos deben incluirse y qué funciones necesita conservar la comunidad."
+      }
+    ],
+    "preparation": [
+      "Municipio, portal y teléfono de la persona que dará acceso.",
+      "Número de viviendas afectadas y funciones o cadenas que siguen operativas."
+    ],
+    "links": [
+      {
+        "label": "Preparar una intervención en comunidad",
+        "href": "/servicios/antenas-colectivas/"
+      },
+      {
+        "label": "Información del servicio en Urretxu",
+        "href": "/gipuzkoa/urretxu/"
+      }
+    ],
+    "source_urls": [
+      "https://www.urretxu.eus/es/turismo/conoce-urretxu/",
+      "https://www.boe.es/buscar/act.php?id=BOE-A-2025-6004"
+    ],
+    "displayName": "Zumarraga"
+  },
+  "/cantabria/pielagos/": {
+    "town": "Piélagos",
+    "province": "cantabria",
+    "title": "Antenista en Piélagos | Instalación y reparación · 670 042 626",
+    "description": "Antenista en Piélagos, Cantabria. Antenas, parabólicas y porteros. Indica tu pueblo y qué falla para preparar la revisión. 670 042 626.",
+    "intro": "Piélagos reúne doce pueblos. Para preparar una instalación o reparación, indica la localidad concreta y si se trata de una vivienda individual o una comunidad. Revisamos antenas TDT, parabólicas, distribución de señal, porteros y videoporteros.",
+    "heading": "Pedir una revisión de antena en Piélagos con los datos necesarios",
+    "lead": "Renedo, Liencres, Boo, Mortera y los demás pueblos del municipio comparten esta ficha. El nombre de Piélagos por sí solo no identifica la ubicación: añade calle, número o una referencia de acceso a la vivienda.",
+    "cards": [
+      {
+        "heading": "Instalación nueva o antena que ya funcionaba",
+        "text": "Aclara si no existe instalación, si quieres añadir tomas o si se ha perdido una señal que antes recibías. En una instalación nueva se necesita conocer cuántos televisores se conectarán y por dónde puede pasar el cable. En una avería interesa saber qué cambió antes del fallo."
+      },
+      {
+        "heading": "TDT terrestre y televisión por satélite",
+        "text": "Indica si utilizas la antena del tejado, una parabólica o ambas. Una parabólica no proporciona por sí sola cualquier servicio de televisión: deben concretarse el satélite, los canales y el receptor compatible. Si ya existe, facilita la marca del receptor y el mensaje que aparece en pantalla."
+      },
+      {
+        "heading": "Comprobar la recepción en la dirección concreta",
+        "text": "El canal planificado para Cantabria sirve de referencia, pero la recepción depende del repetidor y de la instalación. Si falta un múltiplex, anota los canales afectados y consulta la cobertura por código postal. La medición en la vivienda permite decidir orientación, distribución y amplificación."
+      }
+    ],
+    "preparation": [
+      "Pueblo de Piélagos, dirección y número de puntos de televisión.",
+      "Antena o parabólica existente, receptor utilizado y síntoma que presenta."
+    ],
+    "links": [
+      {
+        "label": "Instalar o revisar una parabólica",
+        "href": "/servicios/antenas-parabolicas/"
+      },
+      {
+        "label": "Consultar las frecuencias TDT",
+        "href": "#frecuencias-tdt"
+      }
+    ],
+    "source_urls": [
+      "https://www.pielagos.es/presentacion",
+      "https://www.pielagos.es/pueblo-a-pueblo",
+      "https://television.digital.gob.es/television-digital/tdt/consulta-la-cobertura-tdt-de-tu-localidad"
+    ],
+    "displayName": "Piélagos"
+  },
+  "/cantabria/corrales-de-buelna-los/": {
+    "town": "Corrales de Buelna, Los",
+    "province": "cantabria",
+    "title": "Antenista en Los Corrales de Buelna | 670 042 626",
+    "description": "Antenista en Los Corrales de Buelna, Cantabria. Reparación de TDT, revisión de tomas y equipos comunitarios. Consulta: 670 042 626.",
+    "intro": "Para una avería de televisión en Los Corrales de Buelna, indica si faltan canales, se corta la imagen o falla una sola toma. También revisamos porteros y videoporteros, separando el problema de un terminal del de la instalación común.",
+    "heading": "Revisar la señal y preparar el aviso en Los Corrales de Buelna",
+    "lead": "Además del núcleo de Los Corrales, el municipio comprende Barros, Coo, Las Caldas de Besaya, San Mateo y Somahoz. Especifica la localidad y la dirección para situar la instalación que necesita atención.",
+    "cards": [
+      {
+        "heading": "Una comprobación para La 1, Clan y Teledeporte",
+        "text": "Estas cadenas comparten RGE1 con La 2 y 24h. En la zona técnica Cantabria el canal planificado es UHF {{rge1_uhf}}, {{rge1_mhz}} MHz. Si faltan juntas, revisa la información de señal de esa frecuencia y comunica si el problema aparece también en otros televisores."
+      },
+      {
+        "heading": "Después de cambiar el televisor",
+        "text": "Si el aparato anterior recibía bien, comprueba que la búsqueda utiliza Antena/TDT y no Cable o Satélite. Revisa el cable exterior de conexión a la toma y conserva la referencia del nuevo equipo. La ausencia de UHD requiere además comprobar compatibilidad, aunque los canales HD funcionen."
+      },
+      {
+        "heading": "Una reforma o una toma adicional",
+        "text": "Indica si el fallo comenzó al mover la televisión, cambiar una toma o instalar un repartidor. Ese dato ayuda a revisar el tramo modificado. Para ampliar puntos se valora el reparto completo de señal, evitando conexiones improvisadas que puedan perjudicar también las tomas que funcionaban."
+      }
+    ],
+    "preparation": [
+      "Localidad, dirección y número de televisores afectados.",
+      "Cambios recientes en el receptor, las tomas o el cableado accesible."
+    ],
+    "links": [
+      {
+        "label": "Distribución y nuevas tomas de televisión",
+        "href": "/servicios/amplificadores-antena/"
+      },
+      {
+        "label": "Frecuencias y requisitos de recepción UHD",
+        "href": "#frecuencias-tdt"
+      }
+    ],
+    "source_urls": [
+      "https://federaciondemunicipios.com/ayuntamientos/los-corrales-de-buelna/",
+      "https://www.boe.es/buscar/act.php?id=BOE-A-2025-6004",
+      "https://television.digital.gob.es/television-digital/tdt/consulta-la-cobertura-tdt-de-tu-localidad"
+    ],
+    "displayName": "Los Corrales de Buelna"
+  },
+  "/cantabria/reinosa/": {
+    "town": "Reinosa",
+    "province": "cantabria",
+    "title": "Antenista en Reinosa | Averías TDT y parabólicas · 670 042 626",
+    "description": "Antenista en Reinosa, Cantabria. Revisión de cortes de imagen, pérdida de canales, parabólicas y distribución comunitaria. 670 042 626.",
+    "intro": "Si la televisión falla de forma intermitente en Reinosa, apunta cuándo ocurre y qué cadenas se interrumpen. Revisamos antena, amplificación, conexiones y reparto de señal para localizar el origen antes de decidir qué material necesita sustitución.",
+    "heading": "Información que ayuda a resolver cortes de televisión en Reinosa",
+    "lead": "Un fallo intermitente puede no aparecer justo durante la visita. Una foto del mensaje del televisor, los canales afectados y la hora aproximada de los cortes ayudan a preparar una comprobación más precisa de la instalación.",
+    "cards": [
+      {
+        "heading": "La imagen se corta por momentos",
+        "text": "Indica si coincide con lluvia, viento, la conexión de algún equipo o una franja horaria, sin dar por hecho la causa. Comprueba si afecta a todos los canales o a un grupo. En una comunidad, saber si otros vecinos observan los mismos cortes permite acotar la revisión."
+      },
+      {
+        "heading": "Se ven los canales HD, pero no los UHD",
+        "text": "La zona técnica Cantabria sitúa RGE2 en UHF {{rge2_uhf}}, {{rge2_mhz}} MHz. Para esas emisiones se necesita un receptor compatible con DVB-T2 y HEVC/H.265. Facilita el modelo exacto del televisor: una pantalla anunciada como 4K no basta para confirmar todas las capacidades de recepción."
+      },
+      {
+        "heading": "La parabólica ha perdido recepción",
+        "text": "Anota el satélite y las cadenas que recibías, el modelo del receptor y si la pérdida es total. Antes de cambiar el LNB se comprueban orientación, conexiones y cableado. Si la antena está en cubierta, el acceso y las condiciones para trabajar se valoran antes de intervenir."
+      }
+    ],
+    "preparation": [
+      "Horario de los cortes y ejemplos de cadenas afectadas.",
+      "Modelo del televisor o receptor y si también falla en otra toma o vivienda."
+    ],
+    "links": [
+      {
+        "label": "Diagnóstico de pérdidas de señal TDT",
+        "href": "/servicios/reparacion-antenas-tdt/"
+      },
+      {
+        "label": "Revisión de parabólica, LNB y receptor",
+        "href": "/servicios/antenas-parabolicas/"
+      }
+    ],
+    "source_urls": [
+      "https://www.boe.es/buscar/act.php?id=BOE-A-2025-6004",
+      "https://television.digital.gob.es/television-digital/tdt/consulta-la-cobertura-tdt-de-tu-localidad"
+    ],
+    "displayName": "Reinosa"
+  }
+}
